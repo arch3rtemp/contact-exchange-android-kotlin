@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ContactsExchange">
         <activity
-            android:name=".HomeActivity"
+            android:name=".presentation.HomeActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

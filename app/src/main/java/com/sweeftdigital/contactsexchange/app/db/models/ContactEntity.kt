@@ -1,14 +1,9 @@
 package com.sweeftdigital.contactsexchange.app.db.models
 
-import android.os.Build
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
-import org.json.JSONObject
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 import java.util.*
 
 @Entity(tableName = "contact_table")
