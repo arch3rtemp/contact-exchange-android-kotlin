@@ -6,14 +6,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/pale_grey"
-    tools:context=".ui.search.SearchActivity">
+    tools:context=".presentation.search.SearchActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_contacts_search"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="16dp"
-        android:background="@drawable/contact_list_shape_bg"
+        android:background="@drawable/shape_contact_list_bg"
         android:paddingHorizontal="20dp"
         android:transitionName="@string/transition_contacts_name"
         app:layout_constraintBottom_toBottomOf="parent"

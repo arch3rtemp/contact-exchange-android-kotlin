@@ -21,15 +21,15 @@ internal fun ContactEntity.toContact(): Contact {
 
 internal fun Contact.toContactEntity(): ContactEntity {
     return ContactEntity(
-        firstName,
-        lastName,
-        job,
-        position,
-        email,
-        phoneMobile,
-        phoneOffice,
-        createDate,
-        color,
-        isMy
+        firstName = firstName,
+        lastName = lastName,
+        job = job,
+        position = position,
+        email = email,
+        phoneMobile = phoneMobile,
+        phoneOffice = phoneOffice,
+        createDate = createDate,
+        color = color,
+        isMy = isMy
     )
 }

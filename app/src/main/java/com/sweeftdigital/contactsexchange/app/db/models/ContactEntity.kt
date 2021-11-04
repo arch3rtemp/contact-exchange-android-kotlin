@@ -8,6 +8,9 @@ import java.util.*
 
 @Entity(tableName = "contact_table")
 data class ContactEntity(
+    @PrimaryKey(autoGenerate = true)
+    val id: Int = 0,
+
     @ColumnInfo(name = "first_name")
     @SerializedName("first_name")
     val firstName: String,
@@ -39,7 +42,4 @@ data class ContactEntity(
     @ColumnInfo(name = "is_my")
     @SerializedName("is_my")
     val isMy: Boolean
-) {
-    @PrimaryKey(autoGenerate = true)
-    val id: Int = 0
-}
+)

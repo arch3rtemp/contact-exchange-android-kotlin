@@ -16,15 +16,15 @@ fun jsonToEntity(jsonData: JSONObject): ContactEntity {
     val color = jsonData.getInt("color")
 
     return ContactEntity(
-        firstName,
-        lastName,
-        job,
-        position,
-        email,
-        phoneMobile,
-        phoneOffice,
-        createDate,
-        color,
-        false
+        firstName = firstName,
+        lastName = lastName,
+        job = job,
+        position = position,
+        email = email,
+        phoneMobile = phoneMobile,
+        phoneOffice = phoneOffice,
+        createDate = createDate,
+        color = color,
+        isMy = false
     )
 }

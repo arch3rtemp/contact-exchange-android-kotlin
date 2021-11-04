@@ -1,4 +1,4 @@
-package com.sweeftdigital.contactsexchange.presentation
+package com.sweeftdigital.contactsexchange.presentation.home
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
