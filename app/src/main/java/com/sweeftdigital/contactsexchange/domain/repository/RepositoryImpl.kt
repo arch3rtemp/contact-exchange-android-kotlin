@@ -8,23 +8,23 @@ import com.sweeftdigital.contactsexchange.domain.models.Contact
 class RepositoryImpl(
     private val localDataProvider: LocalDataProvider
 ) : Repository {
-    override fun selectAllMyContacts(): List<Contact> {
+    override suspend fun selectAllMyContacts(): List<Contact> {
         return localDataProvider.selectAllMyContacts().map { it.toContact() }
     }
 
-    override fun selectAllScannedContacts(): List<Contact> {
+    override suspend fun selectAllScannedContacts(): List<Contact> {
         return localDataProvider.selectAllScannedContacts().map { it.toContact() }
     }
 
-    override fun addContact(contact: Contact) {
+    override suspend fun addContact(contact: Contact) {
         return localDataProvider.addContact(contact.toContactEntity())
     }
 
-    override fun selectContactById(id: Int): Contact {
+    override suspend fun selectContactById(id: Int): Contact {
         return localDataProvider.selectContactById(id).toContact()
     }
 
-    override fun deleteContact(id: Int) {
+    override suspend fun deleteContact(id: Int) {
         return localDataProvider.deleteContact(id)
     }
 }

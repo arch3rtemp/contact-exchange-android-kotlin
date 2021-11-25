@@ -1,10 +1,10 @@
 package com.sweeftdigital.contactsexchange.util
 
-import com.sweeftdigital.contactsexchange.app.db.models.ContactEntity
+import com.sweeftdigital.contactsexchange.domain.models.Contact
 import org.json.JSONObject
 import java.util.*
 
-fun jsonToEntity(jsonData: JSONObject): ContactEntity {
+fun jsonToContact(jsonData: JSONObject): Contact {
     val firstName = jsonData.getString("firstName")
     val lastName = jsonData.getString("lastName")
     val job = jsonData.getString("job")
@@ -15,7 +15,7 @@ fun jsonToEntity(jsonData: JSONObject): ContactEntity {
     val createDate = Date(jsonData.getLong("createDate"))
     val color = jsonData.getInt("color")
 
-    return ContactEntity(
+    return Contact(
         firstName = firstName,
         lastName = lastName,
         job = job,

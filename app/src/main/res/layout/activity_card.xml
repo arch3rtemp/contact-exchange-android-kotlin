@@ -58,7 +58,7 @@
     </LinearLayout>
 
     <FrameLayout
-        android:id="@+id/fl_main_frame_container"
+        android:id="@+id/nav_host"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"

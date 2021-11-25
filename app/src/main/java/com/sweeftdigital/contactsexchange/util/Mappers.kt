@@ -5,7 +5,6 @@ import com.sweeftdigital.contactsexchange.domain.models.Contact
 
 internal fun ContactEntity.toContact(): Contact {
     return Contact(
-        id,
         firstName,
         lastName,
         job,

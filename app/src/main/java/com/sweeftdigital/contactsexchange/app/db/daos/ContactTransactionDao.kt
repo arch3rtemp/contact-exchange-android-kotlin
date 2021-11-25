@@ -8,7 +8,7 @@ import com.sweeftdigital.contactsexchange.app.db.models.ContactEntity
 @Dao
 abstract class ContactTransactionDao(private val database: AppDatabase) {
     @Transaction
-    open fun updateAll(arg: List<ContactEntity>): Boolean {
+    open suspend fun updateAll(arg: List<ContactEntity>): Boolean {
         database.contactDao().deleteAll()
         database.contactDao().insertAll(arg)
         return true

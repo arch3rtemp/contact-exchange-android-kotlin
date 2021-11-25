@@ -4,23 +4,23 @@ import com.sweeftdigital.contactsexchange.app.db.AppDatabase
 import com.sweeftdigital.contactsexchange.app.db.models.ContactEntity
 
 class LocalDataProviderImpl(private val database: AppDatabase) : LocalDataProvider {
-    override fun selectAllMyContacts(): List<ContactEntity> {
+    override suspend fun selectAllMyContacts(): List<ContactEntity> {
         return database.contactDao().selectAllMyContacts()
     }
 
-    override fun selectAllScannedContacts(): List<ContactEntity> {
+    override suspend fun selectAllScannedContacts(): List<ContactEntity> {
         return database.contactDao().selectAllScannedContacts()
     }
 
-    override fun addContact(contact: ContactEntity) {
+    override suspend fun addContact(contact: ContactEntity) {
         database.contactDao().insert(contact)
     }
 
-    override fun selectContactById(id: Int): ContactEntity {
+    override suspend fun selectContactById(id: Int): ContactEntity {
         return database.contactDao().selectContactById(id)
     }
 
-    override fun deleteContact(id: Int) {
+    override suspend fun deleteContact(id: Int) {
         database.contactDao().delete(id)
     }
 }

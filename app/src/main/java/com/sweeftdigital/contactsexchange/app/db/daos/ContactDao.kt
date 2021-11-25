@@ -15,17 +15,17 @@ interface ContactDao {
     fun selectContactById(id: Int): ContactEntity
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insert(contactEntity: ContactEntity)
+    suspend fun insert(contactEntity: ContactEntity)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertAll(contactEntities: List<ContactEntity>)
+    suspend fun insertAll(contactEntities: List<ContactEntity>)
 
     @Update
-    fun update(contactEntity: ContactEntity)
+    suspend fun update(contactEntity: ContactEntity)
 
     @Query("DELETE FROM contact_table WHERE id == :id")
-    fun delete(id: Int)
+    suspend fun delete(id: Int)
 
     @Query("DELETE FROM contact_table")
-    fun deleteAll()
+    suspend fun deleteAll()
 }
