@@ -16,6 +16,7 @@ fun jsonToContact(jsonData: JSONObject): Contact {
     val color = jsonData.getInt("color")
 
     return Contact(
+        -1,
         firstName = firstName,
         lastName = lastName,
         job = job,

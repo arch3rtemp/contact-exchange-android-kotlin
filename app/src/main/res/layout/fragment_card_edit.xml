@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context=".presentation.main.edit.EditCardFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/cl_create_or_edit"
+        android:id="@+id/cl_edit"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginHorizontal="20dp"
@@ -20,11 +22,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/poppins_medium"
-            android:text="@string/create_new_card"
+            android:text="@string/edit_your_card"
             android:textColor="@color/white"
             android:textSize="17sp"
-            app:layout_constraintStart_toStartOf="@+id/cl_create_or_edit"
-            app:layout_constraintTop_toTopOf="@+id/cl_create_or_edit" />
+            app:layout_constraintStart_toStartOf="@+id/cl_edit"
+            app:layout_constraintTop_toTopOf="@+id/cl_edit" />
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_full_name"
@@ -211,7 +213,7 @@
             android:layout_marginTop="20dp"
             android:background="@drawable/shape_button_create_or_save_bg"
             android:fontFamily="@font/poppins_medium"
-            android:text="@string/create"
+            android:text="@string/save"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="12sp"

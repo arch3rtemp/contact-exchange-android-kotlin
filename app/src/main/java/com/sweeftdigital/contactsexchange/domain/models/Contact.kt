@@ -3,6 +3,7 @@ package com.sweeftdigital.contactsexchange.domain.models
 import java.util.*
 
 data class Contact(
+    val id: Int,
     val firstName: String,
     val lastName: String,
     val job: String,

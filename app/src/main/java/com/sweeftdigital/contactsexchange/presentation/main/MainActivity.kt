@@ -1,4 +1,4 @@
-package com.sweeftdigital.contactsexchange.presentation.home
+package com.sweeftdigital.contactsexchange.presentation.main
 
 import android.Manifest
 import android.content.Intent
@@ -7,19 +7,19 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import com.sweeftdigital.contactsexchange.R
-import com.sweeftdigital.contactsexchange.databinding.ActivityHomeBinding
+import com.sweeftdigital.contactsexchange.databinding.ActivityMainBinding
 import com.sweeftdigital.contactsexchange.presentation.qr.QrActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class HomeActivity : AppCompatActivity() {
-    private val viewModel by viewModel<HomeViewModel>()
-    private lateinit var binding: ActivityHomeBinding
+class MainActivity : AppCompatActivity() {
+    private val viewModel by viewModel<MainViewModel>()
+    private lateinit var binding: ActivityMainBinding
 
     private val requestPermission = registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
         viewModel.onPermissionResult(granted)
     }
 
-    var resultLauncher = registerForActivityResult(
+    private var resultLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
         if (result.resultCode == RESULT_OK) {
@@ -30,7 +30,7 @@ class HomeActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityHomeBinding.inflate(layoutInflater)
+        binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         subscribeLiveViewState()
