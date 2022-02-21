@@ -4,8 +4,7 @@ import java.util.*
 
 data class Contact(
     val id: Int,
-    val firstName: String,
-    val lastName: String,
+    val name: String,
     val job: String,
     val position: String,
     val email: String,
@@ -13,5 +12,5 @@ data class Contact(
     val phoneOffice: String,
     val createDate: Date,
     val color: Int,
-    val isMy: Boolean
+    val isMy: Int
 )

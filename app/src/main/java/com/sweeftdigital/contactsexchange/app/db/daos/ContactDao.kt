@@ -5,10 +5,10 @@ import com.sweeftdigital.contactsexchange.app.db.models.ContactEntity
 
 @Dao
 interface ContactDao {
-    @Query("SELECT * FROM contact_table WHERE is_my == 1 ORDER BY last_name ASC")
+    @Query("SELECT * FROM contact_table WHERE is_my == 1 ORDER BY name ASC")
     fun selectAllMyContacts(): List<ContactEntity>
 
-    @Query("SELECT * FROM contact_table WHERE is_my == 0 ORDER BY last_name ASC")
+    @Query("SELECT * FROM contact_table WHERE is_my == 0 ORDER BY name ASC")
     fun selectAllScannedContacts(): List<ContactEntity>
 
     @Query("SELECT * FROM contact_table WHERE id == :id")

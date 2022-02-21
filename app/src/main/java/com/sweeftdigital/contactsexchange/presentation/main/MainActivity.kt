@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.navigation.findNavController
 import com.sweeftdigital.contactsexchange.R
 import com.sweeftdigital.contactsexchange.databinding.ActivityMainBinding
 import com.sweeftdigital.contactsexchange.presentation.qr.QrActivity
@@ -38,8 +39,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setListeners() {
-        binding.llQrScanner.setOnClickListener {
-            requestPermission.launch(Manifest.permission.CAMERA)
+        with(binding) {
+            llQrScanner.setOnClickListener {
+                requestPermission.launch(Manifest.permission.CAMERA)
+            }
+            llBack.setOnClickListener {
+                fragmentContainerView.findNavController().popBackStack()
+            }
         }
     }
 

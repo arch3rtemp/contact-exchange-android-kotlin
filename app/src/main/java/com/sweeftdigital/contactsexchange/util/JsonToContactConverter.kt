@@ -1,12 +1,12 @@
 package com.sweeftdigital.contactsexchange.util
 
 import com.sweeftdigital.contactsexchange.domain.models.Contact
+import com.sweeftdigital.contactsexchange.util.Constants.NOT_MY_CARD
 import org.json.JSONObject
 import java.util.*
 
 fun jsonToContact(jsonData: JSONObject): Contact {
-    val firstName = jsonData.getString("firstName")
-    val lastName = jsonData.getString("lastName")
+    val firstName = jsonData.getString("name")
     val job = jsonData.getString("job")
     val position = jsonData.getString("position")
     val email = jsonData.getString("email")
@@ -17,8 +17,7 @@ fun jsonToContact(jsonData: JSONObject): Contact {
 
     return Contact(
         -1,
-        firstName = firstName,
-        lastName = lastName,
+        name = firstName,
         job = job,
         position = position,
         email = email,
@@ -26,6 +25,6 @@ fun jsonToContact(jsonData: JSONObject): Contact {
         phoneOffice = phoneOffice,
         createDate = createDate,
         color = color,
-        isMy = false
+        isMy = NOT_MY_CARD
     )
 }

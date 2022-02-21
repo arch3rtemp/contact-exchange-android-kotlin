@@ -6,8 +6,7 @@ import com.sweeftdigital.contactsexchange.domain.models.Contact
 internal fun ContactEntity.toContact(): Contact {
     return Contact(
         id,
-        firstName,
-        lastName,
+        name,
         job,
         position,
         email,
@@ -22,8 +21,7 @@ internal fun ContactEntity.toContact(): Contact {
 internal fun Contact.toContactEntity(): ContactEntity {
     return ContactEntity(
         id = id,
-        firstName = firstName,
-        lastName = lastName,
+        name,
         job = job,
         position = position,
         email = email,

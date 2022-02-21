@@ -11,13 +11,9 @@ data class ContactEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
 
-    @ColumnInfo(name = "first_name")
-    @SerializedName("first_name")
-    val firstName: String,
-
-    @ColumnInfo(name = "last_name")
-    @SerializedName("last_name")
-    val lastName: String,
+    @ColumnInfo(name = "name")
+    @SerializedName("name")
+    val name: String,
 
     val job: String,
 
@@ -41,5 +37,5 @@ data class ContactEntity(
 
     @ColumnInfo(name = "is_my")
     @SerializedName("is_my")
-    val isMy: Boolean
+    val isMy: Int
 )

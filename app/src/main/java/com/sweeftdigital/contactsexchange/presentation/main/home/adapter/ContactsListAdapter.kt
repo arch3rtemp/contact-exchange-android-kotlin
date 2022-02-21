@@ -86,20 +86,14 @@ class ContactsListAdapter(private val clickListener: ClickListener) : ListAdapte
         RecyclerView.ViewHolder(binding.root) {
         fun setData(contact: Contact, clickListener: ClickListener) {
             with(binding) {
-                if (contact.lastName == "N/A") {
-                    tvContactName.text = contact.firstName
-                    tvContactInitials.text = contact.firstName.substring(0, 1)
-                } else {
-                    tvContactName.text =
-                        String.format("${contact.firstName} ${contact.lastName}")
+                tvContactName.text = contact.name
+                if (contact.name.contains(" ")) {
+                    val spaceIndex = contact.name.indexOf(" ") + 1
                     tvContactInitials.text = String.format(
-                        "${contact.firstName.substring(0, 1)}${
-                            contact.lastName.substring(
-                                0,
-                                1
-                            )
-                        }"
+                        "${contact.name.substring(0, 1)}${contact.name.substring(spaceIndex, spaceIndex + 1)}"
                     )
+                } else {
+                    tvContactInitials.text = contact.name.substring(0, 1)
                 }
                 tvContactPosition.text = contact.position
                 tvContactAddDate.text = contact.dateToString()
