@@ -98,8 +98,14 @@ class CreateCardFragment : Fragment() {
             btnCreate.setOnClickListener {
                 val contact = getDataFromFields()
                 createCardViewModel.saveCard(contact)
-                findNavController().popBackStack()
+                navigateUpIfNoError()
             }
+        }
+    }
+
+    private fun navigateUpIfNoError() {
+        if (createCardViewModel.error.value?.error?.isBlank() == true){
+            findNavController().navigateUp()
         }
     }
 
