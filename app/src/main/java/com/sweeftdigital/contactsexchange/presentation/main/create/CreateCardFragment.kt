@@ -41,17 +41,16 @@ class CreateCardFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        createCardViewModel.error.observe(viewLifecycleOwner) {
-            Toast
-                .makeText(requireContext(), it.error, Toast.LENGTH_SHORT)
-                .show()
-        }
-
         initUI()
-        handleEvents()
     }
 
     private fun initUI() {
+        initCard()
+        handleEvents()
+        initObservers()
+    }
+
+    private fun initCard() {
         with(binding) {
             tvColorLightNavy.setBackgroundResource(R.drawable.shape_selected_card_color_light_navy_bg)
             cardBackground = clCreate.background
@@ -98,14 +97,20 @@ class CreateCardFragment : Fragment() {
             btnCreate.setOnClickListener {
                 val contact = getDataFromFields()
                 createCardViewModel.saveCard(contact)
-                navigateUpIfNoError()
             }
         }
     }
 
-    private fun navigateUpIfNoError() {
-        if (createCardViewModel.error.value?.error?.isBlank() == true){
-            findNavController().navigateUp()
+    private fun initObservers() {
+        createCardViewModel.state.observe(viewLifecycleOwner) {
+            when {
+                it.success -> {
+                    findNavController().navigateUp()
+                }
+                it.error -> {
+                    Toast.makeText(requireContext(), "Fill all fields!", Toast.LENGTH_SHORT).show()
+                }
+            }
         }
     }
 
@@ -149,7 +154,7 @@ class CreateCardFragment : Fragment() {
             binding.etTel.text.toString(),
             binding.etTelOffice.text.toString(),
             Date(),
-            currentColor,
+            getColor(currentColor),
             MY_CARD
         )
     }

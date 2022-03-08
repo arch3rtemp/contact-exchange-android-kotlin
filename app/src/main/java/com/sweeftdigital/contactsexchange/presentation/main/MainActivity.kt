@@ -43,14 +43,19 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        initNavigationWithToolbar()
+        subscribeLiveViewState()
+        setListeners()
+    }
+
+    private fun initNavigationWithToolbar() {
         setSupportActionBar(binding.toolbar)
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
         navController = navHostFragment.navController
 
-        var title = ""
         navController.addOnDestinationChangedListener { controller, destination, arguments ->
-            title = when (destination.id) {
+            val title = when (destination.id) {
                 R.id.homeFragment -> "My Cards"
                 else -> ""
             }
@@ -58,11 +63,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         val appBarConfiguration = AppBarConfiguration(navController.graph)
-//        setupActionBarWithNavController(navController, appBarConfiguration)
         binding.toolbar.setupWithNavController(navController, appBarConfiguration)
-
-        subscribeLiveViewState()
-        setListeners()
     }
 
     private fun setListeners() {
@@ -77,8 +78,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun subscribeLiveViewState() {
-        viewModel.liveViewState.observe(this) { state ->
-            state.isCameraPermissionGranted?.let { granted ->
+        viewModel.permissionState.observe(this) { state ->
+            state.isCameraPermissionGranted.let { granted ->
                 if (granted) {
                     val intent = Intent(this, QrActivity::class.java)
                     resultLauncher.launch(intent)
@@ -89,8 +90,4 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-
-//    override fun onSupportNavigateUp(): Boolean {
-//        return navController.navigateUp()
-//    }
 }

@@ -1,11 +1,13 @@
 package com.sweeftdigital.contactsexchange.domain.data_providers.local
 
-import com.sweeftdigital.contactsexchange.app.db.models.ContactEntity
+import androidx.lifecycle.LiveData
+import com.sweeftdigital.contactsexchange.domain.models.Contact
 
 interface LocalDataProvider {
-    suspend fun selectAllMyContacts(): List<ContactEntity>
-    suspend fun selectAllScannedContacts(): List<ContactEntity>
-    suspend fun addContact(contact: ContactEntity)
-    suspend fun selectContactById(id: Int): ContactEntity
+    suspend fun selectAllMyContacts(): LiveData<List<Contact>>
+    suspend fun selectAllScannedContacts(): LiveData<List<Contact>>
+    suspend fun selectAllContacts(): List<Contact>
+    suspend fun addContact(contact: Contact)
+    suspend fun selectContactById(id: Int): Contact
     suspend fun deleteContact(id: Int)
 }

@@ -1,11 +1,12 @@
-package com.sweeftdigital.contactsexchange.presentation.main.home.adapter.drawers
+package com.sweeftdigital.contactsexchange.presentation.main.home.adapters.drawers
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.sweeftdigital.contactsexchange.databinding.ContactListItemBinding
 import com.sweeftdigital.contactsexchange.domain.models.Contact
-import com.sweeftdigital.contactsexchange.presentation.main.home.adapter.ContactsListAdapter
+import com.sweeftdigital.contactsexchange.presentation.main.home.adapters.ContactsListAdapter
 
 class ContactItemDrawer(val contact: Contact) : ItemDrawer {
     private lateinit var binding: ContactListItemBinding

@@ -23,4 +23,8 @@ val USE_CASES_MODULE = module {
     factory {
         SelectScannedContactsUseCase(get())
     }
+
+    factory {
+        SelectAllContactsUseCase(get())
+    }
 }

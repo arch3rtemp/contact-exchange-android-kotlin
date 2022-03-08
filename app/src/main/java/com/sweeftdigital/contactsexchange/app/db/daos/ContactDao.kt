@@ -1,15 +1,19 @@
 package com.sweeftdigital.contactsexchange.app.db.daos
 
+import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.sweeftdigital.contactsexchange.app.db.models.ContactEntity
 
 @Dao
 interface ContactDao {
-    @Query("SELECT * FROM contact_table WHERE is_my == 1 ORDER BY name ASC")
-    fun selectAllMyContacts(): List<ContactEntity>
+    @Query("SELECT * FROM contact_table WHERE is_my == 323 ORDER BY name ASC")
+    fun selectAllMyContacts(): LiveData<List<ContactEntity>>
 
-    @Query("SELECT * FROM contact_table WHERE is_my == 0 ORDER BY name ASC")
-    fun selectAllScannedContacts(): List<ContactEntity>
+    @Query("SELECT * FROM contact_table WHERE is_my == 324 ORDER BY name ASC")
+    fun selectAllScannedContacts(): LiveData<List<ContactEntity>>
+
+    @Query("SELECT * FROM contact_table ORDER BY name ASC")
+    suspend fun selectAllContacts(): List<ContactEntity>
 
     @Query("SELECT * FROM contact_table WHERE id == :id")
     fun selectContactById(id: Int): ContactEntity

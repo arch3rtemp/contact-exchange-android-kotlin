@@ -1,11 +1,7 @@
-package com.sweeftdigital.contactsexchange.presentation.main.home.adapter
+package com.sweeftdigital.contactsexchange.presentation.main.home.adapters
 
-import android.content.Context
-import android.graphics.drawable.ColorDrawable
-import android.graphics.drawable.Drawable
-import android.graphics.drawable.GradientDrawable
-import android.graphics.drawable.ShapeDrawable
-import android.util.Log
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffColorFilter
 import android.util.SparseArray
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -14,9 +10,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.sweeftdigital.contactsexchange.databinding.CardListItemBinding
 import com.sweeftdigital.contactsexchange.databinding.ContactListItemBinding
 import com.sweeftdigital.contactsexchange.domain.models.Contact
-import com.sweeftdigital.contactsexchange.presentation.main.home.adapter.drawers.CardItemDrawer
-import com.sweeftdigital.contactsexchange.presentation.main.home.adapter.drawers.ContactItemDrawer
-import com.sweeftdigital.contactsexchange.presentation.main.home.adapter.drawers.ItemDrawer
+import com.sweeftdigital.contactsexchange.presentation.main.home.adapters.drawers.CardItemDrawer
+import com.sweeftdigital.contactsexchange.presentation.main.home.adapters.drawers.ContactItemDrawer
+import com.sweeftdigital.contactsexchange.presentation.main.home.adapters.drawers.ItemDrawer
 import com.sweeftdigital.contactsexchange.util.dateToString
 
 val callback = object : DiffUtil.ItemCallback<ItemDrawer>() {
@@ -39,7 +35,8 @@ val callback = object : DiffUtil.ItemCallback<ItemDrawer>() {
     }
 }
 
-class ContactsListAdapter(private val clickListener: ClickListener) : ListAdapter<ItemDrawer, RecyclerView.ViewHolder>(callback) {
+class ContactsListAdapter(private val clickListener: ClickListener) :
+    ListAdapter<ItemDrawer, RecyclerView.ViewHolder>(callback) {
 
     private val sparseArray = SparseArray<ItemDrawer>()
 
@@ -60,13 +57,6 @@ class ContactsListAdapter(private val clickListener: ClickListener) : ListAdapte
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         currentList[position].bind(holder, clickListener)
     }
-
-//    fun changeBackgroundColor(@ColorRes color: Int): PorterDuffColorFilter {
-//        return PorterDuffColorFilter(
-//            ContextCompat.getColor(context, color),
-//            PorterDuff.Mode.SRC_IN
-//        )
-//    }
 
 //    fun removeItem(position: Int) {
 //        currentList.removeAt(position)
@@ -90,16 +80,24 @@ class ContactsListAdapter(private val clickListener: ClickListener) : ListAdapte
                 if (contact.name.contains(" ")) {
                     val spaceIndex = contact.name.indexOf(" ") + 1
                     tvContactInitials.text = String.format(
-                        "${contact.name.substring(0, 1)}${contact.name.substring(spaceIndex, spaceIndex + 1)}"
+                        "${contact.name.substring(0, 1)}${
+                            contact.name.substring(
+                                spaceIndex,
+                                spaceIndex + 1
+                            )
+                        }"
                     )
                 } else {
                     tvContactInitials.text = contact.name.substring(0, 1)
                 }
                 tvContactPosition.text = contact.position
                 tvContactAddDate.text = contact.dateToString()
-                root.setOnClickListener { clickListener.onContactClicked(contact.id) }
+                llItemRoot.setOnClickListener { clickListener.onContactClicked(contact.id) }
                 llDelete.setOnClickListener { clickListener.onDeleteClicked(contact.id) }
-                setBackgroundColorAndRetainShape(contact.color ,llContactInitials.background)
+                llContactInitials.background.colorFilter = PorterDuffColorFilter(
+                    contact.color,
+                    PorterDuff.Mode.SRC_IN
+                )
             }
         }
     }
@@ -110,21 +108,11 @@ class ContactsListAdapter(private val clickListener: ClickListener) : ListAdapte
         fun setData(contact: Contact, clickListener: ClickListener) {
             with(binding) {
                 tvCard.text = contact.job
-                setBackgroundColorAndRetainShape(contact.color ,tvCard.background)
+                tvCard.background.colorFilter = PorterDuffColorFilter(
+                    contact.color,
+                    PorterDuff.Mode.SRC_IN
+                )
                 tvCard.setOnClickListener { clickListener.onCardClicked(contact.id) }
-            }
-        }
-
-
-    }
-
-    companion object {
-        private fun setBackgroundColorAndRetainShape(color: Int, background: Drawable) {
-            when (background) {
-                is ShapeDrawable -> (background.mutate() as ShapeDrawable).paint.color = color
-                is GradientDrawable -> (background.mutate() as GradientDrawable).setColor(color)
-                is ColorDrawable -> background.color = color
-                else -> Log.w("TAG", "Not a valid background type")
             }
         }
     }
