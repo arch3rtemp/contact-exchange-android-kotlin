@@ -7,51 +7,63 @@ import androidx.lifecycle.viewModelScope
 import com.sweeftdigital.contactsexchange.app.db.AppDatabase
 import com.sweeftdigital.contactsexchange.app.db.daos.ContactDao
 import com.sweeftdigital.contactsexchange.domain.models.Contact
-import com.sweeftdigital.contactsexchange.domain.useCases.DeleteContactUseCase
-import com.sweeftdigital.contactsexchange.domain.useCases.SelectAllContactsUseCase
-import com.sweeftdigital.contactsexchange.domain.useCases.SelectMyContactsUseCase
-import com.sweeftdigital.contactsexchange.domain.useCases.SelectScannedContactsUseCase
+import com.sweeftdigital.contactsexchange.domain.useCases.*
 import com.sweeftdigital.contactsexchange.util.toContact
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 class HomeViewModel(
     private val selectMyContactsUseCase: SelectMyContactsUseCase,
     private val selectScannedContactsUseCase: SelectScannedContactsUseCase,
-    private val deleteContactUseCase: DeleteContactUseCase
+    private val deleteContactUseCase: DeleteContactUseCase,
+    private val saveContactUseCase: SaveContactUseCase
 ) : ViewModel() {
     private val _state = MutableLiveData<HomeViewState>()
     val state: LiveData<HomeViewState> get() = _state
 
+    private val _effect: Channel<HomeViewState.Effect> = Channel()
+    val effect = _effect.receiveAsFlow()
+
     init {
-        loadMyContacts()
-        loadScannedContacts()
+        loadContacts()
     }
 
-    private fun loadMyContacts() {
+
+    private fun loadContacts() {
         viewModelScope.launch {
-            selectMyContactsUseCase.start().collect() {
-                _state.value = HomeViewState.CardsState(
-                    it
-                )
-            }
+            selectMyContactsUseCase.start()
+                .onStart { _state.value = HomeViewState.Loading }
+                .catch { _effect.send(HomeViewState.Effect.Error(it.message.toString())) }
+                .collect() { cards ->
+                    selectScannedContactsUseCase.start()
+                        .onStart { _state.value = HomeViewState.Loading }
+                        .catch { _effect.send(HomeViewState.Effect.Error(it.message.toString())) }
+                        .collect() { contacts ->
+                            _state.value = HomeViewState.Success(
+                                myCards = cards,
+                                contacts = contacts
+                            )
+                        }
+                }
         }
     }
 
-    private fun loadScannedContacts() {
+    fun saveContact(contact: Contact) {
         viewModelScope.launch {
-            selectScannedContactsUseCase.start().collect {
-                _state.value = HomeViewState.ContactsState(
-                    it
-                )
-            }
+            saveContactUseCase.start(contact)
         }
     }
 
-    fun deleteContact(id: Int) {
+    fun deleteContact(contact: Contact) {
         viewModelScope.launch {
-            deleteContactUseCase.start(id)
+            deleteContactUseCase.start(contact.id)
+                .catch { _effect.send(HomeViewState.Effect.Error(it.message.toString())) }
+                .collect {
+                    _effect.send(HomeViewState.Effect.Deleted(contact))
+                }
         }
     }
 }

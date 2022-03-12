@@ -15,12 +15,16 @@ import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 import com.sweeftdigital.contactsexchange.databinding.FragmentHomeBinding
+import com.sweeftdigital.contactsexchange.domain.models.Contact
 import com.sweeftdigital.contactsexchange.presentation.main.home.adapters.ContactsListAdapter
 import com.sweeftdigital.contactsexchange.presentation.main.home.adapters.drawers.CardItemDrawer
 import com.sweeftdigital.contactsexchange.presentation.main.home.adapters.drawers.ContactItemDrawer
+import kotlinx.coroutines.flow.collect
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class HomeFragment : Fragment(), ContactsListAdapter.ClickListener {
@@ -28,8 +32,8 @@ class HomeFragment : Fragment(), ContactsListAdapter.ClickListener {
     private val binding get() = _binding!!
 
     private val homeViewModel: HomeViewModel by viewModel()
-    private lateinit var cardsAdapter: ContactsListAdapter
-    private lateinit var contactsAdapter: ContactsListAdapter
+    private val cardsAdapter: ContactsListAdapter by lazy { ContactsListAdapter(this@HomeFragment) }
+    private val contactsAdapter: ContactsListAdapter by lazy {  ContactsListAdapter(this@HomeFragment) }
     private var filtering = false
     private var backPressedTimestamp: Long = 0L
 
@@ -56,8 +60,6 @@ class HomeFragment : Fragment(), ContactsListAdapter.ClickListener {
 
     private fun initRecyclerView() {
         with(binding) {
-            cardsAdapter = ContactsListAdapter(this@HomeFragment)
-            contactsAdapter = ContactsListAdapter(this@HomeFragment)
             rvCards.adapter = cardsAdapter
             rvContacts.adapter = contactsAdapter
         }
@@ -79,20 +81,42 @@ class HomeFragment : Fragment(), ContactsListAdapter.ClickListener {
     private fun initObservers() {
         homeViewModel.state.observe(viewLifecycleOwner) { state ->
             when (state) {
-                is HomeViewState.CardsState -> {
+                is HomeViewState.Success -> {
                     val cards = state.myCards.map { contact ->
                         CardItemDrawer(contact)
                     }
                     cardsAdapter.modifyList(cards)
-                }
-                is HomeViewState.ContactsState -> {
+
                     val contacts = state.contacts.map { contact ->
                         ContactItemDrawer(contact)
                     }
                     contactsAdapter.modifyList(contacts)
                 }
+                is HomeViewState.Loading -> {
+
+                }
             }
         }
+
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            homeViewModel.effect.collect { state ->
+                when (state) {
+                    is HomeViewState.Effect.Error -> {
+                        Snackbar.make(requireView(), state.message, Snackbar.LENGTH_SHORT).show()
+                    }
+                    is HomeViewState.Effect.Deleted -> {
+                        state.contact
+                        Snackbar
+                            .make(requireView(), "Contact Deleted", Snackbar.LENGTH_SHORT)
+                            .setAction("UNDO") {
+                                homeViewModel.saveContact(state.contact)
+                            }
+                            .show()
+                    }
+                }
+            }
+        }
+
         observeRecyclerListener()
         initializeTextWatcher()
         initializeBackPressedCallback()
@@ -203,7 +227,6 @@ class HomeFragment : Fragment(), ContactsListAdapter.ClickListener {
 
                 })
             }.start()
-
         }
     }
 
@@ -215,8 +238,8 @@ class HomeFragment : Fragment(), ContactsListAdapter.ClickListener {
         Toast.makeText(requireContext(), "Card Clicked", Toast.LENGTH_SHORT).show()
     }
 
-    override fun onDeleteClicked(id: Int) {
-        Toast.makeText(requireContext(), "Delete Clicked", Toast.LENGTH_SHORT).show()
+    override fun onDeleteClicked(contact: Contact) {
+        homeViewModel.deleteContact(contact)
     }
 
     override fun onDestroyView() {

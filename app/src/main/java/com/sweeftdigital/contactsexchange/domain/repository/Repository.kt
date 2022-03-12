@@ -10,5 +10,5 @@ interface Repository {
     suspend fun selectAllContacts(): List<Contact>
     suspend fun addContact(contact: Contact)
     suspend fun selectContactById(id: Int): Contact
-    suspend fun deleteContact(id: Int)
+    suspend fun deleteContact(id: Int): Flow<Unit>
 }

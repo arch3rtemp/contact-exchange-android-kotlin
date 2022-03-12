@@ -13,7 +13,7 @@ val VIEW_MODELS_MODULE = module {
     }
 
     viewModel {
-        HomeViewModel(get(), get(), get())
+        HomeViewModel(get(), get(), get(), get())
     }
 
     viewModel {

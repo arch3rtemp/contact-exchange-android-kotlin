@@ -126,7 +126,7 @@ class ContactsListAdapter(private val clickListener: ClickListener) :
     interface ClickListener {
         fun onContactClicked(id: Int)
         fun onCardClicked(id: Int)
-        fun onDeleteClicked(id: Int)
+        fun onDeleteClicked(contact: Contact)
     }
 
     class ContactsHolder(private val binding: ContactListItemBinding) :
@@ -138,7 +138,7 @@ class ContactsListAdapter(private val clickListener: ClickListener) :
                 tvContactPosition.text = contact.position
                 tvContactAddDate.text = contact.dateToString()
                 llItemRoot.setOnClickListener { clickListener.onContactClicked(contact.id) }
-                llDelete.setOnClickListener { clickListener.onDeleteClicked(contact.id) }
+                llDelete.setOnClickListener { clickListener.onDeleteClicked(contact) }
                 llContactInitials.background.colorFilter = PorterDuffColorFilter(
                     contact.color,
                     PorterDuff.Mode.SRC_IN

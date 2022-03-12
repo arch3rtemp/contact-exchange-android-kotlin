@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import com.sweeftdigital.contactsexchange.domain.data_providers.local.LocalDataProvider
 import com.sweeftdigital.contactsexchange.domain.models.Contact
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 
 class RepositoryImpl(
     private val localDataProvider: LocalDataProvider
@@ -28,8 +29,10 @@ class RepositoryImpl(
         return localDataProvider.selectContactById(id)
     }
 
-    override suspend fun deleteContact(id: Int) {
-        return localDataProvider.deleteContact(id)
+    override suspend fun deleteContact(id: Int): Flow<Unit> {
+        return flow {
+            emit(localDataProvider.deleteContact(id))
+        }
     }
 
 }
