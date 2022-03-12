@@ -4,6 +4,8 @@ import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
 import android.util.SparseArray
 import android.view.ViewGroup
+import android.widget.Filter
+import android.widget.Filterable
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -36,10 +38,12 @@ val callback = object : DiffUtil.ItemCallback<ItemDrawer>() {
 }
 
 class ContactsListAdapter(private val clickListener: ClickListener) :
-    ListAdapter<ItemDrawer, RecyclerView.ViewHolder>(callback) {
+    ListAdapter<ItemDrawer, RecyclerView.ViewHolder>(callback), Filterable {
 
     private val sparseArray = SparseArray<ItemDrawer>()
-
+    private var unfilteredContacts = listOf<ItemDrawer>()
+    private var filteredContacts = mutableListOf<ItemDrawer>()
+    private var filtering = false
 
     override fun getItemViewType(position: Int): Int {
         val item = currentList[position]
@@ -56,6 +60,59 @@ class ContactsListAdapter(private val clickListener: ClickListener) :
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         currentList[position].bind(holder, clickListener)
+    }
+
+    fun modifyList(list: List<ItemDrawer>) {
+        unfilteredContacts = list
+        submitList(list)
+    }
+
+    override fun getFilter(): Filter {
+        return object : Filter() {
+            override fun performFiltering(constraint: CharSequence?): FilterResults {
+                val filtered = mutableListOf<ItemDrawer>()
+                constraint?.let { constraint ->
+                    if (constraint.isBlank()) {
+                        filtered.addAll(unfilteredContacts)
+                    } else {
+                        val filterPattern = constraint.toString().lowercase().trim()
+                        unfilteredContacts.forEach {
+                            if (it.contact.name.lowercase().contains(filterPattern)) {
+                                filtered.add(it)
+                            }
+                        }
+                    }
+                }
+                val results = FilterResults().apply {
+                    values = filtered
+                }
+                return results
+            }
+
+            override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
+                this@ContactsListAdapter.submitList(results?.values as List<ItemDrawer>)
+            }
+        }
+    }
+
+    fun filterContacts(sequence: CharSequence?) {
+        if (sequence.isNullOrBlank()) {
+            clearFilter()
+            return
+        }
+
+        filtering = true
+        val filterPattern = sequence.toString().lowercase().trim()
+        val filtered = currentList.filter { contactDrawer ->
+            contactDrawer.contact.name.lowercase().contains(filterPattern)
+        } as MutableList<ItemDrawer>
+        filteredContacts = filtered
+        this.submitList(filteredContacts)
+    }
+
+    private fun clearFilter() {
+        filtering = false
+        this.submitList(unfilteredContacts)
     }
 
 //    fun removeItem(position: Int) {
@@ -77,19 +134,7 @@ class ContactsListAdapter(private val clickListener: ClickListener) :
         fun setData(contact: Contact, clickListener: ClickListener) {
             with(binding) {
                 tvContactName.text = contact.name
-                if (contact.name.contains(" ")) {
-                    val spaceIndex = contact.name.indexOf(" ") + 1
-                    tvContactInitials.text = String.format(
-                        "${contact.name.substring(0, 1)}${
-                            contact.name.substring(
-                                spaceIndex,
-                                spaceIndex + 1
-                            )
-                        }"
-                    )
-                } else {
-                    tvContactInitials.text = contact.name.substring(0, 1)
-                }
+                tvContactInitials.text = formatInitials(contact.name)
                 tvContactPosition.text = contact.position
                 tvContactAddDate.text = contact.dateToString()
                 llItemRoot.setOnClickListener { clickListener.onContactClicked(contact.id) }
@@ -100,6 +145,21 @@ class ContactsListAdapter(private val clickListener: ClickListener) :
                 )
             }
         }
+
+        private fun formatInitials(name: String) =
+            if (name.contains(" ")) {
+                val spaceIndex = name.indexOf(" ") + 1
+                String.format(
+                    "${name.substring(0, 1)}${
+                        name.substring(
+                            spaceIndex,
+                            spaceIndex + 1
+                        )
+                    }"
+                )
+            } else {
+                name.substring(0, 1)
+            }
     }
 
     class CardsHolder(private val binding: CardListItemBinding) :

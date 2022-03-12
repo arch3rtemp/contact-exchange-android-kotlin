@@ -1,6 +1,5 @@
 package com.sweeftdigital.contactsexchange.presentation.main.home.adapters.drawers
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -8,7 +7,7 @@ import com.sweeftdigital.contactsexchange.databinding.CardListItemBinding
 import com.sweeftdigital.contactsexchange.domain.models.Contact
 import com.sweeftdigital.contactsexchange.presentation.main.home.adapters.ContactsListAdapter
 
-class CardItemDrawer(val contact: Contact) : ItemDrawer {
+class CardItemDrawer(override val contact: Contact) : ItemDrawer {
     private lateinit var binding: CardListItemBinding
 
     override fun createViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {

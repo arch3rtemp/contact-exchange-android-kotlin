@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View.GONE
 import android.widget.Toast
+import androidx.activity.addCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.Toolbar
 import androidx.navigation.NavController
@@ -17,6 +18,7 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.sweeftdigital.contactsexchange.R
 import com.sweeftdigital.contactsexchange.databinding.ActivityMainBinding
+import com.sweeftdigital.contactsexchange.presentation.main.home.HomeFragment
 import com.sweeftdigital.contactsexchange.presentation.qr.QrActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -28,6 +30,8 @@ class MainActivity : AppCompatActivity() {
     private val requestPermission = registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
         viewModel.onPermissionResult(granted)
     }
+
+
 
     private var resultLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()

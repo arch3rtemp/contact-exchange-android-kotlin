@@ -3,15 +3,16 @@ package com.sweeftdigital.contactsexchange.domain.repository
 import androidx.lifecycle.LiveData
 import com.sweeftdigital.contactsexchange.domain.data_providers.local.LocalDataProvider
 import com.sweeftdigital.contactsexchange.domain.models.Contact
+import kotlinx.coroutines.flow.Flow
 
 class RepositoryImpl(
     private val localDataProvider: LocalDataProvider
 ) : Repository {
-    override suspend fun selectAllMyContacts(): LiveData<List<Contact>> {
+    override suspend fun selectAllMyContacts(): Flow<List<Contact>> {
         return localDataProvider.selectAllMyContacts()
     }
 
-    override suspend fun selectAllScannedContacts(): LiveData<List<Contact>> {
+    override suspend fun selectAllScannedContacts(): Flow<List<Contact>> {
         return localDataProvider.selectAllScannedContacts()
     }
 

@@ -13,6 +13,7 @@ import com.sweeftdigital.contactsexchange.domain.useCases.SelectMyContactsUseCas
 import com.sweeftdigital.contactsexchange.domain.useCases.SelectScannedContactsUseCase
 import com.sweeftdigital.contactsexchange.util.toContact
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class HomeViewModel(
@@ -24,15 +25,27 @@ class HomeViewModel(
     val state: LiveData<HomeViewState> get() = _state
 
     init {
-        loadAllContacts()
+        loadMyContacts()
+        loadScannedContacts()
     }
 
-    private fun loadAllContacts() {
+    private fun loadMyContacts() {
         viewModelScope.launch {
-            _state.value = HomeViewState(
-                selectMyContactsUseCase.start().value!!,
-                selectScannedContactsUseCase.start().value!!
-            )
+            selectMyContactsUseCase.start().collect() {
+                _state.value = HomeViewState.CardsState(
+                    it
+                )
+            }
+        }
+    }
+
+    private fun loadScannedContacts() {
+        viewModelScope.launch {
+            selectScannedContactsUseCase.start().collect {
+                _state.value = HomeViewState.ContactsState(
+                    it
+                )
+            }
         }
     }
 

@@ -6,17 +6,23 @@ import com.sweeftdigital.contactsexchange.app.db.AppDatabase
 import com.sweeftdigital.contactsexchange.domain.models.Contact
 import com.sweeftdigital.contactsexchange.util.toContact
 import com.sweeftdigital.contactsexchange.util.toContactEntity
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 
 class LocalDataProviderImpl(private val database: AppDatabase) : LocalDataProvider {
-    override suspend fun selectAllMyContacts(): LiveData<List<Contact>> {
-        return Transformations.map(database.contactDao().selectAllMyContacts()) { list ->
-            list.map { it.toContact() }
+    override suspend fun selectAllMyContacts(): Flow<List<Contact>> {
+        return database.contactDao().selectAllMyContacts().map { list ->
+            list.map {
+                it.toContact()
+            }
         }
     }
 
-    override suspend fun selectAllScannedContacts(): LiveData<List<Contact>> {
-        return Transformations.map(database.contactDao().selectAllScannedContacts()) { list ->
-            list.map { it.toContact() }
+    override suspend fun selectAllScannedContacts(): Flow<List<Contact>> {
+        return database.contactDao().selectAllScannedContacts().map { list ->
+            list.map {
+                it.toContact()
+            }
         }
     }
 
