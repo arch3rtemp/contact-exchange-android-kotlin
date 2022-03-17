@@ -27,21 +27,15 @@ class HomeViewModel(
     private val _effect: Channel<HomeViewState.Effect> = Channel()
     val effect = _effect.receiveAsFlow()
 
-    init {
-        loadContacts()
-    }
-
-
-    private fun loadContacts() {
+    fun getNewState(): LiveData<HomeViewState> {
         viewModelScope.launch {
             selectMyContactsUseCase.start()
                 .onStart { _state.value = HomeViewState.Loading }
                 .catch { _effect.send(HomeViewState.Effect.Error(it.message.toString())) }
-                .collect() { cards ->
+                .collect { cards ->
                     selectScannedContactsUseCase.start()
-                        .onStart { _state.value = HomeViewState.Loading }
                         .catch { _effect.send(HomeViewState.Effect.Error(it.message.toString())) }
-                        .collect() { contacts ->
+                        .collect { contacts ->
                             _state.value = HomeViewState.Success(
                                 myCards = cards,
                                 contacts = contacts
@@ -49,6 +43,7 @@ class HomeViewModel(
                         }
                 }
         }
+        return state
     }
 
     fun saveContact(contact: Contact) {

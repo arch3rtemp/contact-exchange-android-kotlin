@@ -79,7 +79,7 @@ class HomeFragment : Fragment(), ContactsListAdapter.ClickListener {
     }
 
     private fun initObservers() {
-        homeViewModel.state.observe(viewLifecycleOwner) { state ->
+        homeViewModel.getNewState().observe(viewLifecycleOwner) { state ->
             when (state) {
                 is HomeViewState.Success -> {
                     val cards = state.myCards.map { contact ->
