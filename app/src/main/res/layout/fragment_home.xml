@@ -37,6 +37,38 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:listitem="@layout/card_list_item" />
 
+    <ProgressBar
+        android:id="@+id/progress_circular_cards"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/rv_cards"
+        app:layout_constraintEnd_toEndOf="@+id/rv_cards"
+        app:layout_constraintStart_toEndOf="@+id/fab_add"
+        app:layout_constraintTop_toTopOf="@+id/rv_cards" />
+
+    <ImageView
+        android:id="@+id/iv_cards_error"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:visibility="invisible"
+        android:src="@drawable/ic_error"
+        app:layout_constraintBottom_toBottomOf="@+id/rv_cards"
+        app:layout_constraintEnd_toEndOf="@+id/rv_cards"
+        app:layout_constraintStart_toEndOf="@+id/fab_add"
+        app:layout_constraintTop_toTopOf="@+id/rv_cards" />
+
+    <ImageView
+        android:id="@+id/iv_cards_empty"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:visibility="invisible"
+        android:src="@drawable/ic_empty"
+        app:layout_constraintBottom_toBottomOf="@+id/rv_cards"
+        app:layout_constraintEnd_toEndOf="@+id/rv_cards"
+        app:layout_constraintStart_toEndOf="@+id/fab_add"
+        app:layout_constraintTop_toTopOf="@+id/rv_cards" />
+
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_contacts"
@@ -111,8 +143,41 @@
             app:layout_constraintTop_toBottomOf="@id/ll_header_search"
             tools:listitem="@layout/contact_list_item" />
 
+        <ProgressBar
+            android:id="@+id/progress_circular_contacts"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@+id/rv_contacts"
+            app:layout_constraintEnd_toEndOf="@+id/rv_contacts"
+            app:layout_constraintStart_toStartOf="@+id/rv_contacts"
+            app:layout_constraintTop_toTopOf="@+id/rv_contacts" />
+
+        <ImageView
+            android:id="@+id/iv_contacts_error"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:visibility="invisible"
+            android:src="@drawable/ic_error"
+            app:layout_constraintBottom_toBottomOf="@+id/rv_contacts"
+            app:layout_constraintEnd_toEndOf="@+id/rv_contacts"
+            app:layout_constraintStart_toStartOf="@+id/rv_contacts"
+            app:layout_constraintTop_toTopOf="@+id/rv_contacts" />
+
+        <ImageView
+            android:id="@+id/iv_contacts_empty"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:visibility="invisible"
+            android:src="@drawable/ic_empty"
+            app:layout_constraintBottom_toBottomOf="@+id/rv_contacts"
+            app:layout_constraintEnd_toEndOf="@+id/rv_contacts"
+            app:layout_constraintStart_toStartOf="@+id/rv_contacts"
+            app:layout_constraintTop_toTopOf="@+id/rv_contacts" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

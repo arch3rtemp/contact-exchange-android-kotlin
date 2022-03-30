@@ -4,6 +4,8 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="app/src/main/res/drawable/ic_arrow_back_outline.xml" value="0.1725" />
+        <entry key="app/src/main/res/drawable/ic_empty.xml" value="0.1655" />
+        <entry key="app/src/main/res/drawable/ic_error.xml" value="0.1655" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.13" />
         <entry key="app/src/main/res/drawable/shape_back_rounded_bg.xml" value="0.1725" />
         <entry key="app/src/main/res/drawable/shape_card_bg.xml" value="0.162" />

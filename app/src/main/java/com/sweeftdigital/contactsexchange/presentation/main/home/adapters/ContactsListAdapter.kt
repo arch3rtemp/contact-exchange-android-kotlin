@@ -138,7 +138,10 @@ class ContactsListAdapter(private val clickListener: ClickListener) :
                 tvContactPosition.text = contact.position
                 tvContactAddDate.text = contact.dateToString()
                 llItemRoot.setOnClickListener { clickListener.onContactClicked(contact.id) }
-                llDelete.setOnClickListener { clickListener.onDeleteClicked(contact) }
+                llDelete.setOnClickListener {
+                    root.close(true)
+                    clickListener.onDeleteClicked(contact)
+                }
                 llContactInitials.background.colorFilter = PorterDuffColorFilter(
                     contact.color,
                     PorterDuff.Mode.SRC_IN

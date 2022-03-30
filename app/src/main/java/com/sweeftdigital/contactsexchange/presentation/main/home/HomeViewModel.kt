@@ -1,49 +1,74 @@
 package com.sweeftdigital.contactsexchange.presentation.main.home
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.sweeftdigital.contactsexchange.app.db.AppDatabase
-import com.sweeftdigital.contactsexchange.app.db.daos.ContactDao
 import com.sweeftdigital.contactsexchange.domain.models.Contact
 import com.sweeftdigital.contactsexchange.domain.useCases.*
-import com.sweeftdigital.contactsexchange.util.toContact
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.channels.Channel
+import com.sweeftdigital.contactsexchange.presentation.base.BaseViewModel
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
 
 class HomeViewModel(
     private val selectMyContactsUseCase: SelectMyContactsUseCase,
     private val selectScannedContactsUseCase: SelectScannedContactsUseCase,
     private val deleteContactUseCase: DeleteContactUseCase,
     private val saveContactUseCase: SaveContactUseCase
-) : ViewModel() {
-    private val _state = MutableLiveData<HomeViewState>()
-    val state: LiveData<HomeViewState> get() = _state
+) : BaseViewModel<HomeEvent, HomeEffect, HomeState>() {
 
-    private val _effect: Channel<HomeViewState.Effect> = Channel()
-    val effect = _effect.receiveAsFlow()
+    override fun createInitialState(): HomeState {
+        return HomeState(
+            cardsState = CardsState(viewState = ViewState.Empty),
+            contactsState = ContactsState(viewState = ViewState.Empty)
+        )
+    }
 
-    fun getNewState(): LiveData<HomeViewState> {
+    init {
+        setEvent(HomeEvent.OnContactsLoaded)
+    }
+
+    private fun getNewState() {
+        getCards()
+        getContacts()
+    }
+
+    private fun getCards() {
         viewModelScope.launch {
             selectMyContactsUseCase.start()
-                .onStart { _state.value = HomeViewState.Loading }
-                .catch { _effect.send(HomeViewState.Effect.Error(it.message.toString())) }
+                .onStart { setState { copy(cardsState = CardsState(viewState = ViewState.Loading)) } }
+                .catch {
+                    setStateError(it.message.toString())
+                }
                 .collect { cards ->
-                    selectScannedContactsUseCase.start()
-                        .catch { _effect.send(HomeViewState.Effect.Error(it.message.toString())) }
-                        .collect { contacts ->
-                            _state.value = HomeViewState.Success(
-                                myCards = cards,
-                                contacts = contacts
+                    setState {
+                        copy(
+                            cardsState = CardsState(
+                                viewState = ViewState.Success,
+                                myCards = cards
                             )
-                        }
+                        )
+                    }
                 }
         }
-        return state
+    }
+
+    private fun getContacts() {
+        viewModelScope.launch {
+            selectScannedContactsUseCase.start()
+                .onStart { setState { copy(contactsState = ContactsState(viewState = ViewState.Loading)) } }
+                .catch {
+                    setStateError(it.message.toString())
+                }
+                .collect { contacts ->
+                    setState {
+                        copy(
+                            contactsState = ContactsState(
+                                viewState = ViewState.Success,
+                                contacts = contacts
+                            )
+                        )
+                    }
+                }
+        }
     }
 
     fun saveContact(contact: Contact) {
@@ -55,10 +80,29 @@ class HomeViewModel(
     fun deleteContact(contact: Contact) {
         viewModelScope.launch {
             deleteContactUseCase.start(contact.id)
-                .catch { _effect.send(HomeViewState.Effect.Error(it.message.toString())) }
+                .catch { setStateError(it.message.toString()) }
                 .collect {
-                    _effect.send(HomeViewState.Effect.Deleted(contact))
+                    setEffect { HomeEffect.Deleted(contact) }
                 }
         }
     }
+
+    private fun setStateError(message: String) {
+        setState { copy(
+            cardsState = CardsState(viewState = ViewState.Error),
+            contactsState = ContactsState(viewState = ViewState.Error)
+        ) }
+        setEffect { HomeEffect.Error(message) }
+    }
+
+    override fun handleEvent(event: HomeEvent) {
+        when (event) {
+            HomeEvent.OnAddPressed -> TODO()
+            HomeEvent.OnCardPressed -> TODO()
+            HomeEvent.OnContactPressed -> TODO()
+            HomeEvent.OnContactsLoaded -> getNewState()
+        }
+    }
+
+
 }

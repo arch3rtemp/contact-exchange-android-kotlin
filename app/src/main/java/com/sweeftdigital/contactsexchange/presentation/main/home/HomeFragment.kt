@@ -6,7 +6,6 @@ import android.animation.ObjectAnimator
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,41 +20,35 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.sweeftdigital.contactsexchange.databinding.FragmentHomeBinding
 import com.sweeftdigital.contactsexchange.domain.models.Contact
+import com.sweeftdigital.contactsexchange.presentation.base.BaseFragment
 import com.sweeftdigital.contactsexchange.presentation.main.home.adapters.ContactsListAdapter
 import com.sweeftdigital.contactsexchange.presentation.main.home.adapters.drawers.CardItemDrawer
 import com.sweeftdigital.contactsexchange.presentation.main.home.adapters.drawers.ContactItemDrawer
-import kotlinx.coroutines.flow.collect
+import com.sweeftdigital.contactsexchange.util.TextWatcherTrimmed
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class HomeFragment : Fragment(), ContactsListAdapter.ClickListener {
-    private var _binding: FragmentHomeBinding? = null
-    private val binding get() = _binding!!
+class HomeFragment : BaseFragment<HomeEvent, HomeEffect, HomeState, FragmentHomeBinding, HomeViewModel>(), ContactsListAdapter.ClickListener {
 
-    private val homeViewModel: HomeViewModel by viewModel()
+    override val viewModel: HomeViewModel by viewModel()
+    override val bindLayout: (LayoutInflater, ViewGroup?, Boolean) -> FragmentHomeBinding
+        get() = FragmentHomeBinding::inflate
     private val cardsAdapter: ContactsListAdapter by lazy { ContactsListAdapter(this@HomeFragment) }
-    private val contactsAdapter: ContactsListAdapter by lazy {  ContactsListAdapter(this@HomeFragment) }
+    private val contactsAdapter: ContactsListAdapter by lazy { ContactsListAdapter(this@HomeFragment) }
     private var filtering = false
     private var backPressedTimestamp: Long = 0L
 
     private lateinit var filterTextWatcher: TextWatcher
     private lateinit var backPressedDispatcher: OnBackPressedCallback
 
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentHomeBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
+    override fun prepareView(savedInstanceState: Bundle?) {
         initRecyclerView()
         initObservers()
         setListeners()
+    }
+
+    override fun renderState(state: HomeState) = with(binding) {
+        renderCardsState(state.cardsState)
+        renderContactsState(state.contactsState)
     }
 
     private fun initRecyclerView() {
@@ -78,45 +71,66 @@ class HomeFragment : Fragment(), ContactsListAdapter.ClickListener {
         }
     }
 
+    private fun renderCardsState(state: CardsState) {
+        when (state.viewState) {
+            ViewState.Success -> {
+                showCardsSuccess()
+                val cards = state.myCards.map { card ->
+                    CardItemDrawer(card)
+                }
+                cardsAdapter.modifyList(cards)
+            }
+            ViewState.Loading -> {
+                showCardsLoading()
+            }
+            ViewState.Error -> {
+                showCardsError()
+            }
+            ViewState.Empty -> {
+                showCardsEmpty()
+            }
+        }
+    }
+
+    private fun renderContactsState(state: ContactsState) {
+        when (state.viewState) {
+            ViewState.Success -> {
+                showContactsSuccess()
+                val contacts = state.contacts.map { contact ->
+                    ContactItemDrawer(contact)
+                }
+                contactsAdapter.modifyList(contacts)
+            }
+            ViewState.Loading -> {
+                showContactsLoading()
+            }
+            ViewState.Error -> {
+                showContactsError()
+            }
+            ViewState.Empty -> {
+                showContactsEmpty()
+            }
+        }
+    }
+
+    override fun renderEffect(effect: HomeEffect) {
+        when (effect) {
+            is HomeEffect.Error -> {
+                Snackbar.make(requireView(), effect.message, Snackbar.LENGTH_SHORT).show()
+            }
+            is HomeEffect.Deleted -> {
+                effect.contact
+                Snackbar
+                    .make(requireView(), "Contact Deleted", Snackbar.LENGTH_SHORT)
+                    .setAction("UNDO") {
+                        viewModel.saveContact(effect.contact)
+                    }
+                    .show()
+            }
+        }
+    }
+
     private fun initObservers() {
-        homeViewModel.getNewState().observe(viewLifecycleOwner) { state ->
-            when (state) {
-                is HomeViewState.Success -> {
-                    val cards = state.myCards.map { contact ->
-                        CardItemDrawer(contact)
-                    }
-                    cardsAdapter.modifyList(cards)
-
-                    val contacts = state.contacts.map { contact ->
-                        ContactItemDrawer(contact)
-                    }
-                    contactsAdapter.modifyList(contacts)
-                }
-                is HomeViewState.Loading -> {
-
-                }
-            }
-        }
-
-        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-            homeViewModel.effect.collect { state ->
-                when (state) {
-                    is HomeViewState.Effect.Error -> {
-                        Snackbar.make(requireView(), state.message, Snackbar.LENGTH_SHORT).show()
-                    }
-                    is HomeViewState.Effect.Deleted -> {
-                        state.contact
-                        Snackbar
-                            .make(requireView(), "Contact Deleted", Snackbar.LENGTH_SHORT)
-                            .setAction("UNDO") {
-                                homeViewModel.saveContact(state.contact)
-                            }
-                            .show()
-                    }
-                }
-            }
-        }
-
         observeRecyclerListener()
         initializeTextWatcher()
         initializeBackPressedCallback()
@@ -138,28 +152,23 @@ class HomeFragment : Fragment(), ContactsListAdapter.ClickListener {
     }
 
     private fun initializeBackPressedCallback() {
-        backPressedDispatcher = requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
-            if (backPressedTimestamp + TIME_INTERVAL > System.currentTimeMillis()) {
-                requireActivity().onBackPressed()
-            } else {
-                Toast.makeText(
-                    requireContext() ,
-                    "Press back again to exit",
-                    Toast.LENGTH_SHORT
-                ).show()
+        backPressedDispatcher =
+            requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+                if (backPressedTimestamp + TIME_INTERVAL > System.currentTimeMillis()) {
+                    requireActivity().onBackPressed()
+                } else {
+                    Toast.makeText(
+                        requireContext(),
+                        "Press back again to exit",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+                backPressedTimestamp = System.currentTimeMillis()
             }
-            backPressedTimestamp = System.currentTimeMillis()
-        }
     }
 
     private fun initializeTextWatcher() {
-        filterTextWatcher = object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                Log.d("InterestingError", s.toString())
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-
+        filterTextWatcher = object : TextWatcherTrimmed {
             override fun afterTextChanged(s: Editable?) {
                 contactsAdapter.filterContacts(s)
             }
@@ -205,10 +214,11 @@ class HomeFragment : Fragment(), ContactsListAdapter.ClickListener {
     private fun animateSearchBackward() {
         with(binding) {
             filtering = false
-            val moveRightAnimation = ObjectAnimator.ofFloat(ivSearch, View.X, etSearch.width.toFloat()).apply {
-                duration = 400
-                interpolator = DecelerateInterpolator()
-            }
+            val moveRightAnimation =
+                ObjectAnimator.ofFloat(ivSearch, View.X, etSearch.width.toFloat()).apply {
+                    duration = 400
+                    interpolator = DecelerateInterpolator()
+                }
             val fadeOutAnimation = ObjectAnimator.ofFloat(tvContactHeader, View.ALPHA, 0f, 1f)
 
             AnimatorSet().apply {
@@ -239,12 +249,63 @@ class HomeFragment : Fragment(), ContactsListAdapter.ClickListener {
     }
 
     override fun onDeleteClicked(contact: Contact) {
-        homeViewModel.deleteContact(contact)
+        viewModel.deleteContact(contact)
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+    private fun showCardsEmpty() = with(binding) {
+        ivCardsEmpty.visibility = View.VISIBLE
+        progressCircularCards.visibility = View.INVISIBLE
+        ivCardsError.visibility = View.INVISIBLE
+        rvCards.visibility = View.INVISIBLE
+    }
+
+    private fun showContactsEmpty() = with(binding) {
+        ivContactsEmpty.visibility = View.VISIBLE
+        progressCircularContacts.visibility = View.INVISIBLE
+        ivContactsError.visibility = View.INVISIBLE
+        rvContacts.visibility = View.INVISIBLE
+    }
+
+    private fun showCardsLoading() = with(binding) {
+        progressCircularCards.visibility = View.VISIBLE
+        ivCardsEmpty.visibility = View.INVISIBLE
+        ivCardsError.visibility = View.INVISIBLE
+        rvCards.visibility = View.INVISIBLE
+    }
+
+    private fun showContactsLoading() = with(binding) {
+        progressCircularContacts.visibility = View.VISIBLE
+        ivContactsEmpty.visibility = View.INVISIBLE
+        ivContactsError.visibility = View.INVISIBLE
+        rvContacts.visibility = View.INVISIBLE
+    }
+
+    private fun showCardsSuccess() = with(binding) {
+        rvCards.visibility = View.VISIBLE
+        progressCircularCards.visibility = View.INVISIBLE
+        ivCardsEmpty.visibility = View.INVISIBLE
+        ivCardsError.visibility = View.INVISIBLE
+    }
+
+    private fun showContactsSuccess() = with(binding) {
+        rvContacts.visibility = View.VISIBLE
+        progressCircularContacts.visibility = View.INVISIBLE
+        ivContactsEmpty.visibility = View.INVISIBLE
+        ivContactsError.visibility = View.INVISIBLE
+    }
+
+    private fun showCardsError() = with(binding) {
+        ivCardsError.visibility = View.VISIBLE
+        rvCards.visibility = View.INVISIBLE
+        progressCircularCards.visibility = View.INVISIBLE
+        ivCardsEmpty.visibility = View.INVISIBLE
+    }
+
+    private fun showContactsError() = with(binding) {
+        ivCardsError.visibility = View.VISIBLE
+        rvCards.visibility = View.INVISIBLE
+        progressCircularCards.visibility = View.INVISIBLE
+        ivCardsEmpty.visibility = View.INVISIBLE
     }
 
     companion object {

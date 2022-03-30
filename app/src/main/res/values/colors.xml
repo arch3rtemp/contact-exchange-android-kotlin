@@ -7,6 +7,7 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="red_error">#D32F2F</color>
 
     <color name="pale_grey">#FFF3F6F9</color>
     <color name="black_two">#FF2C2C2C</color>
@@ -27,4 +28,5 @@
     <color name="pastel_red">#FFe46363</color>
     <color name="pinkish_grey">#FFbdbdbd</color>
     <color name="dark_green">#FF2BB673</color>
+
 </resources>
