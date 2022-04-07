@@ -34,6 +34,10 @@ class LocalDataProviderImpl(private val database: AppDatabase) : LocalDataProvid
         database.contactDao().insert(contact.toContactEntity())
     }
 
+    override suspend fun updateContact(contact: Contact) {
+        database.contactDao().update(contact.toContactEntity())
+    }
+
     override suspend fun selectContactById(id: Int): Contact {
         return database.contactDao().selectContactById(id).toContact()
     }

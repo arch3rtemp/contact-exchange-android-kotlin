@@ -21,12 +21,22 @@ class RepositoryImpl(
         return localDataProvider.selectAllContacts()
     }
 
-    override suspend fun addContact(contact: Contact) {
-        return localDataProvider.addContact(contact)
+    override suspend fun addContact(contact: Contact): Flow<Unit> {
+        return flow {
+            emit(localDataProvider.addContact(contact))
+        }
     }
 
-    override suspend fun selectContactById(id: Int): Contact {
-        return localDataProvider.selectContactById(id)
+    override suspend fun updateContact(contact: Contact): Flow<Unit> {
+        return flow {
+            emit(localDataProvider.updateContact(contact))
+        }
+    }
+
+    override suspend fun selectContactById(id: Int): Flow<Contact> {
+        return flow {
+            emit(localDataProvider.selectContactById(id))
+        }
     }
 
     override suspend fun deleteContact(id: Int): Flow<Unit> {

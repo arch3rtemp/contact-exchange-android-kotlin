@@ -1,4 +1,4 @@
-package com.sweeftdigital.contactsexchange.app
+package com.sweeftdigital.contactsexchange
 
 import android.app.Application
 import com.sweeftdigital.contactsexchange.app.modules.LOCAL_STORAGE_MODULE

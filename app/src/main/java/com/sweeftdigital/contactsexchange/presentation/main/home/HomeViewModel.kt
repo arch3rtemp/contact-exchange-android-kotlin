@@ -1,12 +1,16 @@
 package com.sweeftdigital.contactsexchange.presentation.main.home
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
 import com.sweeftdigital.contactsexchange.domain.models.Contact
-import com.sweeftdigital.contactsexchange.domain.useCases.*
+import com.sweeftdigital.contactsexchange.domain.useCases.DeleteContactUseCase
+import com.sweeftdigital.contactsexchange.domain.useCases.SaveContactUseCase
+import com.sweeftdigital.contactsexchange.domain.useCases.SelectMyContactsUseCase
+import com.sweeftdigital.contactsexchange.domain.useCases.SelectScannedContactsUseCase
 import com.sweeftdigital.contactsexchange.presentation.base.BaseViewModel
-import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.launch
 
 class HomeViewModel(
     private val selectMyContactsUseCase: SelectMyContactsUseCase,
@@ -26,6 +30,15 @@ class HomeViewModel(
         setEvent(HomeEvent.OnContactsLoaded)
     }
 
+    override fun handleEvent(event: HomeEvent) {
+        when (event) {
+            HomeEvent.OnContactsLoaded -> getNewState()
+            is HomeEvent.OnContactDeleted -> deleteContact(event.contact)
+            is HomeEvent.OnContactSaved -> saveContact(event.contact)
+            is HomeEvent.OnSearchTyped -> setEffect { HomeEffect.Searched(event.searched) }
+        }
+    }
+
     private fun getNewState() {
         getCards()
         getContacts()
@@ -39,13 +52,17 @@ class HomeViewModel(
                     setStateError(it.message.toString())
                 }
                 .collect { cards ->
-                    setState {
-                        copy(
-                            cardsState = CardsState(
-                                viewState = ViewState.Success,
-                                myCards = cards
+                    if (cards.isNotEmpty()) {
+                        setState {
+                            copy(
+                                cardsState = CardsState(
+                                    viewState = ViewState.Success,
+                                    myCards = cards
+                                )
                             )
-                        )
+                        }
+                    } else {
+                        setState { copy(cardsState = CardsState(viewState = ViewState.Empty)) }
                     }
                 }
         }
@@ -59,25 +76,31 @@ class HomeViewModel(
                     setStateError(it.message.toString())
                 }
                 .collect { contacts ->
-                    setState {
-                        copy(
-                            contactsState = ContactsState(
-                                viewState = ViewState.Success,
-                                contacts = contacts
+                    if (contacts.isNotEmpty()) {
+                        setState {
+                            copy(
+                                contactsState = ContactsState(
+                                    viewState = ViewState.Success,
+                                    contacts = contacts
+                                )
                             )
-                        )
+                        }
+                    } else {
+                        setState { copy(contactsState = ContactsState(viewState = ViewState.Empty)) }
                     }
                 }
         }
     }
 
-    fun saveContact(contact: Contact) {
+    private fun saveContact(contact: Contact) {
         viewModelScope.launch {
             saveContactUseCase.start(contact)
+                .catch { setStateError(it.message.toString()) }
+                .collect()
         }
     }
 
-    fun deleteContact(contact: Contact) {
+    private fun deleteContact(contact: Contact) {
         viewModelScope.launch {
             deleteContactUseCase.start(contact.id)
                 .catch { setStateError(it.message.toString()) }
@@ -94,15 +117,4 @@ class HomeViewModel(
         ) }
         setEffect { HomeEffect.Error(message) }
     }
-
-    override fun handleEvent(event: HomeEvent) {
-        when (event) {
-            HomeEvent.OnAddPressed -> TODO()
-            HomeEvent.OnCardPressed -> TODO()
-            HomeEvent.OnContactPressed -> TODO()
-            HomeEvent.OnContactsLoaded -> getNewState()
-        }
-    }
-
-
 }

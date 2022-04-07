@@ -3,7 +3,7 @@ package com.sweeftdigital.contactsexchange.app.db
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import com.sweeftdigital.contactsexchange.app.db.converters.AllTypeConverters
+import com.sweeftdigital.contactsexchange.data.db.converters.AllTypeConverters
 import com.sweeftdigital.contactsexchange.app.db.daos.ContactDao
 import com.sweeftdigital.contactsexchange.app.db.daos.ContactTransactionDao
 import com.sweeftdigital.contactsexchange.app.db.models.ContactEntity

@@ -9,6 +9,7 @@ interface LocalDataProvider {
     suspend fun selectAllScannedContacts(): Flow<List<Contact>>
     suspend fun selectAllContacts(): List<Contact>
     suspend fun addContact(contact: Contact)
+    suspend fun updateContact(contact: Contact)
     suspend fun selectContactById(id: Int): Contact
     suspend fun deleteContact(id: Int)
 }

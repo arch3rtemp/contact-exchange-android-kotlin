@@ -5,6 +5,7 @@ import android.content.Intent
 import android.graphics.drawable.Drawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.view.View.GONE
 import android.widget.Toast
 import androidx.activity.addCallback
@@ -23,15 +24,12 @@ import com.sweeftdigital.contactsexchange.presentation.qr.QrActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
-    private val viewModel by viewModel<MainViewModel>()
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
 
     private val requestPermission = registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
-        viewModel.onPermissionResult(granted)
+        openCamera(granted)
     }
-
-
 
     private var resultLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
@@ -48,7 +46,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         initNavigationWithToolbar()
-        subscribeLiveViewState()
         setListeners()
     }
 
@@ -60,14 +57,20 @@ class MainActivity : AppCompatActivity() {
 
         navController.addOnDestinationChangedListener { controller, destination, arguments ->
             val title = when (destination.id) {
-                R.id.homeFragment -> "My Cards"
-                else -> ""
+                R.id.homeFragment -> {
+                    binding.llBack.visibility = View.INVISIBLE
+                    resources.getString(R.string.home_cards)
+                }
+                else -> {
+                    binding.llBack.visibility = View.VISIBLE
+                    ""
+                }
             }
             supportActionBar?.title = title
         }
 
-        val appBarConfiguration = AppBarConfiguration(navController.graph)
-        binding.toolbar.setupWithNavController(navController, appBarConfiguration)
+//        val appBarConfiguration = AppBarConfiguration(navController.graph)
+//        binding.toolbar.setupWithNavController(navController, appBarConfiguration)
     }
 
     private fun setListeners() {
@@ -81,17 +84,13 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun subscribeLiveViewState() {
-        viewModel.permissionState.observe(this) { state ->
-            state.isCameraPermissionGranted.let { granted ->
-                if (granted) {
-                    val intent = Intent(this, QrActivity::class.java)
-                    resultLauncher.launch(intent)
-                } else {
-                    val toastText = resources.getString(R.string.permission_denied)
-                    Toast.makeText(this, toastText, Toast.LENGTH_SHORT).show()
-                }
-            }
+    private fun openCamera(granted: Boolean) {
+        if (granted) {
+            val intent = Intent(this, QrActivity::class.java)
+            resultLauncher.launch(intent)
+        } else {
+            val toastText = resources.getString(R.string.permission_denied)
+            Toast.makeText(this, toastText, Toast.LENGTH_SHORT).show()
         }
     }
 }

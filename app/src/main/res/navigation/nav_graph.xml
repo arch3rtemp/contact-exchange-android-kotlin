@@ -8,28 +8,49 @@
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.sweeftdigital.contactsexchange.presentation.main.home.HomeFragment"
-        tools:layout="@layout/fragment_home" >
+        tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_homeFragment_to_createCardFragment"
             app:destination="@id/createCardFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"/>
+            app:popExitAnim="@anim/slide_out_right" />
+
         <action
-            android:id="@+id/action_homeFragment_to_editCardFragment"
-            app:destination="@id/editCardFragment"
+            android:id="@+id/action_homeFragment_to_cardFragment"
+            app:destination="@id/cardFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"/>
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
+
     <fragment
         android:id="@+id/createCardFragment"
         android:name="com.sweeftdigital.contactsexchange.presentation.main.create.CreateCardFragment"
         tools:layout="@layout/fragment_card_create" />
+
+    <fragment
+        android:id="@+id/cardFragment"
+        android:name="com.sweeftdigital.contactsexchange.presentation.main.card.CardFragment"
+        tools:layout="@layout/fragment_card">
+        <argument
+            android:name="id"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_cardFragment_to_editCardFragment"
+            app:destination="@id/editCardFragment"
+            app:enterAnim="@anim/card_scale_up"
+            app:popExitAnim="@anim/card_scale_down" />
+    </fragment>
+
     <fragment
         android:id="@+id/editCardFragment"
         android:name="com.sweeftdigital.contactsexchange.presentation.main.edit.EditCardFragment"
-        tools:layout="@layout/fragment_card_edit" />
+        tools:layout="@layout/fragment_card_edit">
+        <argument
+            android:name="id"
+            app:argType="integer" />
+    </fragment>
 </navigation>

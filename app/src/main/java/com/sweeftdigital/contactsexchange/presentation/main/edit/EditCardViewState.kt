@@ -1,4 +1,4 @@
-package com.sweeftdigital.contactsexchange.presentation.qr
+package com.sweeftdigital.contactsexchange.presentation.main.edit
 
 import com.sweeftdigital.contactsexchange.domain.models.Contact
 import com.sweeftdigital.contactsexchange.presentation.base.markers.EffectMarker
@@ -12,15 +12,17 @@ sealed class ViewState {
     object Success : ViewState()
 }
 
-sealed class QrEvent : EventMarker {
-    data class OnQrScan(val contact: Contact) : QrEvent()
+sealed class EditCardEvent : EventMarker {
+    data class OnCardLoaded(val id: Int) : EditCardEvent()
+    data class OnSaveButtonPressed(val contact: Contact) : EditCardEvent()
 }
 
-sealed class QrEffect : EffectMarker {
-    data class Error(val message: String) : QrEffect()
+sealed class EditCardEffect : EffectMarker {
+    data class Error(val message: String) : EditCardEffect()
+    object Finish : EditCardEffect()
 }
 
-data class QrState(
+data class EditCardState(
     val viewState: ViewState,
     val contact: Contact = Contact()
 ) : StateMarker

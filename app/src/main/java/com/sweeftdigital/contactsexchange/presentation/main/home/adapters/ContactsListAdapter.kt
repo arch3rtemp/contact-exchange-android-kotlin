@@ -38,7 +38,7 @@ val callback = object : DiffUtil.ItemCallback<ItemDrawer>() {
 }
 
 class ContactsListAdapter(private val clickListener: ClickListener) :
-    ListAdapter<ItemDrawer, RecyclerView.ViewHolder>(callback), Filterable {
+    ListAdapter<ItemDrawer, RecyclerView.ViewHolder>(callback) {
 
     private val sparseArray = SparseArray<ItemDrawer>()
     private var unfilteredContacts = listOf<ItemDrawer>()
@@ -67,34 +67,6 @@ class ContactsListAdapter(private val clickListener: ClickListener) :
         submitList(list)
     }
 
-    override fun getFilter(): Filter {
-        return object : Filter() {
-            override fun performFiltering(constraint: CharSequence?): FilterResults {
-                val filtered = mutableListOf<ItemDrawer>()
-                constraint?.let { constraint ->
-                    if (constraint.isBlank()) {
-                        filtered.addAll(unfilteredContacts)
-                    } else {
-                        val filterPattern = constraint.toString().lowercase().trim()
-                        unfilteredContacts.forEach {
-                            if (it.contact.name.lowercase().contains(filterPattern)) {
-                                filtered.add(it)
-                            }
-                        }
-                    }
-                }
-                val results = FilterResults().apply {
-                    values = filtered
-                }
-                return results
-            }
-
-            override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
-                this@ContactsListAdapter.submitList(results?.values as List<ItemDrawer>)
-            }
-        }
-    }
-
     fun filterContacts(sequence: CharSequence?) {
         if (sequence.isNullOrBlank()) {
             clearFilter()
@@ -103,7 +75,7 @@ class ContactsListAdapter(private val clickListener: ClickListener) :
 
         filtering = true
         val filterPattern = sequence.toString().lowercase().trim()
-        val filtered = currentList.filter { contactDrawer ->
+        val filtered = unfilteredContacts.filter { contactDrawer ->
             contactDrawer.contact.name.lowercase().contains(filterPattern)
         } as MutableList<ItemDrawer>
         filteredContacts = filtered
@@ -114,14 +86,6 @@ class ContactsListAdapter(private val clickListener: ClickListener) :
         filtering = false
         this.submitList(unfilteredContacts)
     }
-
-//    fun removeItem(position: Int) {
-//        currentList.removeAt(position)
-//    }
-//
-//    fun restoreItem(contact: Contact, position: Int) {
-//        currentList.add(position, contact)
-//    }
 
     interface ClickListener {
         fun onContactClicked(id: Int)

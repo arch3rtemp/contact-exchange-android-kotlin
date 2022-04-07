@@ -21,7 +21,7 @@ internal fun ContactEntity.toContact(): Contact {
 internal fun Contact.toContactEntity(): ContactEntity {
     return ContactEntity(
         id = id,
-        name,
+        name = name,
         job = job,
         position = position,
         email = email,

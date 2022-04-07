@@ -31,10 +31,14 @@
     <string name="back_arrow">Back Arrow</string>
     <string name="delete_confirmation">Are you sure you want to delete?</string>
     <string name="scan_qr">Scan QR</string>
+    <string name="qr">QR</string>
     <string name="search">Search</string>
     <string name="transition_contacts_name">transition_contacts</string>
     <string name="transition_search_name">transition_search</string>
     <string name="permission_granted">Permission Granted</string>
     <string name="permission_denied">Permission Denied</string>
     <string name="contact_added">Contact Added</string>
+    <string name="fill_all_fields">Fill all the fields!</string>
+    <string name="error">Error</string>
+    <string name="empty">Empty</string>
 </resources>

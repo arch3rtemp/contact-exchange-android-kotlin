@@ -13,8 +13,6 @@ import android.view.animation.DecelerateInterpolator
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.addCallback
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
@@ -24,7 +22,9 @@ import com.sweeftdigital.contactsexchange.presentation.base.BaseFragment
 import com.sweeftdigital.contactsexchange.presentation.main.home.adapters.ContactsListAdapter
 import com.sweeftdigital.contactsexchange.presentation.main.home.adapters.drawers.CardItemDrawer
 import com.sweeftdigital.contactsexchange.presentation.main.home.adapters.drawers.ContactItemDrawer
-import com.sweeftdigital.contactsexchange.util.TextWatcherTrimmed
+import com.sweeftdigital.contactsexchange.util.custom_segregation.AnimatorListenerOnAnimationEnd
+import com.sweeftdigital.contactsexchange.util.custom_segregation.AnimatorListenerOnAnimationStart
+import com.sweeftdigital.contactsexchange.util.custom_segregation.TextWatcherTrimmed
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class HomeFragment : BaseFragment<HomeEvent, HomeEffect, HomeState, FragmentHomeBinding, HomeViewModel>(), ContactsListAdapter.ClickListener {
@@ -46,16 +46,17 @@ class HomeFragment : BaseFragment<HomeEvent, HomeEffect, HomeState, FragmentHome
         setListeners()
     }
 
-    override fun renderState(state: HomeState) = with(binding) {
-        renderCardsState(state.cardsState)
-        renderContactsState(state.contactsState)
-    }
-
     private fun initRecyclerView() {
         with(binding) {
             rvCards.adapter = cardsAdapter
             rvContacts.adapter = contactsAdapter
         }
+    }
+
+    private fun initObservers() {
+        observeRecyclerListener()
+        initializeTextWatcher()
+        initializeBackPressedCallback()
     }
 
     private fun setListeners() {
@@ -69,6 +70,101 @@ class HomeFragment : BaseFragment<HomeEvent, HomeEffect, HomeState, FragmentHome
             }
             etSearch.addTextChangedListener(filterTextWatcher)
         }
+    }
+
+    private fun observeRecyclerListener() {
+        with(binding) {
+            rvCards.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    super.onScrolled(recyclerView, dx, dy)
+                    if (dx > 0) {
+                        fabAdd.visibility = View.INVISIBLE
+                    } else {
+                        fabAdd.visibility = View.VISIBLE
+                    }
+                }
+            })
+        }
+    }
+
+    private fun initializeBackPressedCallback() {
+        backPressedDispatcher =
+            requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+                if (backPressedTimestamp + TIME_INTERVAL > System.currentTimeMillis()) {
+                    requireActivity().onBackPressed()
+                } else {
+                    Toast.makeText(
+                        requireContext(),
+                        "Press back again to exit",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+                backPressedTimestamp = System.currentTimeMillis()
+            }
+    }
+
+    private fun initializeTextWatcher() {
+        filterTextWatcher = object : TextWatcherTrimmed {
+            override fun afterTextChanged(s: Editable?) {
+                viewModel.setEvent(HomeEvent.OnSearchTyped(s.toString()))
+            }
+        }
+    }
+
+    private fun animateSearchMenu() {
+        if (filtering) {
+            animateSearchBackward()
+        } else {
+            animateSearchForward()
+        }
+    }
+
+    private fun animateSearchForward() {
+        with(binding) {
+            filtering = true
+            val moveLeftAnimation = ObjectAnimator.ofFloat(ivSearch, View.X, ivSearch.translationX).apply {
+                duration = 400
+                interpolator = DecelerateInterpolator()
+            }
+            val fadeInAnimation = ObjectAnimator.ofFloat(tvContactHeader, View.ALPHA, 1f, 0f)
+
+            AnimatorSet().apply {
+                playTogether(moveLeftAnimation, fadeInAnimation)
+                addListener(object : AnimatorListenerOnAnimationEnd {
+                    override fun onAnimationEnd(animation: Animator?) {
+                        tvContactHeader.visibility = View.INVISIBLE
+                        etSearch.visibility = View.VISIBLE
+                    }
+                })
+            }.start()
+        }
+    }
+
+    private fun animateSearchBackward() {
+        with(binding) {
+            filtering = false
+            val moveRightAnimation =
+                ObjectAnimator.ofFloat(ivSearch, View.X, ivSearch.x - ivSearch.translationX).apply {
+                    duration = 400
+                    interpolator = DecelerateInterpolator()
+                }
+            val fadeOutAnimation = ObjectAnimator.ofFloat(tvContactHeader, View.ALPHA, 0f, 1f)
+
+            AnimatorSet().apply {
+                playTogether(moveRightAnimation, fadeOutAnimation)
+                addListener(object : AnimatorListenerOnAnimationStart {
+                    override fun onAnimationStart(animation: Animator?) {
+                        tvContactHeader.visibility = View.VISIBLE
+                        etSearch.visibility = View.INVISIBLE
+                    }
+                })
+            }.start()
+        }
+    }
+
+    override fun renderState(state: HomeState) = with(binding) {
+        renderCardsState(state.cardsState)
+        renderContactsState(state.contactsState)
     }
 
     private fun renderCardsState(state: CardsState) {
@@ -116,140 +212,37 @@ class HomeFragment : BaseFragment<HomeEvent, HomeEffect, HomeState, FragmentHome
     override fun renderEffect(effect: HomeEffect) {
         when (effect) {
             is HomeEffect.Error -> {
-                Snackbar.make(requireView(), effect.message, Snackbar.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), effect.message, Toast.LENGTH_SHORT).show()
             }
             is HomeEffect.Deleted -> {
                 effect.contact
                 Snackbar
                     .make(requireView(), "Contact Deleted", Snackbar.LENGTH_SHORT)
                     .setAction("UNDO") {
-                        viewModel.saveContact(effect.contact)
+                        viewModel.setEvent(HomeEvent.OnContactSaved(effect.contact))
                     }
                     .show()
             }
-        }
-    }
-
-    private fun initObservers() {
-        observeRecyclerListener()
-        initializeTextWatcher()
-        initializeBackPressedCallback()
-    }
-
-    private fun observeRecyclerListener() {
-        with(binding) {
-            rvCards.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                    super.onScrolled(recyclerView, dx, dy)
-                    if (dx > 0) {
-                        fabAdd.visibility = View.INVISIBLE
-                    } else {
-                        fabAdd.visibility = View.VISIBLE
-                    }
-                }
-            })
-        }
-    }
-
-    private fun initializeBackPressedCallback() {
-        backPressedDispatcher =
-            requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
-                if (backPressedTimestamp + TIME_INTERVAL > System.currentTimeMillis()) {
-                    requireActivity().onBackPressed()
-                } else {
-                    Toast.makeText(
-                        requireContext(),
-                        "Press back again to exit",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-                backPressedTimestamp = System.currentTimeMillis()
+            is HomeEffect.Searched -> {
+                contactsAdapter.filterContacts(effect.searched)
             }
-    }
-
-    private fun initializeTextWatcher() {
-        filterTextWatcher = object : TextWatcherTrimmed {
-            override fun afterTextChanged(s: Editable?) {
-                contactsAdapter.filterContacts(s)
-            }
-        }
-    }
-
-    private fun animateSearchMenu() {
-        if (filtering) {
-            animateSearchBackward()
-        } else {
-            animateSearchForward()
-        }
-    }
-
-    private fun animateSearchForward() {
-        with(binding) {
-            filtering = true
-            val moveLeftAnimation = ObjectAnimator.ofFloat(ivSearch, View.X, 0.0f).apply {
-                duration = 400
-                interpolator = DecelerateInterpolator()
-            }
-            val fadeInAnimation = ObjectAnimator.ofFloat(tvContactHeader, View.ALPHA, 1f, 0f)
-
-            AnimatorSet().apply {
-                playTogether(moveLeftAnimation, fadeInAnimation)
-                addListener(object : Animator.AnimatorListener {
-                    override fun onAnimationStart(animation: Animator?) {}
-
-                    override fun onAnimationEnd(animation: Animator?) {
-                        tvContactHeader.visibility = View.INVISIBLE
-                        etSearch.visibility = View.VISIBLE
-                    }
-
-                    override fun onAnimationCancel(animation: Animator?) {}
-
-                    override fun onAnimationRepeat(animation: Animator?) {}
-
-                })
-            }.start()
-        }
-    }
-
-    private fun animateSearchBackward() {
-        with(binding) {
-            filtering = false
-            val moveRightAnimation =
-                ObjectAnimator.ofFloat(ivSearch, View.X, etSearch.width.toFloat()).apply {
-                    duration = 400
-                    interpolator = DecelerateInterpolator()
-                }
-            val fadeOutAnimation = ObjectAnimator.ofFloat(tvContactHeader, View.ALPHA, 0f, 1f)
-
-            AnimatorSet().apply {
-                playTogether(moveRightAnimation, fadeOutAnimation)
-                addListener(object : Animator.AnimatorListener {
-                    override fun onAnimationStart(animation: Animator?) {
-                        tvContactHeader.visibility = View.VISIBLE
-                        etSearch.visibility = View.INVISIBLE
-                    }
-
-                    override fun onAnimationEnd(animation: Animator?) {}
-
-                    override fun onAnimationCancel(animation: Animator?) {}
-
-                    override fun onAnimationRepeat(animation: Animator?) {}
-
-                })
-            }.start()
         }
     }
 
     override fun onContactClicked(id: Int) {
-        Toast.makeText(requireContext(), "Contact Clicked", Toast.LENGTH_SHORT).show()
+        goToCardFragment(id)
     }
 
     override fun onCardClicked(id: Int) {
-        Toast.makeText(requireContext(), "Card Clicked", Toast.LENGTH_SHORT).show()
+        goToCardFragment(id)
     }
 
     override fun onDeleteClicked(contact: Contact) {
-        viewModel.deleteContact(contact)
+        viewModel.setEvent(HomeEvent.OnContactDeleted(contact))
+    }
+
+    private fun goToCardFragment(id: Int) {
+        findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToCardFragment(id))
     }
 
     private fun showCardsEmpty() = with(binding) {

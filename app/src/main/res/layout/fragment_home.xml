@@ -51,8 +51,9 @@
         android:id="@+id/iv_cards_error"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:visibility="invisible"
+        android:contentDescription="@string/error"
         android:src="@drawable/ic_error"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@+id/rv_cards"
         app:layout_constraintEnd_toEndOf="@+id/rv_cards"
         app:layout_constraintStart_toEndOf="@+id/fab_add"
@@ -62,8 +63,9 @@
         android:id="@+id/iv_cards_empty"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:visibility="invisible"
+        android:contentDescription="@string/empty"
         android:src="@drawable/ic_empty"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@+id/rv_cards"
         app:layout_constraintEnd_toEndOf="@+id/rv_cards"
         app:layout_constraintStart_toEndOf="@+id/fab_add"
@@ -157,8 +159,9 @@
             android:id="@+id/iv_contacts_error"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:visibility="invisible"
+            android:contentDescription="@string/error"
             android:src="@drawable/ic_error"
+            android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="@+id/rv_contacts"
             app:layout_constraintEnd_toEndOf="@+id/rv_contacts"
             app:layout_constraintStart_toStartOf="@+id/rv_contacts"
@@ -168,8 +171,9 @@
             android:id="@+id/iv_contacts_empty"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:visibility="invisible"
+            android:contentDescription="@string/empty"
             android:src="@drawable/ic_empty"
+            android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="@+id/rv_contacts"
             app:layout_constraintEnd_toEndOf="@+id/rv_contacts"
             app:layout_constraintStart_toStartOf="@+id/rv_contacts"
@@ -177,7 +181,6 @@
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

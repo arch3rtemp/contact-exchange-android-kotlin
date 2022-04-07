@@ -1,30 +1,34 @@
 package com.sweeftdigital.contactsexchange.presentation.main.create
 
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sweeftdigital.contactsexchange.domain.models.Contact
 import com.sweeftdigital.contactsexchange.domain.useCases.SaveContactUseCase
-import com.sweeftdigital.contactsexchange.util.SingleLiveData
+import com.sweeftdigital.contactsexchange.presentation.base.BaseViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 
 class CreateCardViewModel(
-    private val saveContactUseCase: SaveContactUseCase,
-    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO,
-    private val mainDispatcher: CoroutineDispatcher = Dispatchers.Main
-) : ViewModel() {
-    private val _state = SingleLiveData<CreateCardViewState>()
-    val state: SingleLiveData<CreateCardViewState>
-        get() = _state
+    private val saveContactUseCase: SaveContactUseCase
+) : BaseViewModel<CreateCardEvent, CreateCardEffect, CreateCardState>() {
 
-    fun saveCard(contact: Contact) {
+    override fun createInitialState(): CreateCardState {
+        return CreateCardState(
+            viewState = ViewState.Idle
+        )
+    }
+
+    private fun saveCard(contact: Contact) {
         viewModelScope.launch {
             if (checkContactNotBlank(contact)) {
                 saveContactUseCase.start(contact)
-                _state.value = CreateCardViewState(success = true)
+                    .catch { setStateError(it.message.toString()) }
+                    .collect {
+                        setStateSuccess()
+                    }
             } else {
-                _state.value = CreateCardViewState(error = true)
+                setStateError("Fill all fields!")
             }
         }
     }
@@ -42,6 +46,26 @@ class CreateCardViewModel(
                 return true
             }
             return false
+        }
+    }
+
+    private fun setStateError(message: String) {
+        setState {
+            copy(
+                viewState = ViewState.Error
+            )
+        }
+        setEffect { CreateCardEffect.Error(message) }
+    }
+
+    private fun setStateSuccess() {
+        setState { copy(viewState = ViewState.Success) }
+        setEffect { CreateCardEffect.Success }
+    }
+
+    override fun handleEvent(event: CreateCardEvent) {
+        when(event) {
+            is CreateCardEvent.OnCreateButtonPressed -> { saveCard(event.contact) }
         }
     }
 }

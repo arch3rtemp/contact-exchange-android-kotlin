@@ -14,14 +14,15 @@ sealed class ViewState {
 
 sealed class HomeEvent : EventMarker {
     object OnContactsLoaded : HomeEvent()
-    object OnAddPressed : HomeEvent()
-    object OnCardPressed : HomeEvent()
-    object OnContactPressed : HomeEvent()
+    data class OnContactDeleted(val contact: Contact) : HomeEvent()
+    data class OnContactSaved(val contact: Contact) : HomeEvent()
+    data class OnSearchTyped(val searched: String) : HomeEvent()
 }
 
 sealed class HomeEffect : EffectMarker {
     data class Error(val message: String) : HomeEffect()
     data class Deleted(val contact: Contact) : HomeEffect()
+    data class Searched(val searched: String) : HomeEffect()
 }
 
 data class HomeState(val cardsState: CardsState, val contactsState: ContactsState) : StateMarker
@@ -32,5 +33,6 @@ data class CardsState(
 )
 data class ContactsState(
     val viewState: ViewState,
-    val contacts: List<Contact> = listOf()
+    val contacts: List<Contact> = listOf(),
+    val searched: String = ""
 )

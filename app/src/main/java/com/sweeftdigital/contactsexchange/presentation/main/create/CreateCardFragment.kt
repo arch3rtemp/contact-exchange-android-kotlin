@@ -6,48 +6,40 @@ import android.graphics.PorterDuffColorFilter
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.sweeftdigital.contactsexchange.R
 import com.sweeftdigital.contactsexchange.databinding.FragmentCardCreateBinding
 import com.sweeftdigital.contactsexchange.domain.models.Contact
+import com.sweeftdigital.contactsexchange.presentation.base.BaseFragment
 import com.sweeftdigital.contactsexchange.util.Constants.MY_CARD
-import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.*
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class CreateCardFragment : Fragment() {
-    private var _binding: FragmentCardCreateBinding? = null
-    private val binding get() = _binding!!
+class CreateCardFragment :
+    BaseFragment<CreateCardEvent, CreateCardEffect, CreateCardState, FragmentCardCreateBinding, CreateCardViewModel>() {
 
-    private val createCardViewModel: CreateCardViewModel by viewModel()
+
+    override val viewModel: CreateCardViewModel by viewModel()
+    override val bindLayout: (LayoutInflater, ViewGroup?, Boolean) -> FragmentCardCreateBinding
+        get() = FragmentCardCreateBinding::inflate
 
     private var currentColor: Int = R.color.light_navy
     private lateinit var cardBackground: Drawable
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentCardCreateBinding.inflate(inflater, container, false)
-        return binding.root
+    override fun renderState(state: CreateCardState) {
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
+    override fun prepareView(savedInstanceState: Bundle?) {
         initUI()
     }
 
     private fun initUI() {
         initCard()
-        handleEvents()
-        initObservers()
+        setListeners()
     }
 
     private fun initCard() {
@@ -57,7 +49,7 @@ class CreateCardFragment : Fragment() {
         }
     }
 
-    private fun handleEvents() {
+    private fun setListeners() {
         with(binding) {
             tvColorLightNavy.setOnClickListener {
                 defaultColorsView()
@@ -96,20 +88,7 @@ class CreateCardFragment : Fragment() {
             }
             btnCreate.setOnClickListener {
                 val contact = getDataFromFields()
-                createCardViewModel.saveCard(contact)
-            }
-        }
-    }
-
-    private fun initObservers() {
-        createCardViewModel.state.observe(viewLifecycleOwner) {
-            when {
-                it.success -> {
-                    findNavController().navigateUp()
-                }
-                it.error -> {
-                    Toast.makeText(requireContext(), "Fill all fields!", Toast.LENGTH_SHORT).show()
-                }
+                viewModel.setEvent(CreateCardEvent.OnCreateButtonPressed(contact))
             }
         }
     }
@@ -157,5 +136,14 @@ class CreateCardFragment : Fragment() {
             getColor(currentColor),
             MY_CARD
         )
+    }
+
+    override fun renderEffect(effect: CreateCardEffect) {
+        when (effect) {
+            is CreateCardEffect.Error -> {
+                Toast.makeText(requireContext(), effect.message, Toast.LENGTH_SHORT).show()
+            }
+            CreateCardEffect.Success -> findNavController().navigateUp()
+        }
     }
 }

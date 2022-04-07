@@ -23,7 +23,7 @@ abstract class BaseViewModel<Event : EventMarker, Effect : EffectMarker, State :
     val effect = _effect.receiveAsFlow()
 
     private val _state: MutableLiveData<State> = MutableLiveData(initialState)
-    val state: LiveData<State> = _state
+    open val state: LiveData<State> = _state
 
     val currentState: State? get() = state.value
 
