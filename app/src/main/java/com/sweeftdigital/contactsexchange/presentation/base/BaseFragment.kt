@@ -30,12 +30,12 @@ abstract class BaseFragment<Event: EventMarker, Effect : EffectMarker, State : S
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        lifecycleScope.launchWhenStarted {
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.state.observe(viewLifecycleOwner) {
                 renderState(it)
             }
         }
-        lifecycleScope.launchWhenStarted {
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.effect.collect {
                 renderEffect(it)
             }

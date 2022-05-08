@@ -27,7 +27,9 @@ import com.sweeftdigital.contactsexchange.util.custom_segregation.AnimatorListen
 import com.sweeftdigital.contactsexchange.util.custom_segregation.TextWatcherTrimmed
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class HomeFragment : BaseFragment<HomeEvent, HomeEffect, HomeState, FragmentHomeBinding, HomeViewModel>(), ContactsListAdapter.ClickListener {
+class HomeFragment :
+    BaseFragment<HomeEvent, HomeEffect, HomeState, FragmentHomeBinding, HomeViewModel>(),
+    ContactsListAdapter.ClickListener {
 
     override val viewModel: HomeViewModel by viewModel()
     override val bindLayout: (LayoutInflater, ViewGroup?, Boolean) -> FragmentHomeBinding
@@ -38,7 +40,6 @@ class HomeFragment : BaseFragment<HomeEvent, HomeEffect, HomeState, FragmentHome
     private var backPressedTimestamp: Long = 0L
 
     private lateinit var filterTextWatcher: TextWatcher
-    private lateinit var backPressedDispatcher: OnBackPressedCallback
 
     override fun prepareView(savedInstanceState: Bundle?) {
         initRecyclerView()
@@ -88,19 +89,25 @@ class HomeFragment : BaseFragment<HomeEvent, HomeEffect, HomeState, FragmentHome
     }
 
     private fun initializeBackPressedCallback() {
-        backPressedDispatcher =
-            requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
-                if (backPressedTimestamp + TIME_INTERVAL > System.currentTimeMillis()) {
-                    requireActivity().onBackPressed()
-                } else {
-                    Toast.makeText(
-                        requireContext(),
-                        "Press back again to exit",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-                backPressedTimestamp = System.currentTimeMillis()
+
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+            if (filtering) {
+                animateSearchBackward()
+                filtering = false
+                return@addCallback
             }
+            if (backPressedTimestamp + TIME_INTERVAL > System.currentTimeMillis()) {
+                isEnabled = false
+                requireActivity().onBackPressed()
+            } else {
+                Toast.makeText(
+                    requireContext(),
+                    "Press back again to exit",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+            backPressedTimestamp = System.currentTimeMillis()
+        }
     }
 
     private fun initializeTextWatcher() {
@@ -122,10 +129,11 @@ class HomeFragment : BaseFragment<HomeEvent, HomeEffect, HomeState, FragmentHome
     private fun animateSearchForward() {
         with(binding) {
             filtering = true
-            val moveLeftAnimation = ObjectAnimator.ofFloat(ivSearch, View.X, ivSearch.translationX).apply {
-                duration = 400
-                interpolator = DecelerateInterpolator()
-            }
+            val moveLeftAnimation =
+                ObjectAnimator.ofFloat(ivSearch, View.X, ivSearch.translationX).apply {
+                    duration = 400
+                    interpolator = DecelerateInterpolator()
+                }
             val fadeInAnimation = ObjectAnimator.ofFloat(tvContactHeader, View.ALPHA, 1f, 0f)
 
             AnimatorSet().apply {

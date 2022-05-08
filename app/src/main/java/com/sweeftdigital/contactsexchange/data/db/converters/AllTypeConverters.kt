@@ -1,4 +1,4 @@
-package com.sweeftdigital.contactsexchange.app.db.converters
+package com.sweeftdigital.contactsexchange.data.db.converters
 
 import androidx.room.TypeConverter
 import com.google.gson.GsonBuilder
@@ -37,7 +37,7 @@ class AllTypeConverters {
 
     @TypeConverter
     fun dateToTimestamp(date: Date?): Long? {
-        return date?.time?.toLong()
+        return date?.time
     }
 
 }

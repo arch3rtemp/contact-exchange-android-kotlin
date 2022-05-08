@@ -24,7 +24,8 @@ import com.sweeftdigital.contactsexchange.presentation.qr.QrActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityMainBinding
+    private lateinit var _binding: ActivityMainBinding
+    val binding: ActivityMainBinding get() = _binding
     private lateinit var navController: NavController
 
     private val requestPermission = registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
@@ -42,7 +43,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
+        _binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         initNavigationWithToolbar()

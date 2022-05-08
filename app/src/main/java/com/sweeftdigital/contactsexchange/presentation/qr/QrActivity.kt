@@ -25,6 +25,7 @@ class QrActivity : AppCompatActivity(), ZXingScannerView.ResultHandler {
             setResultHandler(this@QrActivity)
             startCamera()
         }
+        runOnUiThread {  }
     }
 
     override fun handleResult(rawResult: Result?) {
