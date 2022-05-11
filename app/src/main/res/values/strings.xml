@@ -41,4 +41,5 @@
     <string name="fill_all_fields">Fill all the fields!</string>
     <string name="error">Error</string>
     <string name="empty">Empty</string>
+    <string name="allow_camera">Allow camera access to scan QR code</string>
 </resources>
