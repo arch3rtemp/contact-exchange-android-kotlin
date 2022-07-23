@@ -1,14 +1,10 @@
 package com.sweeftdigital.contactsexchange.presentation.main.card
 
 import androidx.lifecycle.viewModelScope
-import com.sweeftdigital.contactsexchange.domain.models.Contact
 import com.sweeftdigital.contactsexchange.domain.useCases.DeleteContactUseCase
 import com.sweeftdigital.contactsexchange.domain.useCases.SelectContactByIdUseCase
 import com.sweeftdigital.contactsexchange.presentation.base.BaseViewModel
-import com.sweeftdigital.contactsexchange.util.Constants
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 

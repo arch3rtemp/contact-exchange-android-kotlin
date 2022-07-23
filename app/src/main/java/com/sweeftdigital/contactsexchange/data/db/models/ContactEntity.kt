@@ -1,4 +1,4 @@
-package com.sweeftdigital.contactsexchange.app.db.models
+package com.sweeftdigital.contactsexchange.data.db.models
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

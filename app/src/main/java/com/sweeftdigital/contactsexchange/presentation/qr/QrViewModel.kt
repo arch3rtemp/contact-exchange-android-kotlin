@@ -2,19 +2,12 @@ package com.sweeftdigital.contactsexchange.presentation.qr
 
 import android.util.Log
 import androidx.lifecycle.viewModelScope
-import com.google.zxing.Result
 import com.sweeftdigital.contactsexchange.domain.models.Contact
 import com.sweeftdigital.contactsexchange.domain.useCases.SaveContactUseCase
 import com.sweeftdigital.contactsexchange.presentation.base.BaseViewModel
-import com.sweeftdigital.contactsexchange.presentation.main.edit.EditCardEffect
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
-import org.json.JSONException
-import org.json.JSONObject
 
 class QrViewModel(
     private val saveContactUseCase: SaveContactUseCase

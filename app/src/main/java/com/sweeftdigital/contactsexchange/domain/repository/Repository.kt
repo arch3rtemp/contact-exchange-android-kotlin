@@ -1,6 +1,5 @@
 package com.sweeftdigital.contactsexchange.domain.repository
 
-import androidx.lifecycle.LiveData
 import com.sweeftdigital.contactsexchange.domain.models.Contact
 import kotlinx.coroutines.flow.Flow
 

@@ -1,8 +1,6 @@
 package com.sweeftdigital.contactsexchange.domain.data_providers.local
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.Transformations
-import com.sweeftdigital.contactsexchange.app.db.AppDatabase
+import com.sweeftdigital.contactsexchange.data.db.AppDatabase
 import com.sweeftdigital.contactsexchange.domain.models.Contact
 import com.sweeftdigital.contactsexchange.util.toContact
 import com.sweeftdigital.contactsexchange.util.toContactEntity

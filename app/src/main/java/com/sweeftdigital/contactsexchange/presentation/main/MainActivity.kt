@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-    private var resultLauncher = registerForActivityResult(
+    private val resultLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
         if (result.resultCode == RESULT_OK) {

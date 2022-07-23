@@ -2,7 +2,6 @@ package com.sweeftdigital.contactsexchange.domain.models
 
 import com.google.gson.Gson
 import com.sweeftdigital.contactsexchange.util.Constants
-import org.json.JSONObject
 import java.util.*
 
 data class Contact(
@@ -20,5 +19,5 @@ data class Contact(
     override fun toString(): String {
         return Gson().toJson(this)
     }
-    companion object {}
+    companion object
 }

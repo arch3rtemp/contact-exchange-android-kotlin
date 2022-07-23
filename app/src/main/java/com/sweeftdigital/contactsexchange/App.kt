@@ -1,10 +1,10 @@
 package com.sweeftdigital.contactsexchange
 
 import android.app.Application
-import com.sweeftdigital.contactsexchange.app.modules.LOCAL_STORAGE_MODULE
-import com.sweeftdigital.contactsexchange.app.modules.REPOSITORY_MODULE
-import com.sweeftdigital.contactsexchange.app.modules.USE_CASES_MODULE
-import com.sweeftdigital.contactsexchange.app.modules.VIEW_MODELS_MODULE
+import com.sweeftdigital.contactsexchange.di.modules.LOCAL_STORAGE_MODULE
+import com.sweeftdigital.contactsexchange.di.modules.REPOSITORY_MODULE
+import com.sweeftdigital.contactsexchange.di.modules.USE_CASES_MODULE
+import com.sweeftdigital.contactsexchange.di.modules.VIEW_MODELS_MODULE
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 

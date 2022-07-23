@@ -4,10 +4,8 @@ import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.sweeftdigital.contactsexchange.databinding.FragmentCardEditBinding
@@ -15,7 +13,6 @@ import com.sweeftdigital.contactsexchange.domain.models.Contact
 import com.sweeftdigital.contactsexchange.presentation.base.BaseFragment
 import com.sweeftdigital.contactsexchange.util.NavControllerStateHandle
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import java.util.*
 
 class EditCardFragment : BaseFragment<EditCardEvent, EditCardEffect, EditCardState, FragmentCardEditBinding, EditCardViewModel>() {
     override val bindLayout: (LayoutInflater, ViewGroup?, Boolean) -> FragmentCardEditBinding

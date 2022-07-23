@@ -1,8 +1,7 @@
-package com.sweeftdigital.contactsexchange.app.db.daos
+package com.sweeftdigital.contactsexchange.data.db.daos
 
-import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.sweeftdigital.contactsexchange.app.db.models.ContactEntity
+import com.sweeftdigital.contactsexchange.data.db.models.ContactEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao

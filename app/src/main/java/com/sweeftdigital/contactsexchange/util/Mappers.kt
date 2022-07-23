@@ -1,6 +1,6 @@
 package com.sweeftdigital.contactsexchange.util
 
-import com.sweeftdigital.contactsexchange.app.db.models.ContactEntity
+import com.sweeftdigital.contactsexchange.data.db.models.ContactEntity
 import com.sweeftdigital.contactsexchange.domain.models.Contact
 
 internal fun ContactEntity.toContact(): Contact {

@@ -1,6 +1,5 @@
 package com.sweeftdigital.contactsexchange.domain.useCases
 
-import androidx.lifecycle.LiveData
 import com.sweeftdigital.contactsexchange.domain.models.Contact
 import com.sweeftdigital.contactsexchange.domain.repository.Repository
 import com.sweeftdigital.contactsexchange.domain.useCases.base.BaseUseCase

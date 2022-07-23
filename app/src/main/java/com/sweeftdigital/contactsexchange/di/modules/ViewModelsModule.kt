@@ -1,4 +1,4 @@
-package com.sweeftdigital.contactsexchange.app.modules
+package com.sweeftdigital.contactsexchange.di.modules
 
 import com.sweeftdigital.contactsexchange.presentation.main.card.CardViewModel
 import com.sweeftdigital.contactsexchange.presentation.main.create.CreateCardViewModel
