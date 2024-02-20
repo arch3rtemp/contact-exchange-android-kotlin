@@ -175,7 +175,7 @@ class CardFragment :
 
         AnimatorSet().apply {
             addListener(object : AnimatorListenerOnAnimationEnd {
-                override fun onAnimationEnd(animation: Animator?) {
+                override fun onAnimationEnd(animation: Animator) {
                     showCardDeleteSuccess()
                     checkedSignAnimation()
                 }

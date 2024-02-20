@@ -5,11 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.viewbinding.ViewBinding
 import com.sweeftdigital.contactsexchange.presentation.base.markers.EffectMarker
 import com.sweeftdigital.contactsexchange.presentation.base.markers.EventMarker
 import com.sweeftdigital.contactsexchange.presentation.base.markers.StateMarker
+import kotlinx.coroutines.launch
 
 abstract class BaseFragment<Event: EventMarker, Effect : EffectMarker, State : StateMarker, VB : ViewBinding, VM : BaseViewModel<Event, Effect, State>> : Fragment() {
 
@@ -30,14 +33,15 @@ abstract class BaseFragment<Event: EventMarker, Effect : EffectMarker, State : S
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-            viewModel.state.observe(viewLifecycleOwner) {
-                renderState(it)
-            }
+        viewModel.state.observe(viewLifecycleOwner) {
+            renderState(it)
         }
-        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-            viewModel.effect.collect {
-                renderEffect(it)
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.effect.collect {
+                    renderEffect(it)
+                }
             }
         }
 

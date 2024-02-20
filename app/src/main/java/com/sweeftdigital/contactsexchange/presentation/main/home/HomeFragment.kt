@@ -138,7 +138,7 @@ class HomeFragment :
             AnimatorSet().apply {
                 playTogether(moveLeftAnimation, fadeInAnimation)
                 addListener(object : AnimatorListenerOnAnimationEnd {
-                    override fun onAnimationEnd(animation: Animator?) {
+                    override fun onAnimationEnd(animation: Animator) {
                         tvContactHeader.visibility = View.INVISIBLE
                         etSearch.visibility = View.VISIBLE
                     }
@@ -160,7 +160,7 @@ class HomeFragment :
             AnimatorSet().apply {
                 playTogether(moveRightAnimation, fadeOutAnimation)
                 addListener(object : AnimatorListenerOnAnimationStart {
-                    override fun onAnimationStart(animation: Animator?) {
+                    override fun onAnimationStart(animation: Animator) {
                         tvContactHeader.visibility = View.VISIBLE
                         etSearch.visibility = View.INVISIBLE
                     }
