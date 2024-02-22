@@ -72,115 +72,71 @@
         app:layout_constraintTop_toTopOf="@+id/rv_cards" />
 
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:id="@+id/cl_contacts"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="30dp"
         android:background="@drawable/shape_contact_list_bg"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
         android:paddingHorizontal="20dp"
         android:transitionName="@string/transition_contacts_name"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/rv_cards">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/ll_header_search"
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar_contact"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            app:layout_constraintTop_toTopOf="parent">
+            android:layout_height="?attr/actionBarSize"
+            app:menu="@menu/menu_search">
 
             <TextView
                 android:id="@+id/tv_contact_header"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/poppins_medium"
                 android:text="@string/contact_list"
                 android:textColor="@color/black_two"
-                android:textSize="16sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:textSize="16sp" />
 
-            <ImageView
-                android:id="@+id/iv_search"
-                android:layout_width="22dp"
-                android:layout_height="22dp"
-                android:contentDescription="@string/search"
-                android:src="@drawable/ic_search"
-                android:transitionName="@string/transition_search_name"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_begin="20dp" />
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/et_search"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="15dp"
-                android:contentDescription="@string/search"
-                android:fontFamily="@font/poppins_medium"
-                android:textColor="@color/warm_grey_two"
-                android:textSize="12sp"
-                android:visibility="invisible"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@id/guideline"
-                app:layout_constraintTop_toTopOf="parent" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.appcompat.widget.Toolbar>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_contacts"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginTop="20dp"
+            android:layout_weight="1"
             android:orientation="vertical"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/ll_header_search"
             tools:listitem="@layout/contact_list_item" />
 
         <ProgressBar
             android:id="@+id/progress_circular_contacts"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="invisible"
-            app:layout_constraintBottom_toBottomOf="@+id/rv_contacts"
-            app:layout_constraintEnd_toEndOf="@+id/rv_contacts"
-            app:layout_constraintStart_toStartOf="@+id/rv_contacts"
-            app:layout_constraintTop_toTopOf="@+id/rv_contacts" />
+            android:layout_weight="1"
+            android:visibility="gone" />
 
         <ImageView
             android:id="@+id/iv_contacts_error"
             android:layout_width="48dp"
             android:layout_height="48dp"
+            android:layout_weight="1"
             android:contentDescription="@string/error"
             android:src="@drawable/ic_error"
-            android:visibility="invisible"
-            app:layout_constraintBottom_toBottomOf="@+id/rv_contacts"
-            app:layout_constraintEnd_toEndOf="@+id/rv_contacts"
-            app:layout_constraintStart_toStartOf="@+id/rv_contacts"
-            app:layout_constraintTop_toTopOf="@+id/rv_contacts" />
+            android:visibility="gone" />
 
         <ImageView
             android:id="@+id/iv_contacts_empty"
             android:layout_width="48dp"
             android:layout_height="48dp"
+            android:layout_weight="1"
             android:contentDescription="@string/empty"
             android:src="@drawable/ic_empty"
-            android:visibility="invisible"
-            app:layout_constraintBottom_toBottomOf="@+id/rv_contacts"
-            app:layout_constraintEnd_toEndOf="@+id/rv_contacts"
-            app:layout_constraintStart_toStartOf="@+id/rv_contacts"
-            app:layout_constraintTop_toTopOf="@+id/rv_contacts" />
+            android:visibility="gone" />
 
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

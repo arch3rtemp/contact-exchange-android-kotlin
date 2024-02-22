@@ -4,14 +4,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.sweeftdigital.contactsexchange.presentation.base.markers.EffectMarker
-import com.sweeftdigital.contactsexchange.presentation.base.markers.EventMarker
-import com.sweeftdigital.contactsexchange.presentation.base.markers.StateMarker
+import com.sweeftdigital.contactsexchange.presentation.base.marker.UiEffect
+import com.sweeftdigital.contactsexchange.presentation.base.marker.UiEvent
+import com.sweeftdigital.contactsexchange.presentation.base.marker.UiState
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
-abstract class BaseViewModel<Event : EventMarker, Effect : EffectMarker, State : StateMarker> : ViewModel() {
+abstract class BaseViewModel<Event : UiEvent, Effect : UiEffect, State : UiState> : ViewModel() {
 
     private val initialState: State by lazy { createInitialState() }
     abstract fun createInitialState(): State
@@ -47,8 +47,7 @@ abstract class BaseViewModel<Event : EventMarker, Effect : EffectMarker, State :
     }
 
     protected fun setState(reduce: State.() -> State) {
-        val newState = currentState?.reduce()
-        _state.value = newState
+        _state.value = currentState?.reduce()
     }
 
     protected fun setEffect(builder: () -> Effect) {

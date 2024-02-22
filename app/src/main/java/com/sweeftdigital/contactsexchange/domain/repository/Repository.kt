@@ -1,6 +1,6 @@
 package com.sweeftdigital.contactsexchange.domain.repository
 
-import com.sweeftdigital.contactsexchange.domain.models.Contact
+import com.sweeftdigital.contactsexchange.domain.model.Contact
 import kotlinx.coroutines.flow.Flow
 
 interface Repository {

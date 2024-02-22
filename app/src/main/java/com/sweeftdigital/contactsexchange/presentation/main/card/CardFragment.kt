@@ -1,6 +1,7 @@
 package com.sweeftdigital.contactsexchange.presentation.main.card
 
 import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.app.AlertDialog
@@ -22,13 +23,13 @@ import androidx.navigation.fragment.navArgs
 import com.google.zxing.WriterException
 import com.sweeftdigital.contactsexchange.databinding.DeletePopupBinding
 import com.sweeftdigital.contactsexchange.databinding.FragmentCardBinding
-import com.sweeftdigital.contactsexchange.domain.models.Contact
+import com.sweeftdigital.contactsexchange.domain.model.Contact
 import com.sweeftdigital.contactsexchange.presentation.base.BaseFragment
-import com.sweeftdigital.contactsexchange.util.Constants
-import com.sweeftdigital.contactsexchange.util.NavControllerStateHandle
-import com.sweeftdigital.contactsexchange.util.currentDeviceRealSize
-import com.sweeftdigital.contactsexchange.util.custom_segregation.AnimatorListenerOnAnimationEnd
+import com.sweeftdigital.contactsexchange.domain.util.ContactType
+import com.sweeftdigital.contactsexchange.presentation.common.NavControllerStateHandle
+import com.sweeftdigital.contactsexchange.presentation.common.currentDeviceRealSize
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import kotlin.math.min
 
 class CardFragment :
     BaseFragment<CardEvent, CardEffect, CardState, FragmentCardBinding, CardViewModel>() {
@@ -84,10 +85,11 @@ class CardFragment :
             ViewState.Error -> showCardError()
             ViewState.Loading -> showCardLoading()
             ViewState.Empty -> hideCard()
-            ViewState.Success -> {
+            is ViewState.Success -> {
+                val contact = state.viewState.data
                 showCardSuccess()
-                checkCardType(Constants.checkCardType(state.contact.isMy))
-                state.contact.let {
+                checkCardType(contact.isMy)
+                contact.let {
                     setCardData(it)
                     generateQr(it)
                 }
@@ -95,8 +97,8 @@ class CardFragment :
         }
     }
 
-    private fun checkCardType(isMy: Boolean) {
-        if (isMy) {
+    private fun checkCardType(isMy: ContactType) {
+        if (isMy == ContactType.MY_CARD) {
             binding.clEdit.visibility = View.VISIBLE
         }
     }
@@ -112,7 +114,7 @@ class CardFragment :
 
     private fun generateQr(contact: Contact) {
         val (width, height) = requireActivity().windowManager.currentDeviceRealSize()
-        var smallerDimension = Math.min(width, height)
+        var smallerDimension = min(width, height)
         smallerDimension = smallerDimension * 3 / 4
 
         val qrgEncoder =
@@ -174,7 +176,7 @@ class CardFragment :
         val alpha = ObjectAnimator.ofFloat(clCard, View.ALPHA, 1f, 0f)
 
         AnimatorSet().apply {
-            addListener(object : AnimatorListenerOnAnimationEnd {
+            addListener(object : AnimatorListenerAdapter() {
                 override fun onAnimationEnd(animation: Animator) {
                     showCardDeleteSuccess()
                     checkedSignAnimation()

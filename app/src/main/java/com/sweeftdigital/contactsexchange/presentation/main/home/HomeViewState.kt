@@ -1,38 +1,27 @@
 package com.sweeftdigital.contactsexchange.presentation.main.home
 
-import com.sweeftdigital.contactsexchange.domain.models.Contact
-import com.sweeftdigital.contactsexchange.presentation.base.markers.EffectMarker
-import com.sweeftdigital.contactsexchange.presentation.base.markers.EventMarker
-import com.sweeftdigital.contactsexchange.presentation.base.markers.StateMarker
+import com.sweeftdigital.contactsexchange.domain.model.Contact
+import com.sweeftdigital.contactsexchange.presentation.base.marker.UiEffect
+import com.sweeftdigital.contactsexchange.presentation.base.marker.UiEvent
+import com.sweeftdigital.contactsexchange.presentation.base.marker.UiState
 
-sealed class ViewState {
-    object Empty : ViewState()
-    object Loading : ViewState()
-    object Error : ViewState()
-    object Success : ViewState()
+sealed interface ViewState {
+    data object Empty : ViewState
+    data object Loading : ViewState
+    data object Error : ViewState
+    data class Success(val data: List<Contact>) : ViewState
 }
 
-sealed class HomeEvent : EventMarker {
-    object OnContactsLoaded : HomeEvent()
-    data class OnContactDeleted(val contact: Contact) : HomeEvent()
-    data class OnContactSaved(val contact: Contact) : HomeEvent()
-    data class OnSearchTyped(val searched: String) : HomeEvent()
+sealed interface HomeEvent : UiEvent {
+    data object OnContactsLoad : HomeEvent
+    data class OnContactDeleted(val contact: Contact) : HomeEvent
+    data class OnContactSaved(val contact: Contact) : HomeEvent
+    data class OnSearchTyped(val query: String) : HomeEvent
 }
 
-sealed class HomeEffect : EffectMarker {
-    data class Error(val message: String) : HomeEffect()
-    data class Deleted(val contact: Contact) : HomeEffect()
-    data class Searched(val searched: String) : HomeEffect()
+sealed interface HomeEffect : UiEffect {
+    data class Error(val message: String) : HomeEffect
+    data class Deleted(val contact: Contact) : HomeEffect
 }
 
-data class HomeState(val cardsState: CardsState, val contactsState: ContactsState) : StateMarker
-
-data class CardsState(
-    val viewState: ViewState,
-    val myCards: List<Contact> = listOf()
-)
-data class ContactsState(
-    val viewState: ViewState,
-    val contacts: List<Contact> = listOf(),
-    val searched: String = ""
-)
+data class HomeState(val cardsState: ViewState, val contactsState: ViewState, val query: String = "") : UiState

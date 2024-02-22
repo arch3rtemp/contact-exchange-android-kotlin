@@ -3,9 +3,8 @@ package com.sweeftdigital.contactsexchange.presentation.qr
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.google.zxing.Result
+import com.sweeftdigital.contactsexchange.data.mapper.jsonToContact
 import com.sweeftdigital.contactsexchange.databinding.ActivityQrBinding
-import com.sweeftdigital.contactsexchange.domain.models.Contact
-import com.sweeftdigital.contactsexchange.util.jsonToContact
 import me.dm7.barcodescanner.zxing.ZXingScannerView
 import org.json.JSONObject
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -29,7 +28,7 @@ class QrActivity : AppCompatActivity(), ZXingScannerView.ResultHandler {
     override fun handleResult(rawResult: Result?) {
         rawResult?.let {
             val jsonObj = JSONObject(rawResult.text)
-            val contact = Contact.jsonToContact(jsonObj)
+            val contact = jsonToContact(jsonObj)
             viewModel.setEvent(QrEvent.OnQrScan(contact))
         }
         setResult(RESULT_OK)

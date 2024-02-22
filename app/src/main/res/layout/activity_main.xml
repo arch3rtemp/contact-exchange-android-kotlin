@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/pale_grey">
+    android:background="@color/pale_grey"
+    android:orientation="vertical">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -15,19 +15,18 @@
         android:paddingVertical="10dp"
         android:paddingStart="0dp"
         android:paddingEnd="20dp"
-        app:titleMarginStart="20dp"
         app:title="@string/home_cards"
-        app:titleTextAppearance="@style/ToolbarTheme"
-        app:layout_constraintTop_toTopOf="parent">
+        app:titleMarginStart="20dp"
+        app:titleTextAppearance="@style/ToolbarTheme">
 
-<!--        <TextView-->
-<!--            android:id="@+id/tv_my_cards"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:fontFamily="@font/poppins_medium"-->
-<!--            android:text="@string/home_cards"-->
-<!--            android:textColor="@color/black_two"-->
-<!--            android:textSize="16sp" />-->
+        <!--        <TextView-->
+        <!--            android:id="@+id/tv_my_cards"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:fontFamily="@font/poppins_medium"-->
+        <!--            android:text="@string/home_cards"-->
+        <!--            android:textColor="@color/black_two"-->
+        <!--            android:textSize="16sp" />-->
 
         <LinearLayout
             android:id="@+id/ll_back"
@@ -61,8 +60,8 @@
                 android:id="@+id/iv_qr"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:fontFamily="@font/poppins"
                 android:contentDescription="@string/qr"
+                android:fontFamily="@font/poppins"
                 android:gravity="center"
                 android:src="@drawable/ic_baseline_qr_code_2_24"
                 android:textColor="@color/white"
@@ -70,18 +69,13 @@
         </LinearLayout>
     </androidx.appcompat.widget.Toolbar>
 
-
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainerView"
         android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_weight="1"
         app:defaultNavHost="true"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"
-        app:layout_constraintVertical_bias="0.0"
-        app:navGraph="@navigation/nav_graph"
-        tools:layout_editor_absoluteX="-194dp" />
+        app:navGraph="@navigation/nav_graph" />
 
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

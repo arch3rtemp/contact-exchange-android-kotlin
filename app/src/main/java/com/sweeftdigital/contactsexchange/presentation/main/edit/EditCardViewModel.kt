@@ -1,9 +1,9 @@
 package com.sweeftdigital.contactsexchange.presentation.main.edit
 
 import androidx.lifecycle.viewModelScope
-import com.sweeftdigital.contactsexchange.domain.models.Contact
-import com.sweeftdigital.contactsexchange.domain.useCases.SelectContactByIdUseCase
-import com.sweeftdigital.contactsexchange.domain.useCases.UpdateContactUseCase
+import com.sweeftdigital.contactsexchange.domain.model.Contact
+import com.sweeftdigital.contactsexchange.domain.use_case.SelectContactByIdUseCase
+import com.sweeftdigital.contactsexchange.domain.use_case.UpdateContactUseCase
 import com.sweeftdigital.contactsexchange.presentation.base.BaseViewModel
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.onStart
@@ -23,8 +23,7 @@ class EditCardViewModel(
         when(event) {
             is EditCardEvent.OnCardLoaded -> getCard(event.id)
             is EditCardEvent.OnSaveButtonPressed -> {
-                setState { copy(contact = event.contact) }
-                saveCard(currentState!!.contact)
+                saveCard(event.contact)
             }
         }
     }
@@ -35,7 +34,7 @@ class EditCardViewModel(
                 .onStart { setState { copy(viewState = ViewState.Loading) } }
                 .catch { setStateError(it.message.toString()) }
                 .collect {
-                    setState { copy(viewState = ViewState.Success, contact = it) }
+                    setState { copy(viewState = ViewState.Success(it)) }
                 }
         }
     }
@@ -47,7 +46,7 @@ class EditCardViewModel(
                     .onStart { setState { copy(viewState = ViewState.Loading) } }
                     .catch { setStateError(it.message.toString()) }
                     .collect {
-                        setState { copy(viewState = ViewState.Success) }
+                        setState { copy(viewState = ViewState.Success(contact)) }
                         setEffect { EditCardEffect.Finish }
                     }
             } else {
@@ -58,17 +57,12 @@ class EditCardViewModel(
 
     private fun checkContactNotBlank(contact: Contact): Boolean {
         contact.apply {
-            if (
-                name.isNotBlank()
-                && job.isNotBlank()
-                && position.isNotBlank()
-                && email.isNotBlank()
-                && phoneMobile.isNotBlank()
-                && phoneOffice.isNotBlank()
-            ) {
-                return true
-            }
-            return false
+            return (name.isNotBlank()
+                    && job.isNotBlank()
+                    && position.isNotBlank()
+                    && email.isNotBlank()
+                    && phoneMobile.isNotBlank()
+                    && phoneOffice.isNotBlank())
         }
     }
 

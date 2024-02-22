@@ -1,8 +1,8 @@
 package com.sweeftdigital.contactsexchange.presentation.main.card
 
 import androidx.lifecycle.viewModelScope
-import com.sweeftdigital.contactsexchange.domain.useCases.DeleteContactUseCase
-import com.sweeftdigital.contactsexchange.domain.useCases.SelectContactByIdUseCase
+import com.sweeftdigital.contactsexchange.domain.use_case.DeleteContactUseCase
+import com.sweeftdigital.contactsexchange.domain.use_case.SelectContactByIdUseCase
 import com.sweeftdigital.contactsexchange.presentation.base.BaseViewModel
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.onStart
@@ -31,7 +31,8 @@ class CardViewModel(
                 .onStart { setState { copy(viewState = ViewState.Loading) } }
                 .catch { setStateError(it.message.toString()) }
                 .collect {
-                    setState { copy(viewState = ViewState.Success, contact = it) } }
+                    setState { copy(viewState = ViewState.Success(it)) }
+                }
         }
     }
 

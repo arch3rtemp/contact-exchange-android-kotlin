@@ -1,8 +1,8 @@
 package com.sweeftdigital.contactsexchange.presentation.main.create
 
 import androidx.lifecycle.viewModelScope
-import com.sweeftdigital.contactsexchange.domain.models.Contact
-import com.sweeftdigital.contactsexchange.domain.useCases.SaveContactUseCase
+import com.sweeftdigital.contactsexchange.domain.model.Contact
+import com.sweeftdigital.contactsexchange.domain.use_case.SaveContactUseCase
 import com.sweeftdigital.contactsexchange.presentation.base.BaseViewModel
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
@@ -33,17 +33,12 @@ class CreateCardViewModel(
 
     private fun checkContactNotBlank(contact: Contact): Boolean {
         contact.apply {
-            if (
-                name.isNotBlank()
-                && job.isNotBlank()
-                && position.isNotBlank()
-                && email.isNotBlank()
-                && phoneMobile.isNotBlank()
-                && phoneOffice.isNotBlank()
-            ) {
-                return true
-            }
-            return false
+            return (name.isNotBlank()
+                    && job.isNotBlank()
+                    && position.isNotBlank()
+                    && email.isNotBlank()
+                    && phoneMobile.isNotBlank()
+                    && phoneOffice.isNotBlank())
         }
     }
 

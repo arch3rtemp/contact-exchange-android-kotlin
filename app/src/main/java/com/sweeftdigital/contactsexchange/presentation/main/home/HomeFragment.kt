@@ -1,29 +1,25 @@
 package com.sweeftdigital.contactsexchange.presentation.main.home
 
-import android.animation.Animator
-import android.animation.AnimatorSet
-import android.animation.ObjectAnimator
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffColorFilter
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.DecelerateInterpolator
 import android.widget.Toast
-import androidx.activity.addCallback
+import androidx.core.content.res.ResourcesCompat
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
+import com.sweeftdigital.contactsexchange.R
 import com.sweeftdigital.contactsexchange.databinding.FragmentHomeBinding
-import com.sweeftdigital.contactsexchange.domain.models.Contact
+import com.sweeftdigital.contactsexchange.domain.model.Contact
 import com.sweeftdigital.contactsexchange.presentation.base.BaseFragment
-import com.sweeftdigital.contactsexchange.presentation.main.home.adapters.ContactsListAdapter
-import com.sweeftdigital.contactsexchange.presentation.main.home.adapters.drawers.CardItemDrawer
-import com.sweeftdigital.contactsexchange.presentation.main.home.adapters.drawers.ContactItemDrawer
-import com.sweeftdigital.contactsexchange.util.custom_segregation.AnimatorListenerOnAnimationEnd
-import com.sweeftdigital.contactsexchange.util.custom_segregation.AnimatorListenerOnAnimationStart
-import com.sweeftdigital.contactsexchange.util.custom_segregation.TextWatcherTrimmed
+import com.sweeftdigital.contactsexchange.presentation.main.home.adapter.ContactsListAdapter
+import com.sweeftdigital.contactsexchange.presentation.main.home.adapter.drawer.CardItemDrawer
+import com.sweeftdigital.contactsexchange.presentation.main.home.adapter.drawer.ContactItemDrawer
+import com.sweeftdigital.contactsexchange.presentation.common.CustomSearchView
+import com.sweeftdigital.contactsexchange.presentation.common.DebounceQueryTextListener
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class HomeFragment :
@@ -35,18 +31,30 @@ class HomeFragment :
         get() = FragmentHomeBinding::inflate
     private val cardsAdapter: ContactsListAdapter by lazy { ContactsListAdapter(this@HomeFragment) }
     private val contactsAdapter: ContactsListAdapter by lazy { ContactsListAdapter(this@HomeFragment) }
-    private var filtering = false
-    private var backPressedTimestamp: Long = 0L
-
-    private lateinit var filterTextWatcher: TextWatcher
 
     override fun prepareView(savedInstanceState: Bundle?) {
-        initRecyclerView()
+        setupToolbar()
+        setupRecyclerView()
         initObservers()
         setListeners()
     }
 
-    private fun initRecyclerView() {
+    private fun setupToolbar() = with(binding) {
+
+        val iconColor = ResourcesCompat.getColor(resources, R.color.black_two, null)
+        toolbarContact.navigationIcon?.mutate()?.colorFilter = PorterDuffColorFilter(iconColor, PorterDuff.Mode.SRC_IN)
+
+        val searchView = toolbarContact.menu.findItem(R.id.action_search).actionView as CustomSearchView
+        searchView.setOnQueryTextListener(
+            DebounceQueryTextListener(
+                lifecycle = viewLifecycleOwner.lifecycle,
+                onDebounceQueryTextChange = { query ->
+                    searchQuery(query)
+                })
+        )
+    }
+
+    private fun setupRecyclerView() {
         with(binding) {
             rvCards.adapter = cardsAdapter
             rvContacts.adapter = contactsAdapter
@@ -55,8 +63,6 @@ class HomeFragment :
 
     private fun initObservers() {
         observeRecyclerListener()
-        initializeTextWatcher()
-        initializeBackPressedCallback()
     }
 
     private fun setListeners() {
@@ -65,10 +71,6 @@ class HomeFragment :
                 val action = HomeFragmentDirections.actionHomeFragmentToCreateCardFragment()
                 findNavController().navigate(action)
             }
-            ivSearch.setOnClickListener {
-                animateSearchMenu()
-            }
-            etSearch.addTextChangedListener(filterTextWatcher)
         }
     }
 
@@ -77,108 +79,36 @@ class HomeFragment :
             rvCards.addOnScrollListener(object : RecyclerView.OnScrollListener() {
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                     super.onScrolled(recyclerView, dx, dy)
-                    if (dx > 0) {
-                        fabAdd.visibility = View.INVISIBLE
-                    } else {
-                        fabAdd.visibility = View.VISIBLE
+
+                    // If scrolling towards the left (dx < 0), hide the FAB
+                    if (dx > 0 && fabAdd.visibility == View.VISIBLE) {
+                        fabAdd.hide()
+                    }
+
+                    // If scrolling towards the right (dx > 0), show the FAB
+                    if (dx < 0 && fabAdd.visibility != View.INVISIBLE) {
+                        fabAdd.show()
                     }
                 }
             })
         }
     }
 
-    private fun initializeBackPressedCallback() {
-
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
-            if (filtering) {
-                animateSearchBackward()
-                filtering = false
-                return@addCallback
-            }
-            if (backPressedTimestamp + TIME_INTERVAL > System.currentTimeMillis()) {
-                isEnabled = false
-                requireActivity().onBackPressed()
-            } else {
-                Toast.makeText(
-                    requireContext(),
-                    "Press back again to exit",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-            backPressedTimestamp = System.currentTimeMillis()
-        }
-    }
-
-    private fun initializeTextWatcher() {
-        filterTextWatcher = object : TextWatcherTrimmed {
-            override fun afterTextChanged(s: Editable?) {
-                viewModel.setEvent(HomeEvent.OnSearchTyped(s.toString()))
-            }
-        }
-    }
-
-    private fun animateSearchMenu() {
-        if (filtering) {
-            animateSearchBackward()
-        } else {
-            animateSearchForward()
-        }
-    }
-
-    private fun animateSearchForward() {
-        with(binding) {
-            filtering = true
-            val moveLeftAnimation =
-                ObjectAnimator.ofFloat(ivSearch, View.X, ivSearch.translationX).apply {
-                    duration = 400
-                    interpolator = DecelerateInterpolator()
-                }
-            val fadeInAnimation = ObjectAnimator.ofFloat(tvContactHeader, View.ALPHA, 1f, 0f)
-
-            AnimatorSet().apply {
-                playTogether(moveLeftAnimation, fadeInAnimation)
-                addListener(object : AnimatorListenerOnAnimationEnd {
-                    override fun onAnimationEnd(animation: Animator) {
-                        tvContactHeader.visibility = View.INVISIBLE
-                        etSearch.visibility = View.VISIBLE
-                    }
-                })
-            }.start()
-        }
-    }
-
-    private fun animateSearchBackward() {
-        with(binding) {
-            filtering = false
-            val moveRightAnimation =
-                ObjectAnimator.ofFloat(ivSearch, View.X, ivSearch.x - ivSearch.translationX).apply {
-                    duration = 400
-                    interpolator = DecelerateInterpolator()
-                }
-            val fadeOutAnimation = ObjectAnimator.ofFloat(tvContactHeader, View.ALPHA, 0f, 1f)
-
-            AnimatorSet().apply {
-                playTogether(moveRightAnimation, fadeOutAnimation)
-                addListener(object : AnimatorListenerOnAnimationStart {
-                    override fun onAnimationStart(animation: Animator) {
-                        tvContactHeader.visibility = View.VISIBLE
-                        etSearch.visibility = View.INVISIBLE
-                    }
-                })
-            }.start()
-        }
+    private fun searchQuery(query: String) {
+        viewModel.setEvent(HomeEvent.OnSearchTyped(query))
     }
 
     override fun renderState(state: HomeState) = with(binding) {
         renderCardsState(state.cardsState)
         renderContactsState(state.contactsState)
+        contactsAdapter.filterContacts(state.query)
     }
 
-    private fun renderCardsState(state: CardsState) {
-        when (state.viewState) {
-            ViewState.Success -> {
+    private fun renderCardsState(state: ViewState) {
+        when (state) {
+            is ViewState.Success -> {
                 showCardsSuccess()
-                val cards = state.myCards.map { card ->
+                val cards = state.data.map { card ->
                     CardItemDrawer(card)
                 }
                 cardsAdapter.modifyList(cards)
@@ -195,11 +125,11 @@ class HomeFragment :
         }
     }
 
-    private fun renderContactsState(state: ContactsState) {
-        when (state.viewState) {
-            ViewState.Success -> {
+    private fun renderContactsState(state: ViewState) {
+        when (state) {
+            is ViewState.Success -> {
                 showContactsSuccess()
-                val contacts = state.contacts.map { contact ->
+                val contacts = state.data.map { contact ->
                     ContactItemDrawer(contact)
                 }
                 contactsAdapter.modifyList(contacts)
@@ -230,9 +160,6 @@ class HomeFragment :
                     }
                     .show()
             }
-            is HomeEffect.Searched -> {
-                contactsAdapter.filterContacts(effect.searched)
-            }
         }
     }
 
@@ -261,9 +188,9 @@ class HomeFragment :
 
     private fun showContactsEmpty() = with(binding) {
         ivContactsEmpty.visibility = View.VISIBLE
-        progressCircularContacts.visibility = View.INVISIBLE
-        ivContactsError.visibility = View.INVISIBLE
-        rvContacts.visibility = View.INVISIBLE
+        progressCircularContacts.visibility = View.GONE
+        ivContactsError.visibility = View.GONE
+        rvContacts.visibility = View.GONE
     }
 
     private fun showCardsLoading() = with(binding) {
@@ -275,9 +202,9 @@ class HomeFragment :
 
     private fun showContactsLoading() = with(binding) {
         progressCircularContacts.visibility = View.VISIBLE
-        ivContactsEmpty.visibility = View.INVISIBLE
-        ivContactsError.visibility = View.INVISIBLE
-        rvContacts.visibility = View.INVISIBLE
+        ivContactsEmpty.visibility = View.GONE
+        ivContactsError.visibility = View.GONE
+        rvContacts.visibility = View.GONE
     }
 
     private fun showCardsSuccess() = with(binding) {
@@ -289,9 +216,9 @@ class HomeFragment :
 
     private fun showContactsSuccess() = with(binding) {
         rvContacts.visibility = View.VISIBLE
-        progressCircularContacts.visibility = View.INVISIBLE
-        ivContactsEmpty.visibility = View.INVISIBLE
-        ivContactsError.visibility = View.INVISIBLE
+        progressCircularContacts.visibility = View.GONE
+        ivContactsEmpty.visibility = View.GONE
+        ivContactsError.visibility = View.GONE
     }
 
     private fun showCardsError() = with(binding) {
@@ -302,13 +229,9 @@ class HomeFragment :
     }
 
     private fun showContactsError() = with(binding) {
-        ivCardsError.visibility = View.VISIBLE
-        rvCards.visibility = View.INVISIBLE
-        progressCircularCards.visibility = View.INVISIBLE
-        ivCardsEmpty.visibility = View.INVISIBLE
-    }
-
-    companion object {
-        private const val TIME_INTERVAL = 2000
+        ivContactsError.visibility = View.VISIBLE
+        rvContacts.visibility = View.GONE
+        progressCircularContacts.visibility = View.GONE
+        ivContactsEmpty.visibility = View.GONE
     }
 }

@@ -9,12 +9,12 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.viewbinding.ViewBinding
-import com.sweeftdigital.contactsexchange.presentation.base.markers.EffectMarker
-import com.sweeftdigital.contactsexchange.presentation.base.markers.EventMarker
-import com.sweeftdigital.contactsexchange.presentation.base.markers.StateMarker
+import com.sweeftdigital.contactsexchange.presentation.base.marker.UiEffect
+import com.sweeftdigital.contactsexchange.presentation.base.marker.UiEvent
+import com.sweeftdigital.contactsexchange.presentation.base.marker.UiState
 import kotlinx.coroutines.launch
 
-abstract class BaseFragment<Event: EventMarker, Effect : EffectMarker, State : StateMarker, VB : ViewBinding, VM : BaseViewModel<Event, Effect, State>> : Fragment() {
+abstract class BaseFragment<Event: UiEvent, Effect : UiEffect, State : UiState, VB : ViewBinding, VM : BaseViewModel<Event, Effect, State>> : Fragment() {
 
     private var _binding: VB? = null
     abstract val bindLayout: (LayoutInflater, ViewGroup?, Boolean) -> VB

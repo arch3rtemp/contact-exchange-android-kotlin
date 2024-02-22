@@ -97,7 +97,8 @@
             android:visibility="gone"
             app:layout_constraintEnd_toStartOf="@id/cl_delete"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="visible">
 
             <ImageView
                 android:id="@+id/iv_pencil"

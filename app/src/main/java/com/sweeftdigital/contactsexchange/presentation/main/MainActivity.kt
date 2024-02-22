@@ -4,21 +4,23 @@ import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
+import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import com.google.android.material.snackbar.Snackbar
 import com.sweeftdigital.contactsexchange.R
 import com.sweeftdigital.contactsexchange.databinding.ActivityMainBinding
 import com.sweeftdigital.contactsexchange.presentation.qr.QrActivity
+
 
 class MainActivity : AppCompatActivity() {
     private lateinit var _binding: ActivityMainBinding
@@ -59,7 +61,7 @@ class MainActivity : AppCompatActivity() {
             supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
         navController = navHostFragment.navController
 
-        navController.addOnDestinationChangedListener { controller, destination, arguments ->
+        navController.addOnDestinationChangedListener { _, destination, _ ->
             val title = when (destination.id) {
                 R.id.homeFragment -> {
                     binding.llBack.visibility = View.INVISIBLE
@@ -83,7 +85,13 @@ class MainActivity : AppCompatActivity() {
                 requestPermission()
             }
             llBack.setOnClickListener {
-                fragmentContainerView.findNavController().navigateUp()
+                navController.navigateUp()
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+                    val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+                    if (imm.isActive) {
+                        imm.hideSoftInputFromWindow(window.decorView.windowToken, 0)
+                    }
+                }
             }
         }
     }

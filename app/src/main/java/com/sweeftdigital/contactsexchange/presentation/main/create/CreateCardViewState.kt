@@ -1,25 +1,23 @@
 package com.sweeftdigital.contactsexchange.presentation.main.create
 
-import com.sweeftdigital.contactsexchange.domain.models.Contact
-import com.sweeftdigital.contactsexchange.presentation.base.markers.EffectMarker
-import com.sweeftdigital.contactsexchange.presentation.base.markers.EventMarker
-import com.sweeftdigital.contactsexchange.presentation.base.markers.StateMarker
+import com.sweeftdigital.contactsexchange.domain.model.Contact
+import com.sweeftdigital.contactsexchange.presentation.base.marker.UiEffect
+import com.sweeftdigital.contactsexchange.presentation.base.marker.UiEvent
+import com.sweeftdigital.contactsexchange.presentation.base.marker.UiState
 
-sealed class ViewState {
-    object Idle: ViewState()
-    object Error : ViewState()
-    object Success : ViewState()
+sealed interface ViewState {
+    data object Idle: ViewState
+    data object Error : ViewState
+    data object Success : ViewState
 }
 
-sealed class CreateCardEvent : EventMarker {
-    data class OnCreateButtonPressed(val contact: Contact) : CreateCardEvent()
+sealed interface CreateCardEvent : UiEvent {
+    data class OnCreateButtonPressed(val contact: Contact) : CreateCardEvent
 }
 
-sealed class CreateCardEffect : EffectMarker {
-    data class Error(val message: String) : CreateCardEffect()
-    object Success : CreateCardEffect()
+sealed interface CreateCardEffect : UiEffect {
+    data class Error(val message: String) : CreateCardEffect
+    data object Success : CreateCardEffect
 }
 
-data class CreateCardState(
-    val viewState: ViewState
-) : StateMarker
+data class CreateCardState(val viewState: ViewState) : UiState

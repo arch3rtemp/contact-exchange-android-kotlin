@@ -9,9 +9,9 @@ import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.sweeftdigital.contactsexchange.databinding.FragmentCardEditBinding
-import com.sweeftdigital.contactsexchange.domain.models.Contact
+import com.sweeftdigital.contactsexchange.domain.model.Contact
 import com.sweeftdigital.contactsexchange.presentation.base.BaseFragment
-import com.sweeftdigital.contactsexchange.util.NavControllerStateHandle
+import com.sweeftdigital.contactsexchange.presentation.common.NavControllerStateHandle
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class EditCardFragment : BaseFragment<EditCardEvent, EditCardEffect, EditCardState, FragmentCardEditBinding, EditCardViewModel>() {
@@ -51,23 +51,23 @@ class EditCardFragment : BaseFragment<EditCardEvent, EditCardEffect, EditCardSta
     }
 
     private fun getDataFromFields(): Contact = with(binding) {
-        val currentContact = viewModel.currentState!!.contact
         return Contact(
-            id = currentContact.id,
             name = etFullName.text.toString(),
             job = etCompany.text.toString(),
             position = etPosition.text.toString(),
             email = etEmail.text.toString(),
             phoneMobile = etTel.text.toString(),
-            phoneOffice = etTelOffice.text.toString(),
-            createDate = currentContact.createDate,
-            color = currentContact.color,
-            isMy = currentContact.isMy
+            phoneOffice = etTelOffice.text.toString()
         )
     }
 
     override fun renderState(state: EditCardState) {
-        initCard(state.contact)
+        when (state.viewState) {
+            ViewState.Idle -> Unit
+            ViewState.Loading -> Unit
+            ViewState.Error -> Unit
+            is ViewState.Success -> initCard(state.viewState.data)
+        }
     }
 
     override fun renderEffect(effect: EditCardEffect) {
@@ -78,6 +78,4 @@ class EditCardFragment : BaseFragment<EditCardEvent, EditCardEffect, EditCardSta
             EditCardEffect.Finish -> findNavController().navigateUp()
         }
     }
-
-
 }
