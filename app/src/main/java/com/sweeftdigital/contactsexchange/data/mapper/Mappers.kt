@@ -2,7 +2,7 @@ package com.sweeftdigital.contactsexchange.data.mapper
 
 import com.sweeftdigital.contactsexchange.data.db.model.ContactEntity
 import com.sweeftdigital.contactsexchange.domain.model.Contact
-import com.sweeftdigital.contactsexchange.domain.util.ContactType
+import com.sweeftdigital.contactsexchange.domain.model.ContactType
 import org.json.JSONObject
 import java.util.Date
 

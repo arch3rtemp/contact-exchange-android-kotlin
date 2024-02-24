@@ -25,7 +25,7 @@ import com.sweeftdigital.contactsexchange.databinding.DeletePopupBinding
 import com.sweeftdigital.contactsexchange.databinding.FragmentCardBinding
 import com.sweeftdigital.contactsexchange.domain.model.Contact
 import com.sweeftdigital.contactsexchange.presentation.base.BaseFragment
-import com.sweeftdigital.contactsexchange.domain.util.ContactType
+import com.sweeftdigital.contactsexchange.domain.model.ContactType
 import com.sweeftdigital.contactsexchange.presentation.common.NavControllerStateHandle
 import com.sweeftdigital.contactsexchange.presentation.common.currentDeviceRealSize
 import org.koin.androidx.viewmodel.ext.android.viewModel

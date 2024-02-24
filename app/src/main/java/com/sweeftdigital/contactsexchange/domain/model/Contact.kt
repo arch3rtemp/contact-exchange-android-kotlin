@@ -1,7 +1,6 @@
 package com.sweeftdigital.contactsexchange.domain.model
 
 import com.google.gson.Gson
-import com.sweeftdigital.contactsexchange.domain.util.ContactType
 import java.util.*
 
 data class Contact(

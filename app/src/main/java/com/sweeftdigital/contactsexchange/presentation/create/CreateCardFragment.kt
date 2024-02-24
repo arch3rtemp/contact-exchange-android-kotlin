@@ -15,7 +15,7 @@ import com.sweeftdigital.contactsexchange.R
 import com.sweeftdigital.contactsexchange.databinding.FragmentCardCreateBinding
 import com.sweeftdigital.contactsexchange.domain.model.Contact
 import com.sweeftdigital.contactsexchange.presentation.base.BaseFragment
-import com.sweeftdigital.contactsexchange.domain.util.ContactType.MY_CARD
+import com.sweeftdigital.contactsexchange.domain.model.ContactType.MY_CARD
 import java.util.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
