@@ -62,15 +62,12 @@ dependencies {
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
 
-    // Libraries for Resource Provider
-    implementation "com.xfinity:resourceprovider-library:0.11"
-
     // Library for QR
     implementation 'me.dm7.barcodescanner:zxing:1.9.13'
     implementation 'androidmads.library.qrgenearator:QRGenearator:1.0.3'
 
     // Library for gson
-    implementation 'com.google.code.gson:gson:2.10'
+    implementation 'com.google.code.gson:gson:2.10.1'
 
     // Library for swipe recyclerview
     implementation 'com.chauthai.swipereveallayout:swipe-reveal-layout:1.4.1'
