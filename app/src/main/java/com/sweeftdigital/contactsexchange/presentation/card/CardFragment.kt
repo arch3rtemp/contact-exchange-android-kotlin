@@ -10,7 +10,6 @@ import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,12 +19,11 @@ import androidmads.library.qrgenearator.QRGContents
 import androidmads.library.qrgenearator.QRGEncoder
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.google.zxing.WriterException
 import com.sweeftdigital.contactsexchange.databinding.DeletePopupBinding
 import com.sweeftdigital.contactsexchange.databinding.FragmentCardBinding
 import com.sweeftdigital.contactsexchange.domain.model.Contact
-import com.sweeftdigital.contactsexchange.presentation.base.BaseFragment
 import com.sweeftdigital.contactsexchange.domain.model.ContactType
+import com.sweeftdigital.contactsexchange.presentation.base.BaseFragment
 import com.sweeftdigital.contactsexchange.presentation.common.NavControllerStateHandle
 import com.sweeftdigital.contactsexchange.presentation.common.currentDeviceRealSize
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -120,14 +118,10 @@ class CardFragment :
 
         val qrgEncoder =
             QRGEncoder(contact.toString(), null, QRGContents.Type.TEXT, smallerDimension)
-        try {
-            // Getting QR-Code as Bitmap
-            val bitmap = qrgEncoder.encodeAsBitmap()
-            // Setting Bitmap to ImageView
-            binding.ivQr.setImageBitmap(bitmap)
-        } catch (e: WriterException) {
-            Log.v("TAG", e.toString())
-        }
+        // Getting QR-Code as Bitmap
+        val bitmap = qrgEncoder.getBitmap(0)
+        // Setting Bitmap to ImageView
+        binding.ivQr.setImageBitmap(bitmap)
     }
 
     override fun renderEffect(effect: CardEffect) {

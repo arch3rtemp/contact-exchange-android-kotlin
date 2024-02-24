@@ -63,7 +63,7 @@ dependencies {
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
 
     // Library for QR
-    implementation 'androidmads.library.qrgenearator:QRGenearator:1.0.3'
+    implementation 'com.github.androidmads:QRGenerator:1.0.1'
 
     // Google barcode scanner
     implementation 'com.google.android.gms:play-services-code-scanner:16.1.0'
@@ -72,5 +72,5 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.10.1'
 
     // Library for swipe recyclerview
-    implementation 'com.chauthai.swipereveallayout:swipe-reveal-layout:1.4.1'
+    implementation 'com.github.hydrated:SwipeRevealLayout:1.4.0'
 }
