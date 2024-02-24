@@ -17,7 +17,6 @@ abstract class BaseViewModel<Event : UiEvent, Effect : UiEffect, State : UiState
     abstract fun createInitialState(): State
 
     private val _event: Channel<Event> = Channel()
-    val event = _event.receiveAsFlow()
 
     private val _effect: Channel<Effect> = Channel()
     val effect = _effect.receiveAsFlow()
@@ -33,8 +32,12 @@ abstract class BaseViewModel<Event : UiEvent, Effect : UiEffect, State : UiState
 
     private fun subscribeEvents() {
         viewModelScope.launch {
-            event.collect {
-                handleEvent(it)
+            try {
+                for (event in _event) {
+                    handleEvent(event)
+                }
+            } finally {
+                _event.close()
             }
         }
     }
@@ -42,8 +45,7 @@ abstract class BaseViewModel<Event : UiEvent, Effect : UiEffect, State : UiState
     abstract fun handleEvent(event: Event)
 
     fun setEvent(event: Event) {
-        val newEvent = event
-        viewModelScope.launch { _event.send(newEvent) }
+        viewModelScope.launch { _event.send(event) }
     }
 
     protected fun setState(reduce: State.() -> State) {

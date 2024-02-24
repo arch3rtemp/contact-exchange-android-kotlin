@@ -1,15 +1,11 @@
 package com.sweeftdigital.contactsexchange.presentation.common
 
-import android.content.Context
 import android.graphics.Point
-import android.hardware.display.DisplayManager
 import android.os.Build
-import android.util.DisplayMetrics
-import android.view.Display
 import android.view.WindowManager
-import androidx.core.view.DisplayCompat
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
+import java.util.Locale
 
 internal fun dateToString(createDate: Date): String {
     val simpleDateFormat = SimpleDateFormat("dd MMM", Locale.US)
