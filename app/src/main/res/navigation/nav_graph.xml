@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.sweeftdigital.contactsexchange.presentation.main.home.HomeFragment"
+        android:name="com.sweeftdigital.contactsexchange.presentation.home.HomeFragment"
         tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_homeFragment_to_createCardFragment"
@@ -28,12 +28,12 @@
 
     <fragment
         android:id="@+id/createCardFragment"
-        android:name="com.sweeftdigital.contactsexchange.presentation.main.create.CreateCardFragment"
+        android:name="com.sweeftdigital.contactsexchange.presentation.create.CreateCardFragment"
         tools:layout="@layout/fragment_card_create" />
 
     <fragment
         android:id="@+id/cardFragment"
-        android:name="com.sweeftdigital.contactsexchange.presentation.main.card.CardFragment"
+        android:name="com.sweeftdigital.contactsexchange.presentation.card.CardFragment"
         tools:layout="@layout/fragment_card">
         <argument
             android:name="id"
@@ -47,7 +47,7 @@
 
     <fragment
         android:id="@+id/editCardFragment"
-        android:name="com.sweeftdigital.contactsexchange.presentation.main.edit.EditCardFragment"
+        android:name="com.sweeftdigital.contactsexchange.presentation.edit.EditCardFragment"
         tools:layout="@layout/fragment_card_edit">
         <argument
             android:name="id"

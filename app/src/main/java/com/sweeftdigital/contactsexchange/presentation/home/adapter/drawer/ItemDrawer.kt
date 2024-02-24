@@ -1,9 +1,9 @@
-package com.sweeftdigital.contactsexchange.presentation.main.home.adapter.drawer
+package com.sweeftdigital.contactsexchange.presentation.home.adapter.drawer
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.sweeftdigital.contactsexchange.domain.model.Contact
-import com.sweeftdigital.contactsexchange.presentation.main.home.adapter.ContactsListAdapter
+import com.sweeftdigital.contactsexchange.presentation.home.adapter.ContactsListAdapter
 
 interface ItemDrawer {
     val contact: Contact

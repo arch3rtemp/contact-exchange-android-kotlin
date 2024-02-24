@@ -1,4 +1,4 @@
-package com.sweeftdigital.contactsexchange.presentation.main.home
+package com.sweeftdigital.contactsexchange.presentation.home
 
 import androidx.lifecycle.viewModelScope
 import com.sweeftdigital.contactsexchange.domain.model.Contact

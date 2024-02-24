@@ -1,4 +1,4 @@
-package com.sweeftdigital.contactsexchange.presentation.main.card
+package com.sweeftdigital.contactsexchange.presentation.card
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
@@ -59,7 +59,8 @@ class CardFragment :
     }
 
     private fun goToEditFragment() {
-        findNavController().navigate(CardFragmentDirections.actionCardFragmentToEditCardFragment(arg.id))
+        findNavController()
+            .navigate(CardFragmentDirections.actionCardFragmentToEditCardFragment(arg.id))
     }
 
     private fun createDeleteDialog() {

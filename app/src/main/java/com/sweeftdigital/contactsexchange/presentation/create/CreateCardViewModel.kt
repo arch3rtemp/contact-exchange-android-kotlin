@@ -1,14 +1,17 @@
-package com.sweeftdigital.contactsexchange.presentation.main.create
+package com.sweeftdigital.contactsexchange.presentation.create
 
 import androidx.lifecycle.viewModelScope
+import com.sweeftdigital.contactsexchange.R
 import com.sweeftdigital.contactsexchange.domain.model.Contact
 import com.sweeftdigital.contactsexchange.domain.use_case.SaveContactUseCase
 import com.sweeftdigital.contactsexchange.presentation.base.BaseViewModel
+import com.sweeftdigital.contactsexchange.presentation.common.StringResourceManager
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 
 class CreateCardViewModel(
-    private val saveContactUseCase: SaveContactUseCase
+    private val saveContactUseCase: SaveContactUseCase,
+    private val resourceManager: StringResourceManager
 ) : BaseViewModel<CreateCardEvent, CreateCardEffect, CreateCardState>() {
 
     override fun createInitialState(): CreateCardState {
@@ -26,7 +29,7 @@ class CreateCardViewModel(
                         setStateSuccess()
                     }
             } else {
-                setStateError("Fill all fields!")
+                setStateError(resourceManager.string(R.string.msg_all_fields_required))
             }
         }
     }

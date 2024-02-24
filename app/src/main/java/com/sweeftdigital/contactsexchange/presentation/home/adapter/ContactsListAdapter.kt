@@ -1,4 +1,4 @@
-package com.sweeftdigital.contactsexchange.presentation.main.home.adapter
+package com.sweeftdigital.contactsexchange.presentation.home.adapter
 
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
@@ -10,9 +10,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.sweeftdigital.contactsexchange.databinding.CardListItemBinding
 import com.sweeftdigital.contactsexchange.databinding.ContactListItemBinding
 import com.sweeftdigital.contactsexchange.domain.model.Contact
-import com.sweeftdigital.contactsexchange.presentation.main.home.adapter.drawer.CardItemDrawer
-import com.sweeftdigital.contactsexchange.presentation.main.home.adapter.drawer.ContactItemDrawer
-import com.sweeftdigital.contactsexchange.presentation.main.home.adapter.drawer.ItemDrawer
+import com.sweeftdigital.contactsexchange.presentation.home.adapter.drawer.CardItemDrawer
+import com.sweeftdigital.contactsexchange.presentation.home.adapter.drawer.ContactItemDrawer
+import com.sweeftdigital.contactsexchange.presentation.home.adapter.drawer.ItemDrawer
 import com.sweeftdigital.contactsexchange.presentation.common.dateToString
 
 val callback = object : DiffUtil.ItemCallback<ItemDrawer>() {

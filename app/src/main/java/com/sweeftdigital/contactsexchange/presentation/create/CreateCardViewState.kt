@@ -1,4 +1,4 @@
-package com.sweeftdigital.contactsexchange.presentation.main.create
+package com.sweeftdigital.contactsexchange.presentation.create
 
 import com.sweeftdigital.contactsexchange.domain.model.Contact
 import com.sweeftdigital.contactsexchange.presentation.base.marker.UiEffect

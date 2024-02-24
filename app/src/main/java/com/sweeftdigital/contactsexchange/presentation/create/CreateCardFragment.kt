@@ -1,4 +1,4 @@
-package com.sweeftdigital.contactsexchange.presentation.main.create
+package com.sweeftdigital.contactsexchange.presentation.create
 
 import android.animation.ValueAnimator
 import android.graphics.PorterDuff

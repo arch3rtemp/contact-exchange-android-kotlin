@@ -1,4 +1,4 @@
-package com.sweeftdigital.contactsexchange.presentation.main.home
+package com.sweeftdigital.contactsexchange.presentation.home
 
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
@@ -15,9 +15,9 @@ import com.sweeftdigital.contactsexchange.R
 import com.sweeftdigital.contactsexchange.databinding.FragmentHomeBinding
 import com.sweeftdigital.contactsexchange.domain.model.Contact
 import com.sweeftdigital.contactsexchange.presentation.base.BaseFragment
-import com.sweeftdigital.contactsexchange.presentation.main.home.adapter.ContactsListAdapter
-import com.sweeftdigital.contactsexchange.presentation.main.home.adapter.drawer.CardItemDrawer
-import com.sweeftdigital.contactsexchange.presentation.main.home.adapter.drawer.ContactItemDrawer
+import com.sweeftdigital.contactsexchange.presentation.home.adapter.ContactsListAdapter
+import com.sweeftdigital.contactsexchange.presentation.home.adapter.drawer.CardItemDrawer
+import com.sweeftdigital.contactsexchange.presentation.home.adapter.drawer.ContactItemDrawer
 import com.sweeftdigital.contactsexchange.presentation.common.CustomSearchView
 import com.sweeftdigital.contactsexchange.presentation.common.DebounceQueryTextListener
 import org.koin.androidx.viewmodel.ext.android.viewModel

@@ -1,4 +1,4 @@
-package com.sweeftdigital.contactsexchange.presentation.main.card
+package com.sweeftdigital.contactsexchange.presentation.card
 
 import androidx.lifecycle.viewModelScope
 import com.sweeftdigital.contactsexchange.domain.use_case.DeleteContactUseCase
@@ -12,10 +12,9 @@ class CardViewModel(
     private val deleteContactUseCase: DeleteContactUseCase,
     private val selectContactByIdUseCase: SelectContactByIdUseCase
 ) : BaseViewModel<CardEvent, CardEffect, CardState>() {
+
     override fun createInitialState(): CardState {
-        return CardState(
-            viewState = ViewState.Empty
-        )
+        return CardState(viewState = ViewState.Empty)
     }
 
     override fun handleEvent(event: CardEvent) {

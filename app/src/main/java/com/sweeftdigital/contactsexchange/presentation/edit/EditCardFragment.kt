@@ -1,4 +1,4 @@
-package com.sweeftdigital.contactsexchange.presentation.main.edit
+package com.sweeftdigital.contactsexchange.presentation.edit
 
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter

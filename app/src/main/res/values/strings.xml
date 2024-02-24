@@ -18,7 +18,6 @@
     <string name="tel_office">Tel Office</string>
     <string name="color">Color</string>
     <string name="fab_add">Add Card</string>
-    <string name="find_contact">Find Contact</string>
     <string name="contact_list">Contact list</string>
     <string name="test_name">John Doe</string>
     <string name="test_position">UI/UX Designer</string>
@@ -27,19 +26,20 @@
     <string name="test_office">+995 032 295 12 32</string>
     <string name="test_initials">JD</string>
     <string name="test_date">25 Jan</string>
-    <string name="deleted_successfully">Deleted Successfully</string>
     <string name="back_arrow">Back Arrow</string>
-    <string name="delete_confirmation">Are you sure you want to delete?</string>
+    <string name="prompt_delete_confirmation">Are you sure you want to delete?</string>
     <string name="scan_qr">Scan QR</string>
     <string name="qr">QR</string>
     <string name="search">Search</string>
     <string name="transition_contacts_name">transition_contacts</string>
     <string name="transition_search_name">transition_search</string>
-    <string name="permission_granted">Permission Granted</string>
-    <string name="permission_denied">Permission Denied</string>
-    <string name="contact_added">Contact Added</string>
-    <string name="fill_all_fields">Fill all the fields!</string>
     <string name="error">Error</string>
     <string name="empty">Empty</string>
-    <string name="allow_camera">Allow camera access to scan QR code</string>
+
+    <!--    Messages-->
+    <string name="msg_deleted_successfully">Deleted Successfully</string>
+    <string name="msg_contact_added">Contact Added</string>
+    <string name="msg_error_unspecified">Unspecified error occurred</string>
+    <string name="msg_scan_cancelled">Scan cancelled</string>
+    <string name="msg_all_fields_required">Please fill in all fields</string>
 </resources>
