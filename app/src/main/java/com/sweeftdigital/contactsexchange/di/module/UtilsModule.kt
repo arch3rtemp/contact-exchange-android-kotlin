@@ -1,6 +1,6 @@
 package com.sweeftdigital.contactsexchange.di.module
 
-import com.sweeftdigital.contactsexchange.presentation.common.StringResourceManager
+import dev.arch3rtemp.core_ui.util.StringResourceManager
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 

@@ -14,7 +14,7 @@ import androidx.navigation.fragment.findNavController
 import com.sweeftdigital.contactsexchange.R
 import com.sweeftdigital.contactsexchange.databinding.FragmentCardCreateBinding
 import com.sweeftdigital.contactsexchange.domain.model.Contact
-import com.sweeftdigital.contactsexchange.presentation.base.BaseFragment
+import dev.arch3rtemp.core_ui.base.BaseFragment
 import com.sweeftdigital.contactsexchange.domain.model.ContactType.MY_CARD
 import java.util.*
 import org.koin.androidx.viewmodel.ext.android.viewModel

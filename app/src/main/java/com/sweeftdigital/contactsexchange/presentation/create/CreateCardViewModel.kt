@@ -4,8 +4,8 @@ import androidx.lifecycle.viewModelScope
 import com.sweeftdigital.contactsexchange.R
 import com.sweeftdigital.contactsexchange.domain.model.Contact
 import com.sweeftdigital.contactsexchange.domain.use_case.SaveContactUseCase
-import com.sweeftdigital.contactsexchange.presentation.base.BaseViewModel
-import com.sweeftdigital.contactsexchange.presentation.common.StringResourceManager
+import dev.arch3rtemp.core_ui.base.BaseViewModel
+import dev.arch3rtemp.core_ui.util.StringResourceManager
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 

@@ -1,4 +1,4 @@
-package com.sweeftdigital.contactsexchange.presentation.common
+package dev.arch3rtemp.core_ui.util
 
 import android.graphics.Point
 import android.os.Build
@@ -7,7 +7,7 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-internal fun dateToString(createDate: Date): String {
+fun dateToString(createDate: Date): String {
     val simpleDateFormat = SimpleDateFormat("dd MMM", Locale.US)
     return simpleDateFormat.format(createDate)
 }

@@ -1,9 +1,9 @@
 package com.sweeftdigital.contactsexchange.presentation.edit
 
 import com.sweeftdigital.contactsexchange.domain.model.Contact
-import com.sweeftdigital.contactsexchange.presentation.base.marker.UiEffect
-import com.sweeftdigital.contactsexchange.presentation.base.marker.UiEvent
-import com.sweeftdigital.contactsexchange.presentation.base.marker.UiState
+import dev.arch3rtemp.core_ui.base.marker.UiEffect
+import dev.arch3rtemp.core_ui.base.marker.UiEvent
+import dev.arch3rtemp.core_ui.base.marker.UiState
 
 sealed interface ViewState {
     data object Idle: ViewState

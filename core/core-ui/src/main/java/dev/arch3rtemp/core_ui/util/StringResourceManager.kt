@@ -1,4 +1,4 @@
-package com.sweeftdigital.contactsexchange.presentation.common
+package dev.arch3rtemp.core_ui.util
 
 import android.content.Context
 import androidx.annotation.StringRes

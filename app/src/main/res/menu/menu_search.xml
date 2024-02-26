@@ -6,5 +6,5 @@
         android:icon="@drawable/ic_search"
         android:title="@string/search"
         app:showAsAction="ifRoom|collapseActionView"
-        app:actionViewClass="com.sweeftdigital.contactsexchange.presentation.common.CustomSearchView" />
+        app:actionViewClass="dev.arch3rtemp.core_ui.custom_view.CustomSearchView" />
 </menu>

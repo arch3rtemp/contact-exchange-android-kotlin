@@ -13,7 +13,7 @@ import com.sweeftdigital.contactsexchange.domain.model.Contact
 import com.sweeftdigital.contactsexchange.presentation.home.adapter.drawer.CardItemDrawer
 import com.sweeftdigital.contactsexchange.presentation.home.adapter.drawer.ContactItemDrawer
 import com.sweeftdigital.contactsexchange.presentation.home.adapter.drawer.ItemDrawer
-import com.sweeftdigital.contactsexchange.presentation.common.dateToString
+import dev.arch3rtemp.core_ui.util.dateToString
 
 val callback = object : DiffUtil.ItemCallback<ItemDrawer>() {
     override fun areItemsTheSame(oldItem: ItemDrawer, newItem: ItemDrawer): Boolean {

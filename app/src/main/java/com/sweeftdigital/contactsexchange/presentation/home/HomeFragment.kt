@@ -14,12 +14,12 @@ import com.google.android.material.snackbar.Snackbar
 import com.sweeftdigital.contactsexchange.R
 import com.sweeftdigital.contactsexchange.databinding.FragmentHomeBinding
 import com.sweeftdigital.contactsexchange.domain.model.Contact
-import com.sweeftdigital.contactsexchange.presentation.base.BaseFragment
+import dev.arch3rtemp.core_ui.base.BaseFragment
 import com.sweeftdigital.contactsexchange.presentation.home.adapter.ContactsListAdapter
 import com.sweeftdigital.contactsexchange.presentation.home.adapter.drawer.CardItemDrawer
 import com.sweeftdigital.contactsexchange.presentation.home.adapter.drawer.ContactItemDrawer
-import com.sweeftdigital.contactsexchange.presentation.common.CustomSearchView
-import com.sweeftdigital.contactsexchange.presentation.common.DebounceQueryTextListener
+import dev.arch3rtemp.core_ui.custom_view.CustomSearchView
+import dev.arch3rtemp.core_ui.custom_view.DebounceQueryTextListener
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class HomeFragment :

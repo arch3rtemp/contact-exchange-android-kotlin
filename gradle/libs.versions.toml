@@ -1,0 +1,51 @@
+[versions]
+gradle = "8.2.2"
+kotlin = '1.9.22'
+ksp = '1.9.22-1.0.17'
+gradleplugin = "8.2.2"
+gson = '2.10.1'
+play-services-code-scanner = "16.1.0"
+room = '2.6.1'
+navigation = '2.7.7'
+espresso = '3.5.1'
+koin = '3.5.3'
+splash = '1.0.1'
+fragment = '1.6.2'
+timber = '5.0.1'
+
+[libraries]
+core-ktx = { group = "androidx.core", name = "core-ktx", version = "1.12.0" }
+appcompat = { module = "androidx.appcompat:appcompat", version = "1.6.1" }
+fragment-ktx = { module = "androidx.fragment:fragment-ktx", version.ref = "fragment" }
+core-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "splash" }
+room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
+room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
+room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
+navigation-fragment-ktx = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "navigation" }
+navigation-ui-ktx = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "navigation" }
+navigation-plugin = { module = "androidx.navigation:navigation-safe-args-gradle-plugin", version.ref = "navigation" }
+ext-junit = { module = "androidx.test.ext:junit", version = '1.1.5' }
+espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "espresso" }
+junit = { module = "junit:junit", version = '4.13.2' }
+gradle = { module = "com.android.tools.build:gradle", version.ref = "gradle" }
+
+gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
+material = { module = "com.google.android.material:material", version = "1.11.0" }
+play-services-code-scanner = { module = "com.google.android.gms:play-services-code-scanner", version.ref = "play-services-code-scanner" }
+
+koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
+koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
+koin-plugin = { module = "io.insert-koin:koin-gradle-plugin", version.ref = "koin" }
+
+timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
+
+[bundles]
+
+[plugins]
+androidApplication = { id = "com.android.application", version.ref = "gradleplugin" }
+androidLibrary = { id = "com.android.library", version.ref = "gradleplugin" }
+jetbrainsKotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+jetbrainsKotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+kotlinParcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
+googleDevtoolsKsp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+navigationSafeargs = { id = "androidx.navigation.safeargs", version.ref = "navigation" }

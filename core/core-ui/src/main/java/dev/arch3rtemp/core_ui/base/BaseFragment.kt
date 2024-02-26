@@ -1,4 +1,4 @@
-package com.sweeftdigital.contactsexchange.presentation.base
+package dev.arch3rtemp.core_ui.base
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,9 +9,9 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.viewbinding.ViewBinding
-import com.sweeftdigital.contactsexchange.presentation.base.marker.UiEffect
-import com.sweeftdigital.contactsexchange.presentation.base.marker.UiEvent
-import com.sweeftdigital.contactsexchange.presentation.base.marker.UiState
+import dev.arch3rtemp.core_ui.base.marker.UiEffect
+import dev.arch3rtemp.core_ui.base.marker.UiEvent
+import dev.arch3rtemp.core_ui.base.marker.UiState
 import kotlinx.coroutines.launch
 
 abstract class BaseFragment<Event: UiEvent, Effect : UiEffect, State : UiState, VB : ViewBinding, VM : BaseViewModel<Event, Effect, State>> : Fragment() {

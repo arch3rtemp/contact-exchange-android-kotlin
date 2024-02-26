@@ -1,4 +1,4 @@
-package com.sweeftdigital.contactsexchange.presentation.common
+package dev.arch3rtemp.core_ui.custom_view
 
 import android.content.Context
 import android.graphics.PorterDuff
@@ -9,7 +9,7 @@ import android.widget.TextView
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
-import com.sweeftdigital.contactsexchange.R
+import dev.arch3rtemp.core_ui.R
 
 class CustomSearchView @JvmOverloads constructor(
     context: Context,

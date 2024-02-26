@@ -1,12 +1,12 @@
-package com.sweeftdigital.contactsexchange.presentation.base
+package dev.arch3rtemp.core_ui.base
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.sweeftdigital.contactsexchange.presentation.base.marker.UiEffect
-import com.sweeftdigital.contactsexchange.presentation.base.marker.UiEvent
-import com.sweeftdigital.contactsexchange.presentation.base.marker.UiState
+import dev.arch3rtemp.core_ui.base.marker.UiEffect
+import dev.arch3rtemp.core_ui.base.marker.UiEvent
+import dev.arch3rtemp.core_ui.base.marker.UiState
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch

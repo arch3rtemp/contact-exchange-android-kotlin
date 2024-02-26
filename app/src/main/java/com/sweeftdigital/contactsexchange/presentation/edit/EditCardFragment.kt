@@ -10,8 +10,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.sweeftdigital.contactsexchange.databinding.FragmentCardEditBinding
 import com.sweeftdigital.contactsexchange.domain.model.Contact
-import com.sweeftdigital.contactsexchange.presentation.base.BaseFragment
-import com.sweeftdigital.contactsexchange.presentation.common.NavControllerStateHandle
+import dev.arch3rtemp.core_ui.base.BaseFragment
+import com.sweeftdigital.contactsexchange.presentation.util.NavControllerStateHandle
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class EditCardFragment : BaseFragment<EditCardEvent, EditCardEffect, EditCardState, FragmentCardEditBinding, EditCardViewModel>() {

@@ -3,7 +3,7 @@ package com.sweeftdigital.contactsexchange.presentation.card
 import androidx.lifecycle.viewModelScope
 import com.sweeftdigital.contactsexchange.domain.use_case.DeleteContactUseCase
 import com.sweeftdigital.contactsexchange.domain.use_case.SelectContactByIdUseCase
-import com.sweeftdigital.contactsexchange.presentation.base.BaseViewModel
+import dev.arch3rtemp.core_ui.base.BaseViewModel
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch

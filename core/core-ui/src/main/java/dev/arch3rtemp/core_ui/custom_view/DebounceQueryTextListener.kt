@@ -1,4 +1,4 @@
-package com.sweeftdigital.contactsexchange.presentation.common
+package dev.arch3rtemp.core_ui.custom_view
 
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Lifecycle

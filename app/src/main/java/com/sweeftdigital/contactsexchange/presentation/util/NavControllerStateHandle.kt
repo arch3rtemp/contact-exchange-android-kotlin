@@ -1,4 +1,4 @@
-package com.sweeftdigital.contactsexchange.presentation.common
+package com.sweeftdigital.contactsexchange.presentation.util
 
 import androidx.navigation.NavController
 
