@@ -70,8 +70,8 @@ dependencies {
     implementation(libs.navigation.ui.ktx)
 
     // Library for QR
-    implementation('com.github.androidmads:QRGenerator:1.0.1')
+    implementation(libs.qrgenerator)
 
     // Library for swipe recyclerview
-    implementation('com.github.hydrated:SwipeRevealLayout:1.4.0')
+    implementation(libs.swipereveallayout)
 }
