@@ -57,7 +57,7 @@ dependencies {
     implementation libs.play.services.code.scanner
 
     // Koin
-    implementation(libs.koin.core)
+    implementation(platform(libs.koin.bom))
     implementation(libs.koin.android)
 
     // Room

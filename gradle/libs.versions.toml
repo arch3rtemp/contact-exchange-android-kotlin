@@ -16,7 +16,7 @@ material = "1.12.0"
 gson = "2.11.0"
 play-services-code-scanner = "16.1.0"
 #Koin
-koin = "3.5.3"
+koin-bom = "4.0.0"
 #Misc
 qrgenerator = "1.0.1"
 swipereveallayout = "1.4.0"
@@ -48,9 +48,8 @@ gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
 material = { module = "com.google.android.material:material", version.ref = "material" }
 play-services-code-scanner = { module = "com.google.android.gms:play-services-code-scanner", version.ref = "play-services-code-scanner" }
 #Koin
-koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
-koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
-koin-plugin = { module = "io.insert-koin:koin-gradle-plugin", version.ref = "koin" }
+koin-bom = { module = "io.insert-koin:koin-bom", version.ref = "koin-bom" }
+koin-android = { module = "io.insert-koin:koin-android" }
 #Misc
 swipereveallayout = { module = "com.github.hydrated:swipereveallayout", version.ref = "swipereveallayout" }
 qrgenerator = { module = "com.github.androidmads:qrgenerator", version.ref = "qrgenerator" }
