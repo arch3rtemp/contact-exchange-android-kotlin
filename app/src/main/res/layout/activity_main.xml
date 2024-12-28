@@ -19,15 +19,6 @@
         app:titleMarginStart="20dp"
         app:titleTextAppearance="@style/ToolbarTheme">
 
-        <!--        <TextView-->
-        <!--            android:id="@+id/tv_my_cards"-->
-        <!--            android:layout_width="wrap_content"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:fontFamily="@font/poppins_medium"-->
-        <!--            android:text="@string/home_cards"-->
-        <!--            android:textColor="@color/black_two"-->
-        <!--            android:textSize="16sp" />-->
-
         <LinearLayout
             android:id="@+id/ll_back"
             android:layout_width="44dp"

@@ -6,6 +6,5 @@
 .DS_Store
 .externalNativeBuild
 .cxx
-/.idea/deploymentTargetSelector.xml
-/.idea/runConfigurations.xml
+/.idea
 /.kotlin
