@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--    Messages-->
+    <string name="msg_deleted_successfully">Deleted Successfully</string>
+    <string name="msg_contact_added">Contact Added</string>
+    <string name="msg_contact_deleted">Contact Deleted</string>
+    <string name="msg_undo">Undo</string>
+    <string name="msg_scan_cancelled">Scan cancelled</string>
+    <string name="msg_all_fields_required">Please fill in all fields</string>
+    <string name="msg_could_not_save">Changes could not be saved</string>
+    <string name="msg_could_not_load_data">Data could not be loaded</string>
+    <string name="msg_error_unspecified">Unspecified error occurred</string>
+</resources>

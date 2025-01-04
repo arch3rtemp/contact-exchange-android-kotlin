@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.jetbrainsKotlinAndroid)
     alias(libs.plugins.googleDevtoolsKsp)
     alias(libs.plugins.kotlinParcelize)
+    alias(libs.plugins.kotlinSerialization)
     alias(libs.plugins.navigationSafeargs)
 }
 
@@ -32,6 +33,7 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_21
         targetCompatibility = JavaVersion.VERSION_21
+        isCoreLibraryDesugaringEnabled = true
     }
     kotlinOptions {
         jvmTarget = "21"
@@ -40,7 +42,13 @@ android {
 
 dependencies {
 
-    implementation(project(":core:core-ui"))
+    implementation(project(":core:ui"))
+    coreLibraryDesugaring(libs.desugar)
+
+    // Jetbrains
+    implementation(libs.kotlinx.coroutines)
+    implementation(libs.kotlinx.serialization)
+    implementation(libs.kotlinx.datetime)
 
     // Jetpack
     implementation(libs.core.ktx)
@@ -55,7 +63,6 @@ dependencies {
 
     // Google
     implementation(libs.material)
-    implementation(libs.gson)
     implementation(libs.play.services.code.scanner)
 
     // Koin

@@ -1,11 +1,15 @@
 package dev.arch3rtemp.contactexchange.di.module
 
-import dev.arch3rtemp.contactexchange.domain.use_case.DeleteContactUseCase
-import dev.arch3rtemp.contactexchange.domain.use_case.SaveContactUseCase
-import dev.arch3rtemp.contactexchange.domain.use_case.SelectContactByIdUseCase
-import dev.arch3rtemp.contactexchange.domain.use_case.SelectMyContactsUseCase
-import dev.arch3rtemp.contactexchange.domain.use_case.SelectScannedContactsUseCase
-import dev.arch3rtemp.contactexchange.domain.use_case.UpdateContactUseCase
+import android.app.Activity
+import dev.arch3rtemp.contactexchange.domain.usecase.DeleteContactUseCase
+import dev.arch3rtemp.contactexchange.domain.usecase.FilterContactsUseCase
+import dev.arch3rtemp.contactexchange.domain.usecase.GetContactByIdUseCase
+import dev.arch3rtemp.contactexchange.domain.usecase.GetMyCardsUseCase
+import dev.arch3rtemp.contactexchange.domain.usecase.GetScannedContactsUseCase
+import dev.arch3rtemp.contactexchange.domain.usecase.SaveContactUseCase
+import dev.arch3rtemp.contactexchange.domain.usecase.ScanQrUseCase
+import dev.arch3rtemp.contactexchange.domain.usecase.UpdateContactUseCase
+import org.koin.core.parameter.parametersOf
 import org.koin.dsl.module
 
 val USE_CASES_MODULE = module {
@@ -18,18 +22,26 @@ val USE_CASES_MODULE = module {
     }
 
     factory {
-        SelectContactByIdUseCase(get())
+        GetContactByIdUseCase(get())
     }
 
     factory {
-        SelectMyContactsUseCase(get())
+        GetMyCardsUseCase(get())
     }
 
     factory {
-        SelectScannedContactsUseCase(get())
+        GetScannedContactsUseCase(get())
     }
 
     factory {
         UpdateContactUseCase(get())
+    }
+
+    factory {
+        FilterContactsUseCase()
+    }
+
+    factory { (activity: Activity) ->
+        ScanQrUseCase(get { parametersOf(activity) })
     }
 }

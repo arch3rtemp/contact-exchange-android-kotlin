@@ -15,4 +15,4 @@ dependencyResolutionManagement {
 }
 rootProject.name = "ContactsExchange"
 include ':app'
-include ':core:core-ui'
+include ':core:ui'

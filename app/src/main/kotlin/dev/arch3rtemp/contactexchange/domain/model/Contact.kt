@@ -1,8 +1,8 @@
 package dev.arch3rtemp.contactexchange.domain.model
 
-import com.google.gson.Gson
-import java.util.*
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class Contact(
     val id: Int = 0,
     val name: String = "",
@@ -11,11 +11,11 @@ data class Contact(
     val email: String = "",
     val phoneMobile: String = "",
     val phoneOffice: String = "",
-    val createDate: Date = Date(),
+    val createdAt: Long = -1,
     val color: Int = 0,
-    val isMy: ContactType = ContactType.NOT_MY_CARD
+    val isMy: Boolean = false
 ) {
-    override fun toString(): String {
-        return Gson().toJson(this)// TODO Replace with JSON
+    fun isNotBlank(): Boolean {
+        return name.isNotBlank() && job.isNotBlank() && position.isNotBlank() && email.isNotBlank() && phoneMobile.isNotBlank() && phoneOffice.isNotBlank()
     }
 }

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    tools:context=".presentation.edit.EditCardFragment">
+    tools:context=".presentation.ui.edit.EditCardFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_edit"
@@ -37,7 +37,7 @@
             android:hint="@string/full_name"
             android:inputType="text"
             android:paddingHorizontal="20dp"
-            android:textColor="@color/black_two"
+            android:textColor="@color/text_primary"
             android:textSize="11sp"
             app:layout_constraintTop_toBottomOf="@id/tv_card_header"
             tools:ignore="SmallSp" />
@@ -51,7 +51,7 @@
             android:hint="@string/company"
             android:inputType="text"
             android:paddingHorizontal="20dp"
-            android:textColor="@color/black_two"
+            android:textColor="@color/text_primary"
             android:textSize="11sp"
             app:layout_constraintTop_toBottomOf="@id/et_full_name"
             tools:ignore="SmallSp" />
@@ -65,7 +65,7 @@
             android:hint="@string/position"
             android:inputType="text"
             android:paddingHorizontal="20dp"
-            android:textColor="@color/black_two"
+            android:textColor="@color/text_primary"
             android:textSize="11sp"
             app:layout_constraintTop_toBottomOf="@id/et_company"
             tools:ignore="SmallSp" />
@@ -79,7 +79,7 @@
             android:hint="@string/email"
             android:inputType="textEmailAddress"
             android:paddingHorizontal="20dp"
-            android:textColor="@color/black_two"
+            android:textColor="@color/text_primary"
             android:textSize="11sp"
             app:layout_constraintTop_toBottomOf="@id/et_position"
             tools:ignore="SmallSp" />
@@ -93,7 +93,7 @@
             android:hint="@string/tel"
             android:inputType="phone"
             android:paddingHorizontal="20dp"
-            android:textColor="@color/black_two"
+            android:textColor="@color/text_primary"
             android:textSize="11sp"
             app:layout_constraintTop_toBottomOf="@id/et_email"
             tools:ignore="SmallSp" />
@@ -107,7 +107,7 @@
             android:hint="@string/tel_office"
             android:inputType="phone"
             android:paddingHorizontal="20dp"
-            android:textColor="@color/black_two"
+            android:textColor="@color/text_primary"
             android:textSize="11sp"
             app:layout_constraintTop_toBottomOf="@id/et_tel"
             tools:ignore="SmallSp" />

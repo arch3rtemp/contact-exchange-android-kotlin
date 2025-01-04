@@ -6,7 +6,6 @@
     <string name="create_new_card">Create new card</string>
     <string name="edit_your_card">Edit your card</string>
     <string name="create">Create</string>
-    <string name="save">Save</string>
     <string name="update">Update</string>
     <string name="edit">Edit</string>
     <string name="delete">Delete</string>
@@ -32,17 +31,6 @@
     <string name="scan_qr">Scan QR</string>
     <string name="qr">QR</string>
     <string name="search">Search</string>
-    <string name="transition_contacts_name">transition_contacts</string>
-    <string name="transition_search_name">transition_search</string>
     <string name="error">Error</string>
     <string name="empty">Empty</string>
-
-    <!--    Messages-->
-    <string name="msg_deleted_successfully">Deleted Successfully</string>
-    <string name="msg_contact_added">Contact Added</string>
-    <string name="msg_contact_deleted">Contact Deleted</string>
-    <string name="msg_undo">Undo</string>
-    <string name="msg_error_unspecified">Unspecified error occurred</string>
-    <string name="msg_scan_cancelled">Scan cancelled</string>
-    <string name="msg_all_fields_required">Please fill in all fields</string>
 </resources>

@@ -3,7 +3,6 @@ package dev.arch3rtemp.contactexchange.data.db.model
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import java.util.Date
 
 @Entity(tableName = "contact_table")
 data class ContactEntity(
@@ -19,8 +18,8 @@ data class ContactEntity(
     @ColumnInfo(name = "phone_office")
     val phoneOffice: String,
     @ColumnInfo(name = "create_date")
-    val createDate: Date,
+    val createdAt: Long,
     val color: Int,
     @ColumnInfo(name = "is_my")
-    val isMy: Int
+    val isMy: Boolean
 )
