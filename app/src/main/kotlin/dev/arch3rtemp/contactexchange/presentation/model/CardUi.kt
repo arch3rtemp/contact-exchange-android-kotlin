@@ -6,7 +6,7 @@ import dev.arch3rtemp.ui.util.ColorUtils
 import dev.arch3rtemp.ui.view.listadapter.RvItem
 
 data class CardUi(
-    val id: Int,
+    override val id: Int,
     val job: String,
     @ColorInt val color: Int
 ) : RvItem {

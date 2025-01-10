@@ -6,7 +6,7 @@ import dev.arch3rtemp.ui.util.ColorUtils
 import dev.arch3rtemp.ui.view.listadapter.RvItem
 
 data class ContactUi(
-    val id: Int,
+    override val id: Int,
     val name: String,
     val job: String,
     val position: String,
