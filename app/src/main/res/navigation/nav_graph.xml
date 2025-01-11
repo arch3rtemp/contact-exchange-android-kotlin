@@ -41,8 +41,10 @@
         <action
             android:id="@+id/action_cardFragment_to_editCardFragment"
             app:destination="@id/editCardFragment"
-            app:enterAnim="@anim/card_scale_up"
-            app:popExitAnim="@anim/card_scale_down" />
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
 
     <fragment

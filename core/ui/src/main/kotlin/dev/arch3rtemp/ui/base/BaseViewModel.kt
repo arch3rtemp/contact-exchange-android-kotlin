@@ -7,8 +7,8 @@ import androidx.lifecycle.viewModelScope
 import dev.arch3rtemp.ui.base.marker.UiEffect
 import dev.arch3rtemp.ui.base.marker.UiEvent
 import dev.arch3rtemp.ui.base.marker.UiState
-import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 
 abstract class BaseViewModel<Event : UiEvent, Effect : UiEffect, State : UiState> : ViewModel() {
@@ -16,10 +16,10 @@ abstract class BaseViewModel<Event : UiEvent, Effect : UiEffect, State : UiState
     private val initialState: State by lazy { createInitialState() }
     abstract fun createInitialState(): State
 
-    private val _event: Channel<Event> = Channel()
+    private val _event: MutableSharedFlow<Event> = MutableSharedFlow()
 
-    private val _effect: Channel<Effect> = Channel()
-    val effect = _effect.receiveAsFlow()
+    private val _effect: MutableSharedFlow<Effect> = MutableSharedFlow()
+    val effect = _effect.asSharedFlow()
 
     private val _state: MutableLiveData<State> = MutableLiveData(initialState)
     open val state: LiveData<State> = _state
@@ -32,12 +32,8 @@ abstract class BaseViewModel<Event : UiEvent, Effect : UiEffect, State : UiState
 
     private fun subscribeEvents() {
         viewModelScope.launch {
-            try {
-                for (event in _event) {
-                    handleEvent(event)
-                }
-            } finally {
-                _event.close()
+            _event.collect {
+                handleEvent(it)
             }
         }
     }
@@ -45,7 +41,7 @@ abstract class BaseViewModel<Event : UiEvent, Effect : UiEffect, State : UiState
     abstract fun handleEvent(event: Event)
 
     fun setEvent(event: Event) {
-        viewModelScope.launch { _event.send(event) }
+        viewModelScope.launch { _event.emit(event) }
     }
 
     protected fun setState(reduce: State.() -> State) {
@@ -54,6 +50,6 @@ abstract class BaseViewModel<Event : UiEvent, Effect : UiEffect, State : UiState
 
     protected fun setEffect(builder: () -> Effect) {
         val effectValue = builder()
-        viewModelScope.launch { _effect.send(effectValue) }
+        viewModelScope.launch { _effect.emit(effectValue) }
     }
 }
