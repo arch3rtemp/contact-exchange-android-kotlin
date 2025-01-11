@@ -10,17 +10,14 @@ class UpdateContactUseCase(private val repo: CardRepository) {
     }
 
     private fun mergeContact(current: Contact, newCard: Contact): Contact {
-        return Contact(
-            current.id,
-            newCard.name,
-            newCard.job,
-            newCard.position,
-            newCard.email,
-            newCard.phoneMobile,
-            newCard.phoneOffice,
-            newCard.createdAt,
-            current.color,
-            current.isMy
+        return current.copy(
+            name = newCard.name,
+            job = newCard.job,
+            position = newCard.position,
+            email = newCard.email,
+            phoneMobile = newCard.phoneMobile,
+            phoneOffice = newCard.phoneOffice,
+            createdAt = newCard.createdAt,
         )
     }
 }

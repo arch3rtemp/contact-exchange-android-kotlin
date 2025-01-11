@@ -14,8 +14,4 @@ data class Contact(
     val createdAt: Long = -1,
     val color: Int = 0,
     val isMy: Boolean = false
-) {
-    fun isNotBlank(): Boolean {
-        return name.isNotBlank() && job.isNotBlank() && position.isNotBlank() && email.isNotBlank() && phoneMobile.isNotBlank() && phoneOffice.isNotBlank()
-    }
-}
+)

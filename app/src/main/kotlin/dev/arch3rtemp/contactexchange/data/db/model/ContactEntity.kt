@@ -8,7 +8,6 @@ import androidx.room.PrimaryKey
 data class ContactEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
-    @ColumnInfo(name = "name")
     val name: String,
     val job: String,
     val position: String,
@@ -17,7 +16,7 @@ data class ContactEntity(
     val phoneMobile: String,
     @ColumnInfo(name = "phone_office")
     val phoneOffice: String,
-    @ColumnInfo(name = "create_date")
+    @ColumnInfo(name = "created_at")
     val createdAt: Long,
     val color: Int,
     @ColumnInfo(name = "is_my")

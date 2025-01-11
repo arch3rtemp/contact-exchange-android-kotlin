@@ -9,5 +9,7 @@
     <string name="msg_all_fields_required">Please fill in all fields</string>
     <string name="msg_could_not_save">Changes could not be saved</string>
     <string name="msg_could_not_load_data">Data could not be loaded</string>
+    <string name="msg_id_must_be_positive">ID must be positive</string>
+    <string name="msg_card_cannot_be_null">Card cannot be null</string>
     <string name="msg_error_unspecified">Unspecified error occurred</string>
 </resources>

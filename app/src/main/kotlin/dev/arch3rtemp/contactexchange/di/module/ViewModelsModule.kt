@@ -14,9 +14,9 @@ val VIEW_MODELS_MODULE = module {
 
     viewModel { CardViewModel(get(), get(), get(), get()) }
 
-    viewModel { CreateCardViewModel(get(), get(), get()) }
+    viewModel { CreateCardViewModel(get(), get(), get(), get()) }
 
-    viewModel { EditCardViewModel(get(), get(), get(), get(), get()) }
+    viewModel { EditCardViewModel(get(), get(), get(), get(), get(), get()) }
 
     viewModel { MainViewModel(get(), get(), get()) }
 }

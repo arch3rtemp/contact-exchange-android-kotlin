@@ -4,6 +4,7 @@ import androidx.lifecycle.viewModelScope
 import dev.arch3rtemp.contactexchange.R
 import dev.arch3rtemp.contactexchange.domain.model.Contact
 import dev.arch3rtemp.contactexchange.domain.usecase.SaveContactUseCase
+import dev.arch3rtemp.contactexchange.domain.usecase.ValidateCardUseCase
 import dev.arch3rtemp.ui.base.BaseViewModel
 import dev.arch3rtemp.ui.util.ErrorMsgResolver
 import dev.arch3rtemp.ui.util.StringResourceManager
@@ -12,6 +13,7 @@ import kotlinx.coroutines.launch
 
 class CreateCardViewModel(
     private val saveContact: SaveContactUseCase,
+    private val validateCard: ValidateCardUseCase,
     private val resourceManager: StringResourceManager,
     private val errorMsgResolver: ErrorMsgResolver
 ) : BaseViewModel<CreateCardEvent, CreateCardEffect, CreateCardState>() {
@@ -26,23 +28,12 @@ class CreateCardViewModel(
 
     private fun saveCard(contact: Contact) {
         viewModelScope.launch(errorHandler) {
-            if (checkContactNotBlank(contact)) {
+            if (validateCard(contact)) {
                 saveContact(contact)
                 setEffect { CreateCardEffect.NavigateUp }
             } else {
                 setEffect { CreateCardEffect.ShowError(resourceManager.string(R.string.msg_all_fields_required)) }
             }
-        }
-    }
-
-    private fun checkContactNotBlank(contact: Contact): Boolean {
-        contact.apply {
-            return (name.isNotBlank()
-                    && job.isNotBlank()
-                    && position.isNotBlank()
-                    && email.isNotBlank()
-                    && phoneMobile.isNotBlank()
-                    && phoneOffice.isNotBlank())
         }
     }
 

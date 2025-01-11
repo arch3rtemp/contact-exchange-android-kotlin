@@ -5,6 +5,7 @@ import dev.arch3rtemp.contactexchange.R
 import dev.arch3rtemp.contactexchange.domain.model.Contact
 import dev.arch3rtemp.contactexchange.domain.usecase.GetContactByIdUseCase
 import dev.arch3rtemp.contactexchange.domain.usecase.UpdateContactUseCase
+import dev.arch3rtemp.contactexchange.domain.usecase.ValidateCardUseCase
 import dev.arch3rtemp.contactexchange.presentation.mapper.ContactUiMapper
 import dev.arch3rtemp.ui.base.BaseViewModel
 import dev.arch3rtemp.ui.util.ErrorMsgResolver
@@ -15,6 +16,7 @@ import kotlinx.coroutines.launch
 class EditCardViewModel(
     private val getContactById: GetContactByIdUseCase,
     private val updateContact: UpdateContactUseCase,
+    private val validateCard: ValidateCardUseCase,
     private val mapper: ContactUiMapper,
     private val resourceManager: StringResourceManager,
     private val errorMsgResolver: ErrorMsgResolver
@@ -50,7 +52,7 @@ class EditCardViewModel(
 
     private fun updateCard(newCard: Contact) {
 
-        if (newCard.isNotBlank()) {
+        if (validateCard(newCard)) {
             (currentState?.viewState as? ViewState.Success)?.let { state ->
                 state.data.let { currentCard ->
 

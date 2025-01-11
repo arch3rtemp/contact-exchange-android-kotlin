@@ -9,12 +9,13 @@ import dev.arch3rtemp.contactexchange.domain.usecase.GetScannedContactsUseCase
 import dev.arch3rtemp.contactexchange.domain.usecase.SaveContactUseCase
 import dev.arch3rtemp.contactexchange.domain.usecase.ScanQrUseCase
 import dev.arch3rtemp.contactexchange.domain.usecase.UpdateContactUseCase
+import dev.arch3rtemp.contactexchange.domain.usecase.ValidateCardUseCase
 import org.koin.core.parameter.parametersOf
 import org.koin.dsl.module
 
 val USE_CASES_MODULE = module {
     factory {
-        DeleteContactUseCase(get())
+        DeleteContactUseCase(get(), get())
     }
 
     factory {
@@ -22,7 +23,7 @@ val USE_CASES_MODULE = module {
     }
 
     factory {
-        GetContactByIdUseCase(get())
+        GetContactByIdUseCase(get(), get())
     }
 
     factory {
@@ -43,5 +44,9 @@ val USE_CASES_MODULE = module {
 
     factory { (activity: Activity) ->
         ScanQrUseCase(get { parametersOf(activity) })
+    }
+
+    factory {
+        ValidateCardUseCase()
     }
 }

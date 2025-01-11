@@ -22,10 +22,12 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import dev.arch3rtemp.contactexchange.databinding.DeletePopupBinding
 import dev.arch3rtemp.contactexchange.databinding.FragmentCardBinding
+import dev.arch3rtemp.contactexchange.presentation.mapper.ContactToJsonMapper
 import dev.arch3rtemp.contactexchange.presentation.model.ContactUi
 import dev.arch3rtemp.contactexchange.presentation.ui.edit.EditCardFragment
 import dev.arch3rtemp.ui.base.BaseFragment
 import dev.arch3rtemp.ui.util.currentDeviceRealSize
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import kotlin.math.min
 
@@ -36,6 +38,7 @@ class CardFragment : BaseFragment<CardEvent, CardEffect, CardState, FragmentCard
 
     override val viewModel by viewModel<CardViewModel>()
     private val args by navArgs<CardFragmentArgs>()
+    val mapper by inject<ContactToJsonMapper>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -118,7 +121,7 @@ class CardFragment : BaseFragment<CardEvent, CardEffect, CardState, FragmentCard
         var smallerDimension = min(width, height)
         smallerDimension = smallerDimension * 3 / 4
 
-        val qrgEncoder = QRGEncoder(contact.toString(), null, QRGContents.Type.TEXT, smallerDimension)
+        val qrgEncoder = QRGEncoder(mapper.toJson(contact), null, QRGContents.Type.TEXT, smallerDimension)
         // Getting QR-Code as Bitmap
         val bitmap = qrgEncoder.getBitmap(0)
         // Setting Bitmap to ImageView
