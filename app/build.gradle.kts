@@ -57,9 +57,6 @@ dependencies {
     implementation(libs.core.splashscreen)
     implementation(libs.navigation.fragment.ktx)
     implementation(libs.navigation.ui.ktx)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.ext.junit)
-    androidTestImplementation(libs.espresso.core)
 
     // Google
     implementation(libs.material)
@@ -79,4 +76,13 @@ dependencies {
 
     // Library for swipe recyclerview
     implementation(libs.swipereveallayout)
+
+    // Testing
+    testImplementation(libs.junit)
+    testImplementation(libs.robolectric)
+    testImplementation(libs.mockk)
+    testImplementation(libs.core.testing)
+    androidTestImplementation(libs.mockk)
+    androidTestImplementation(libs.ext.junit)
+    androidTestImplementation(libs.espresso.core)
 }

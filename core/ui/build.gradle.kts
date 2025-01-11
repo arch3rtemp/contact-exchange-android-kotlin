@@ -37,11 +37,16 @@ android {
 }
 
 dependencies {
+    coreLibraryDesugaring(libs.desugar)
+
+    implementation(libs.kotlinx.datetime)
+
     implementation(libs.core.ktx)
     implementation(libs.appcompat)
     implementation(libs.fragment.ktx)
     implementation(libs.recyclerview)
 
-    implementation(libs.kotlinx.datetime)
-    coreLibraryDesugaring(libs.desugar)
+    // Testing
+    testImplementation(libs.junit)
+    testImplementation(libs.robolectric)
 }

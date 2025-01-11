@@ -27,6 +27,9 @@ swipereveallayout = "1.4.0"
 timber = "5.0.1"
 #Testing
 junit = "4.13.2"
+core-testing = "2.2.0"
+robolectric = "4.14.1"
+mockk = "1.13.16"
 junit-ext = "1.2.1"
 espresso = "3.6.1"
 
@@ -46,9 +49,6 @@ room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
 navigation-fragment-ktx = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "navigation" }
 navigation-ui-ktx = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "navigation" }
-ext-junit = { module = "androidx.test.ext:junit", version.ref = "junit-ext" }
-espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "espresso" }
-junit = { module = "junit:junit", version.ref = "junit" }
 #Google
 material = { module = "com.google.android.material:material", version.ref = "material" }
 play-services-code-scanner = { module = "com.google.android.gms:play-services-code-scanner", version.ref = "play-services-code-scanner" }
@@ -60,6 +60,15 @@ desugar = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desuga
 swipereveallayout = { module = "com.github.hydrated:swipereveallayout", version.ref = "swipereveallayout" }
 qrgenerator = { module = "com.github.androidmads:qrgenerator", version.ref = "qrgenerator" }
 timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
+#Testing
+junit = { module = "junit:junit", version.ref = "junit" }
+core-testing = { module = "androidx.arch.core:core-testing", version.ref = "core-testing" }
+robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
+mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
+mockk-android = { module = "io.mockk:mockk-android", version.ref = "mockk" }
+mockk-agent = { module = "io.mockk:mockk-agent", version.ref = "mockk" }
+ext-junit = { module = "androidx.test.ext:junit", version.ref = "junit-ext" }
+espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "espresso" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "gradle-plugin" }
