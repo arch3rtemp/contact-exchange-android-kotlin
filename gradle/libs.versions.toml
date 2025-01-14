@@ -61,6 +61,7 @@ swipereveallayout = { module = "com.github.hydrated:swipereveallayout", version.
 qrgenerator = { module = "com.github.androidmads:qrgenerator", version.ref = "qrgenerator" }
 timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
 #Testing
+kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
 junit = { module = "junit:junit", version.ref = "junit" }
 core-testing = { module = "androidx.arch.core:core-testing", version.ref = "core-testing" }
 robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }

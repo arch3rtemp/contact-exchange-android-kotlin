@@ -1,12 +1,12 @@
 package dev.arch3rtemp.contactexchange.domain.usecase
 
 import dev.arch3rtemp.contactexchange.domain.model.Contact
-import dev.arch3rtemp.contactexchange.domain.repository.CardRepository
+import dev.arch3rtemp.contactexchange.domain.repository.ContactRepository
 import kotlinx.coroutines.flow.Flow
 
-class GetScannedContactsUseCase(private val repo: CardRepository) {
+class GetScannedContactsUseCase(private val repo: ContactRepository) {
 
     suspend operator fun invoke(): Flow<List<Contact>> {
-        return repo.selectAllScannedContacts()
+        return repo.getScannedContacts()
     }
 }

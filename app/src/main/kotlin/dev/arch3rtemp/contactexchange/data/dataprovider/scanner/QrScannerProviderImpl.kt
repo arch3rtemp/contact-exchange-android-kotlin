@@ -1,4 +1,4 @@
-package dev.arch3rtemp.contactexchange.data.providers.scanner
+package dev.arch3rtemp.contactexchange.data.dataprovider.scanner
 
 import com.google.mlkit.vision.codescanner.GmsBarcodeScanner
 import dev.arch3rtemp.contactexchange.R

@@ -17,7 +17,4 @@ class JsonToContactMapper() {
         )
     }
 
-    fun toJson(contact: Contact): String =
-        json.encodeToString(value = contact, serializer = Contact.serializer())
-
 }

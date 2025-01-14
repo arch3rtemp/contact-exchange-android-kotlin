@@ -4,8 +4,8 @@ import android.app.Activity
 import com.google.mlkit.vision.barcode.common.Barcode
 import com.google.mlkit.vision.codescanner.GmsBarcodeScannerOptions
 import com.google.mlkit.vision.codescanner.GmsBarcodeScanning
-import dev.arch3rtemp.contactexchange.data.providers.scanner.QrScannerProvider
-import dev.arch3rtemp.contactexchange.data.providers.scanner.QrScannerProviderImpl
+import dev.arch3rtemp.contactexchange.data.dataprovider.scanner.QrScannerProvider
+import dev.arch3rtemp.contactexchange.data.dataprovider.scanner.QrScannerProviderImpl
 import dev.arch3rtemp.contactexchange.data.repository.ScannerRepositoryImpl
 import dev.arch3rtemp.contactexchange.domain.repository.ScannerRepository
 import org.koin.core.parameter.parametersOf

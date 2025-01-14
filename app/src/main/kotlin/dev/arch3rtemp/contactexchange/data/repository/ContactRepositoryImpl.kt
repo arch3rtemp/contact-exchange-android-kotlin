@@ -1,21 +1,21 @@
 package dev.arch3rtemp.contactexchange.data.repository
 
-import dev.arch3rtemp.contactexchange.data.providers.local.LocalDataProvider
+import dev.arch3rtemp.contactexchange.data.dataprovider.local.LocalDataProvider
 import dev.arch3rtemp.contactexchange.domain.model.Contact
-import dev.arch3rtemp.contactexchange.domain.repository.CardRepository
+import dev.arch3rtemp.contactexchange.domain.repository.ContactRepository
 import kotlinx.coroutines.flow.Flow
 
-class CardRepositoryImpl(private val localDataProvider: LocalDataProvider) : CardRepository {
+class ContactRepositoryImpl(private val localDataProvider: LocalDataProvider) : ContactRepository {
 
-    override suspend fun selectAllMyContacts(): Flow<List<Contact>> {
-        return localDataProvider.selectAllMyContacts()
+    override suspend fun getMyContacts(): Flow<List<Contact>> {
+        return localDataProvider.selectMyContacts()
     }
 
-    override suspend fun selectAllScannedContacts(): Flow<List<Contact>> {
-        return localDataProvider.selectAllScannedContacts()
+    override suspend fun getScannedContacts(): Flow<List<Contact>> {
+        return localDataProvider.selectScannedContacts()
     }
 
-    override suspend fun selectContactById(id: Int): Contact {
+    override suspend fun getContactById(id: Int): Contact {
         return localDataProvider.selectContactById(id)
     }
 

@@ -1,9 +1,9 @@
 package dev.arch3rtemp.contactexchange.domain.usecase
 
 import dev.arch3rtemp.contactexchange.domain.model.Contact
-import dev.arch3rtemp.contactexchange.domain.repository.CardRepository
+import dev.arch3rtemp.contactexchange.domain.repository.ContactRepository
 
-class UpdateContactUseCase(private val repo: CardRepository) {
+class UpdateContactUseCase(private val repo: ContactRepository) {
 
     suspend operator fun invoke(current: Contact, newCard: Contact) {
         return repo.updateContact(mergeContact(current, newCard))

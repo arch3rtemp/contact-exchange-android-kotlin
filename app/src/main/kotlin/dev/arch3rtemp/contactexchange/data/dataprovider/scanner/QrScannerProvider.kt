@@ -1,4 +1,4 @@
-package dev.arch3rtemp.contactexchange.data.providers.scanner
+package dev.arch3rtemp.contactexchange.data.dataprovider.scanner
 
 import dev.arch3rtemp.contactexchange.domain.model.Contact
 

@@ -4,7 +4,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class Contact(
-    val id: Int = 0,
+    val id: Int = -1,
     val name: String = "",
     val job: String = "",
     val position: String = "",
@@ -12,6 +12,6 @@ data class Contact(
     val phoneMobile: String = "",
     val phoneOffice: String = "",
     val createdAt: Long = -1,
-    val color: Int = 0,
+    val color: Int = -1,
     val isMy: Boolean = false
 )
