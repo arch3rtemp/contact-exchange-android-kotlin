@@ -58,7 +58,7 @@ class HomeViewModel(
 
     private fun getCards() {
         viewModelScope.launch {
-            getMyCards.invoke()
+            getMyCards()
                 .onStart { setState { copy(cardsState = CardState.Loading) } }
                 .catch { error ->
                     setEffect { HomeEffect.ShowError(errorMsgResolver.resolve(error.localizedMessage)) }

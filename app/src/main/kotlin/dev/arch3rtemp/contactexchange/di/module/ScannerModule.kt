@@ -12,7 +12,6 @@ import org.koin.core.parameter.parametersOf
 import org.koin.dsl.bind
 import org.koin.dsl.module
 
-
 val SCANNER_MODULE = module {
 
     factory {

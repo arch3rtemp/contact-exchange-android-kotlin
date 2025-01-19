@@ -3,30 +3,32 @@ package dev.arch3rtemp.contactexchange.data.repository
 import android.database.sqlite.SQLiteException
 import dev.arch3rtemp.contactexchange.TestData
 import dev.arch3rtemp.contactexchange.data.dataprovider.local.LocalDataProvider
+import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
-import io.mockk.junit4.MockKRule
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
-import org.junit.Rule
+import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 
 class ContactRepositoryImplTest {
 
-    @get:Rule
-    val mockkRule = MockKRule(this)
-
     @MockK
     lateinit var mockLocalDataProvider: LocalDataProvider
 
     @InjectMockKs
     lateinit var repository: ContactRepositoryImpl
+
+    @BeforeTest
+    fun setUp() {
+        MockKAnnotations.init(this)
+    }
 
     @Test
     fun invokeGetMyContacts_returnsValidData() = runTest {

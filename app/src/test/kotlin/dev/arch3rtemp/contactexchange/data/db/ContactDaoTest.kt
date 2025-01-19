@@ -4,16 +4,16 @@ import androidx.room.Room
 import androidx.test.platform.app.InstrumentationRegistry
 import dev.arch3rtemp.contactexchange.TestData
 import dev.arch3rtemp.contactexchange.data.db.dao.ContactDao
-import junit.framework.TestCase.assertEquals
-import junit.framework.TestCase.assertNotNull
-import junit.framework.TestCase.assertNull
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
-import org.junit.After
-import org.junit.Before
-import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
+import kotlin.test.AfterTest
+import kotlin.test.BeforeTest
+import kotlin.test.Test
+import kotlin.test.junit.JUnitAsserter.assertEquals
+import kotlin.test.junit.JUnitAsserter.assertNotNull
+import kotlin.test.junit.JUnitAsserter.assertNull
 
 @RunWith(RobolectricTestRunner::class)
 class ContactDaoTest {
@@ -21,7 +21,7 @@ class ContactDaoTest {
     private lateinit var testDb: AppDatabase
     private lateinit var contactDao: ContactDao
 
-    @Before
+    @BeforeTest
     fun setUp() = runTest {
         testDb = Room.inMemoryDatabaseBuilder(
             InstrumentationRegistry.getInstrumentation().context,
@@ -33,7 +33,7 @@ class ContactDaoTest {
         initDb()
     }
 
-    @After
+    @AfterTest
     fun tearDown() {
         testDb.close()
     }

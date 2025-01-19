@@ -80,7 +80,7 @@ dependencies {
     // Testing
     testImplementation(libs.kotlinx.coroutines.test)
     testImplementation(kotlin("test"))
-    testImplementation(libs.junit)
+//    testImplementation(libs.junit)
     testImplementation(libs.robolectric)
     testImplementation(libs.mockk)
     testImplementation(libs.core.testing)

@@ -10,24 +10,20 @@ import dev.arch3rtemp.contactexchange.R
 import dev.arch3rtemp.contactexchange.TestData
 import dev.arch3rtemp.contactexchange.data.mapper.JsonToContactMapper
 import dev.arch3rtemp.ui.util.StringResourceManager
+import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
-import io.mockk.junit4.MockKRule
 import io.mockk.verify
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.test.runTest
-import org.junit.Before
-import org.junit.Rule
+import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 
 class QrScannerProviderImplTest {
-
-    @get:Rule
-    val mockkRule = MockKRule(this)
 
     @MockK
     lateinit var mockMapper: JsonToContactMapper
@@ -47,8 +43,9 @@ class QrScannerProviderImplTest {
     @InjectMockKs
     private lateinit var scannerProvider: QrScannerProviderImpl
 
-    @Before
+    @BeforeTest
     fun setUp() {
+        MockKAnnotations.init(this)
         every { mockScanner.startScan() } returns mockBarcodeTask
     }
 

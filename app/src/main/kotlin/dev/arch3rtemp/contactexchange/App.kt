@@ -1,6 +1,7 @@
 package dev.arch3rtemp.contactexchange
 
 import android.app.Application
+import dev.arch3rtemp.contactexchange.di.module.COROUTINES_MODULE
 import dev.arch3rtemp.contactexchange.di.module.LOCAL_STORAGE_MODULE
 import dev.arch3rtemp.contactexchange.di.module.MAPPERS_MODULE
 import dev.arch3rtemp.contactexchange.di.module.SCANNER_MODULE
@@ -22,6 +23,7 @@ class App : Application() {
                 VIEW_MODELS_MODULE,
                 SCANNER_MODULE,
                 MAPPERS_MODULE,
+                COROUTINES_MODULE,
                 UTILS_MODULE
             )
         }

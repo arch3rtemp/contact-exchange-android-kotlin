@@ -4,26 +4,23 @@ import android.database.sqlite.SQLiteException
 import dev.arch3rtemp.contactexchange.TestData
 import dev.arch3rtemp.contactexchange.data.db.dao.ContactDao
 import dev.arch3rtemp.contactexchange.data.mapper.ContactEntityMapper
+import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
-import io.mockk.junit4.MockKRule
 import io.mockk.verify
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
-import org.junit.Rule
-import org.junit.Test
+import kotlin.test.BeforeTest
+import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 
 class LocalDataProviderImplTest {
-
-    @get:Rule
-    val mockkRule = MockKRule(this)
 
     @MockK
     lateinit var mockContactDao: ContactDao
@@ -33,6 +30,11 @@ class LocalDataProviderImplTest {
 
     @InjectMockKs
     private lateinit var dataProvider: LocalDataProviderImpl
+
+    @BeforeTest
+    fun setUp() {
+        MockKAnnotations.init(this)
+    }
 
     @Test
     fun invokeSelectMyContacts_mapsAndReturnsValidData() = runTest {

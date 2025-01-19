@@ -16,8 +16,7 @@ class UpdateContactUseCase(private val repo: ContactRepository) {
             position = newCard.position,
             email = newCard.email,
             phoneMobile = newCard.phoneMobile,
-            phoneOffice = newCard.phoneOffice,
-            createdAt = newCard.createdAt,
+            phoneOffice = newCard.phoneOffice
         )
     }
 }

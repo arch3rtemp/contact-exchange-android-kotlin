@@ -1,7 +1,7 @@
 package dev.arch3rtemp.contactexchange.domain.usecase
 
 import dev.arch3rtemp.contactexchange.domain.model.Contact
-import kotlinx.coroutines.Dispatchers
+import dev.arch3rtemp.contactexchange.domain.util.DispatcherProvider
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow
@@ -12,7 +12,10 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 
-class FilterContactsUseCase() {
+class FilterContactsUseCase(
+    private val dispatcherProvider: DispatcherProvider,
+    private val debounceMs: Long = 300L
+) {
 
     private val filterFlow = MutableSharedFlow<Pair<String, List<Contact>>>(replay = 1)
 
@@ -23,12 +26,12 @@ class FilterContactsUseCase() {
     @OptIn(ExperimentalCoroutinesApi::class, FlowPreview::class)
     fun getFilteredContactsStream(): Flow<List<Contact>> {
         return filterFlow
-            .debounce(DEBOUNCE_PERIOD_MS)
+            .debounce(debounceMs)
             .distinctUntilChanged()
             .flatMapLatest { pair ->
                 flow {
                     emit(filterContacts(pair.first, pair.second))
-                }.flowOn(Dispatchers.Default)
+                }.flowOn(dispatcherProvider.default)
             }
     }
 
@@ -53,9 +56,5 @@ class FilterContactsUseCase() {
         return unfiltered.filter { contact ->
             contact.name.lowercase().trim().contains(filterPattern)
         }
-    }
-
-    companion object {
-        private const val DEBOUNCE_PERIOD_MS = 300L
     }
 }

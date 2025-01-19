@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.Flow
 
 class GetMyCardsUseCase(private val repo: ContactRepository) {
 
-    suspend fun invoke(): Flow<List<Contact>> {
+    suspend operator fun invoke(): Flow<List<Contact>> {
         return repo.getMyContacts()
     }
 }
