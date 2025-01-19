@@ -3,6 +3,7 @@ package dev.arch3rtemp.contactexchange
 import android.database.sqlite.SQLiteException
 import dev.arch3rtemp.contactexchange.data.db.model.ContactEntity
 import dev.arch3rtemp.contactexchange.domain.model.Contact
+import dev.arch3rtemp.contactexchange.presentation.model.CardUi
 import dev.arch3rtemp.contactexchange.presentation.model.ContactUi
 
 object TestData {
@@ -147,6 +148,18 @@ object TestData {
         isMy = true
     )
 
+    val testMyCardUi = CardUi(
+        id = 9,
+        job = "Job",
+        color = 0xFF0000
+    )
+
+    val testScannedCardUi = CardUi(
+        id = 10,
+        job = "JP Morgan",
+        color = 0xFF00FF
+    )
+
     val testScannedContactUi = ContactUi(
         id = 10,
         name = "Jane Doe",
@@ -176,6 +189,8 @@ object TestData {
     )
 
     val testContactsUi = listOf(testMyContactUi, testScannedContactUi)
+
+    val testCardsUi = listOf(testMyCardUi, testScannedCardUi)
 
     val testContactUiJsonCompact = "{\"id\":9,\"name\":\"John Doe\",\"job\":\"Job\",\"position\":\"Developer\",\"email\":\"john@example.com\",\"phoneMobile\":\"+15559879855\",\"phoneOffice\":\"+15558797882\",\"createdAt\":1736190485327,\"formattedCreatedAt\":\"06 Jan 25\",\"color\":16711680,\"isMy\":true}"
 }
