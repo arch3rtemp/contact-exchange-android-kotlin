@@ -11,7 +11,7 @@ sealed interface HomeEvent : UiEvent {
     data object OnContactsLoad : HomeEvent
     data object OnCardsLoad : HomeEvent
     data class OnContactDelete(val contact: ContactUi) : HomeEvent
-    data class OnContactSaved(val contact: Contact) : HomeEvent
+    data class OnContactSave(val contact: Contact) : HomeEvent
     @JvmInline
     value class OnSearchTyped(val query: String) : HomeEvent
 }
@@ -40,6 +40,4 @@ sealed interface CardState {
     data class Success(val data: List<CardUi>) : CardState
 }
 
-data class HomeState(
-    val cardsState: CardState, val contactsState: ContactState, val query: String = ""
-) : UiState
+data class HomeState(val cardsState: CardState, val contactsState: ContactState) : UiState

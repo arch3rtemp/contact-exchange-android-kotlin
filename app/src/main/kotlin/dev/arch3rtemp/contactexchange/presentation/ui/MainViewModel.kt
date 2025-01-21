@@ -17,7 +17,7 @@ class MainViewModel(
 ) : BaseViewModel<MainEvent, MainEffect, MainState>() {
 
     private val errorHandler = CoroutineExceptionHandler { context, throwable ->
-        showMessage(throwable.localizedMessage)
+        showMessage(errorMsgResolver.resolve(throwable.localizedMessage))
     }
 
     override fun createInitialState(): MainState {
@@ -27,8 +27,8 @@ class MainViewModel(
     override fun handleEvent(event: MainEvent) {
         when (event) {
             is MainEvent.OnQrScanComplete -> createContact(event.contact)
-            is MainEvent.OnQrScanCanceled -> showMessage(event.message)
-            is MainEvent.OnQrScanFail -> showMessage(event.message)
+            is MainEvent.OnQrScanCanceled -> showMessage(errorMsgResolver.resolve(event.message))
+            is MainEvent.OnQrScanFail -> showMessage(errorMsgResolver.resolve(event.message))
         }
     }
 
@@ -39,7 +39,7 @@ class MainViewModel(
         }
     }
 
-    private fun showMessage(message: String?) {
-        setEffect { MainEffect.ShowMessage(errorMsgResolver.resolve(message)) }
+    private fun showMessage(message: String) {
+        setEffect { MainEffect.ShowMessage(message) }
     }
 }

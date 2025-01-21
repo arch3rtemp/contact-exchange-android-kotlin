@@ -10,8 +10,8 @@ import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 
 class CardViewModel(
-    private val getContactByIdUseCase: GetContactByIdUseCase,
-    private val deleteContactUseCase: DeleteContactUseCase,
+    private val getContactById: GetContactByIdUseCase,
+    private val deleteContact: DeleteContactUseCase,
     private val mapper: ContactUiMapper,
     private val errorMsgResolver: ErrorMsgResolver
 ) : BaseViewModel<CardEvent, CardEffect, CardState>() {
@@ -37,14 +37,14 @@ class CardViewModel(
     private fun getCard(id: Int) {
         viewModelScope.launch(createErrorHandler { setState { copy(ViewState.Error) } }) {
             setState { copy(viewState = ViewState.Loading) }
-            val card = getContactByIdUseCase.invoke(id)
+            val card = getContactById.invoke(id)
             setState { copy(viewState = ViewState.Success(mapper.toUiModel(card))) }
         }
     }
 
     private fun deleteCard(id: Int) {
         viewModelScope.launch(createErrorHandler()) {
-            deleteContactUseCase.invoke(id)
+            deleteContact.invoke(id)
             setEffect { CardEffect.AnimateDeletion }
         }
     }

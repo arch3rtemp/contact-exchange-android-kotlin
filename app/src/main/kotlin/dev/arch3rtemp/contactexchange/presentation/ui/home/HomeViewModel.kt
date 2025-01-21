@@ -51,7 +51,7 @@ class HomeViewModel(
             }
             HomeEvent.OnCardsLoad -> getCards()
             is HomeEvent.OnContactDelete -> deleteContact(event.contact)
-            is HomeEvent.OnContactSaved -> saveContact(event.contact)
+            is HomeEvent.OnContactSave -> saveContact(event.contact)
             is HomeEvent.OnSearchTyped -> filter(event.query, unfilteredContacts)
         }
     }
@@ -79,7 +79,7 @@ class HomeViewModel(
 
     private fun getContacts() {
         viewModelScope.launch {
-            getScannedContacts.invoke()
+            getScannedContacts()
                 .onStart { setState { copy(contactsState = ContactState.Loading) } }
                 .catch { error ->
                     setEffect { HomeEffect.ShowError(errorMsgResolver.resolve(error.localizedMessage)) }

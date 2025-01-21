@@ -50,7 +50,7 @@ class HomeFragment : BaseFragment<HomeEvent, HomeEffect, HomeState, FragmentHome
             }
             is HomeEffect.ShowUndo -> {
                 Snackbar.make(requireView(), getString(R.string.msg_contact_deleted), Snackbar.LENGTH_SHORT)
-                    .setAction(getString(R.string.msg_undo)) { viewModel.setEvent(HomeEvent.OnContactSaved(effect.contact)) }
+                    .setAction(getString(R.string.msg_undo)) { viewModel.setEvent(HomeEvent.OnContactSave(effect.contact)) }
                     .show()
             }
         }
