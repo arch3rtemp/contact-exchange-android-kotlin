@@ -3,12 +3,13 @@ package dev.arch3rtemp.contactexchange.presentation.ui.edit
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import dev.arch3rtemp.contactexchange.R
 import dev.arch3rtemp.contactexchange.TestData
-import dev.arch3rtemp.contactexchange.coroutines.MainCoroutinesRule
 import dev.arch3rtemp.contactexchange.domain.model.Contact
 import dev.arch3rtemp.contactexchange.domain.usecase.GetContactByIdUseCase
 import dev.arch3rtemp.contactexchange.domain.usecase.UpdateContactUseCase
 import dev.arch3rtemp.contactexchange.domain.usecase.ValidateContactUseCase
 import dev.arch3rtemp.contactexchange.presentation.mapper.ContactUiMapper
+import dev.arch3rtemp.tests.coroutines.FlowTestObserver
+import dev.arch3rtemp.tests.coroutines.MainCoroutinesRule
 import dev.arch3rtemp.ui.util.ErrorMsgResolver
 import dev.arch3rtemp.ui.util.StringResourceManager
 import io.mockk.MockKAnnotations
@@ -19,8 +20,6 @@ import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
 import io.mockk.verify
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import org.junit.Rule
@@ -63,9 +62,7 @@ class EditCardViewModelTest {
 
     private val stateObserver: (EditCardState) -> Unit = { state: EditCardState -> observedStates.add(state) }
 
-    private val emittedEffects = mutableListOf<EditCardEffect>()
-
-    private val effectJob = Job()
+    private lateinit var effectObserver: FlowTestObserver<EditCardEffect>
 
     @BeforeTest
     fun setUp() {
@@ -73,11 +70,7 @@ class EditCardViewModelTest {
 
         editCardViewModel.state.observeForever(stateObserver)
         runTest {
-            launch(effectJob) {
-                editCardViewModel.effect.collect { effect ->
-                    emittedEffects.add(effect)
-                }
-            }
+            effectObserver = FlowTestObserver<EditCardEffect>(this, editCardViewModel.effect)
         }
     }
 
@@ -85,8 +78,7 @@ class EditCardViewModelTest {
     fun tearDown() {
         editCardViewModel.state.removeObserver(stateObserver)
         observedStates.clear()
-        effectJob.cancel()
-        emittedEffects.clear()
+        effectObserver.cancel()
     }
 
     @Test
@@ -124,8 +116,8 @@ class EditCardViewModelTest {
         assertEquals(EditCardState(ViewState.Loading), observedStates[1])
         assertEquals(EditCardState(ViewState.Error), observedStates[2])
 
-        assertEquals(1, emittedEffects.size)
-        assertEquals(EditCardEffect.ShowError("Database error"), emittedEffects[0])
+        assertEquals(1, effectObserver.values.size)
+        assertEquals(EditCardEffect.ShowError("Database error"), effectObserver.values[0])
     }
 
     @Test
@@ -150,8 +142,8 @@ class EditCardViewModelTest {
         verify(exactly = 1) { mockValidateContact(TestData.mergedContact) }
         coVerify(exactly = 1) { mockUpdateContact(TestData.testMyContact, TestData.mergedContact) }
 
-        assertEquals(1, emittedEffects.size)
-        assertEquals(EditCardEffect.NavigateUp, emittedEffects[0])
+        assertEquals(1, effectObserver.values.size)
+        assertEquals(EditCardEffect.NavigateUp, effectObserver.values[0])
     }
 
     @Test
@@ -179,8 +171,8 @@ class EditCardViewModelTest {
         verify(exactly = 1) { mockValidateContact(TestData.mergedContact) }
         coVerify(exactly = 1) { mockUpdateContact(TestData.testMyContact, TestData.mergedContact) }
 
-        assertEquals(1, emittedEffects.size)
-        assertEquals(EditCardEffect.ShowError(message), emittedEffects[0])
+        assertEquals(1, effectObserver.values.size)
+        assertEquals(EditCardEffect.ShowError(message), effectObserver.values[0])
     }
 
     @Test
@@ -202,7 +194,7 @@ class EditCardViewModelTest {
         verify(exactly = 1) { mockValidateContact(Contact()) }
         verify(exactly = 1) { mockResourceManager.string(R.string.msg_all_fields_required) }
 
-        assertEquals(1, emittedEffects.size)
-        assertEquals(EditCardEffect.ShowError(message), emittedEffects[0])
+        assertEquals(1, effectObserver.values.size)
+        assertEquals(EditCardEffect.ShowError(message), effectObserver.values[0])
     }
 }

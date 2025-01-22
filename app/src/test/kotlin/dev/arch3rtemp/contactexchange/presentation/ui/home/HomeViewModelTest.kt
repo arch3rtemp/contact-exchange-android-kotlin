@@ -3,7 +3,6 @@ package dev.arch3rtemp.contactexchange.presentation.ui.home
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import dev.arch3rtemp.contactexchange.R
 import dev.arch3rtemp.contactexchange.TestData
-import dev.arch3rtemp.contactexchange.coroutines.MainCoroutinesRule
 import dev.arch3rtemp.contactexchange.domain.model.Contact
 import dev.arch3rtemp.contactexchange.domain.usecase.DeleteContactUseCase
 import dev.arch3rtemp.contactexchange.domain.usecase.FilterContactsUseCase
@@ -12,6 +11,9 @@ import dev.arch3rtemp.contactexchange.domain.usecase.GetScannedContactsUseCase
 import dev.arch3rtemp.contactexchange.domain.usecase.SaveContactUseCase
 import dev.arch3rtemp.contactexchange.presentation.mapper.CardUiMapper
 import dev.arch3rtemp.contactexchange.presentation.mapper.ContactUiMapper
+import dev.arch3rtemp.tests.coroutines.FlowTestObserver
+import dev.arch3rtemp.tests.coroutines.MainCoroutinesRule
+import dev.arch3rtemp.tests.coroutines.TestObserver
 import dev.arch3rtemp.ui.util.ErrorMsgResolver
 import dev.arch3rtemp.ui.util.StringResourceManager
 import io.mockk.MockKAnnotations
@@ -22,11 +24,9 @@ import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
 import io.mockk.verify
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import org.junit.Rule
@@ -74,10 +74,8 @@ class HomeViewModelTest {
     @InjectMockKs
     private lateinit var homeViewModel: HomeViewModel
 
-    private val observedStates = mutableListOf<HomeState>()
-    private val stateObserver: (HomeState) -> Unit = { state: HomeState -> observedStates.add(state) }
-    private val emittedEffects = mutableListOf<HomeEffect>()
-    private val effectJob = Job()
+    private val stateObserver = TestObserver<HomeState>()
+    private lateinit var effectObserver: FlowTestObserver<HomeEffect>
 
     @BeforeTest
     fun setUp() {
@@ -85,20 +83,15 @@ class HomeViewModelTest {
 
         homeViewModel.state.observeForever(stateObserver)
         runTest {
-            launch(effectJob) {
-                homeViewModel.effect.collect { effect ->
-                    emittedEffects.add(effect)
-                }
-            }
+            effectObserver = FlowTestObserver<HomeEffect>(this, homeViewModel.effect)
         }
     }
 
     @AfterTest
     fun tearDown() {
         homeViewModel.state.removeObserver(stateObserver)
-        effectJob.cancel()
-        observedStates.clear()
-        emittedEffects.clear()
+        stateObserver.clear()
+        effectObserver.cancel()
     }
 
     @Test
@@ -114,12 +107,12 @@ class HomeViewModelTest {
         coVerify(exactly = 1) { mockGetScannedContacts() }
         verify { mockContactUiMapper.toUiList(TestData.testContacts) }
 
-        assertEquals(3, observedStates.size)
-        assertEquals(HomeState(cardsState = CardState.Idle, contactsState = ContactState.Idle), observedStates[0])
-        assertEquals(HomeState(cardsState = CardState.Idle, contactsState = ContactState.Loading), observedStates[1])
-        assertEquals(HomeState(cardsState = CardState.Idle, contactsState = ContactState.Success(TestData.testContactsUi)), observedStates[2])
+        assertEquals(3, stateObserver.values.size)
+        assertEquals(HomeState(cardsState = CardState.Idle, contactsState = ContactState.Idle), stateObserver.values[0])
+        assertEquals(HomeState(cardsState = CardState.Idle, contactsState = ContactState.Loading), stateObserver.values[1])
+        assertEquals(HomeState(cardsState = CardState.Idle, contactsState = ContactState.Success(TestData.testContactsUi)), stateObserver.values[2])
 
-        assertEquals(0, emittedEffects.size)
+        assertEquals(0, effectObserver.values.size)
     }
 
     @Test
@@ -138,13 +131,13 @@ class HomeViewModelTest {
 
         coVerify(exactly = 1) { mockGetScannedContacts() }
 
-        assertEquals(3, observedStates.size)
-        assertEquals(HomeState(cardsState = CardState.Idle, contactsState = ContactState.Idle), observedStates[0])
-        assertEquals(HomeState(cardsState = CardState.Idle, contactsState = ContactState.Loading), observedStates[1])
-        assertEquals(HomeState(cardsState = CardState.Idle, contactsState = ContactState.Error(messageState)), observedStates[2])
+        assertEquals(3, stateObserver.values.size)
+        assertEquals(HomeState(cardsState = CardState.Idle, contactsState = ContactState.Idle), stateObserver.values[0])
+        assertEquals(HomeState(cardsState = CardState.Idle, contactsState = ContactState.Loading), stateObserver.values[1])
+        assertEquals(HomeState(cardsState = CardState.Idle, contactsState = ContactState.Error(messageState)), stateObserver.values[2])
 
-        assertEquals(1, emittedEffects.size)
-        assertEquals(HomeEffect.ShowError(messageEffect), emittedEffects[0])
+        assertEquals(1, effectObserver.values.size)
+        assertEquals(HomeEffect.ShowError(messageEffect), effectObserver.values[0])
     }
 
     @Test
@@ -159,12 +152,12 @@ class HomeViewModelTest {
         coVerify(exactly = 1) { mockGetMyCards() }
         verify { mockCardUiMapper.toUiList(TestData.testContacts) }
 
-        assertEquals(3, observedStates.size)
-        assertEquals(HomeState(cardsState = CardState.Idle, contactsState = ContactState.Idle), observedStates[0])
-        assertEquals(HomeState(cardsState = CardState.Loading, contactsState = ContactState.Idle), observedStates[1])
-        assertEquals(HomeState(cardsState = CardState.Success(TestData.testCardsUi), contactsState = ContactState.Idle), observedStates[2])
+        assertEquals(3, stateObserver.values.size)
+        assertEquals(HomeState(cardsState = CardState.Idle, contactsState = ContactState.Idle), stateObserver.values[0])
+        assertEquals(HomeState(cardsState = CardState.Loading, contactsState = ContactState.Idle), stateObserver.values[1])
+        assertEquals(HomeState(cardsState = CardState.Success(TestData.testCardsUi), contactsState = ContactState.Idle), stateObserver.values[2])
 
-        assertEquals(0, emittedEffects.size)
+        assertEquals(0, effectObserver.values.size)
     }
 
     @Test
@@ -182,13 +175,13 @@ class HomeViewModelTest {
 
         coVerify(exactly = 1) { mockGetMyCards() }
 
-        assertEquals(3, observedStates.size)
-        assertEquals(HomeState(cardsState = CardState.Idle, contactsState = ContactState.Idle), observedStates[0])
-        assertEquals(HomeState(cardsState = CardState.Loading, contactsState = ContactState.Idle), observedStates[1])
-        assertEquals(HomeState(cardsState = CardState.Error(messageState), contactsState = ContactState.Idle), observedStates[2])
+        assertEquals(3, stateObserver.values.size)
+        assertEquals(HomeState(cardsState = CardState.Idle, contactsState = ContactState.Idle), stateObserver.values[0])
+        assertEquals(HomeState(cardsState = CardState.Loading, contactsState = ContactState.Idle), stateObserver.values[1])
+        assertEquals(HomeState(cardsState = CardState.Error(messageState), contactsState = ContactState.Idle), stateObserver.values[2])
 
-        assertEquals(1, emittedEffects.size)
-        assertEquals(HomeEffect.ShowError(messageEffect), emittedEffects[0])
+        assertEquals(1, effectObserver.values.size)
+        assertEquals(HomeEffect.ShowError(messageEffect), effectObserver.values[0])
     }
 
     @Test
@@ -202,8 +195,8 @@ class HomeViewModelTest {
 
         coVerify(exactly = 1) { mockDeleteContact(TestData.testScannedContact.id) }
 
-        assertEquals(1, emittedEffects.size)
-        assertEquals(HomeEffect.ShowUndo(TestData.testScannedContact), emittedEffects[0])
+        assertEquals(1, effectObserver.values.size)
+        assertEquals(HomeEffect.ShowUndo(TestData.testScannedContact), effectObserver.values[0])
     }
 
     @Test
@@ -218,8 +211,8 @@ class HomeViewModelTest {
 
         coVerify(exactly = 1) { mockDeleteContact(TestData.testScannedContact.id) }
 
-        assertEquals(1, emittedEffects.size)
-        assertEquals(HomeEffect.ShowError(message), emittedEffects[0])
+        assertEquals(1, effectObserver.values.size)
+        assertEquals(HomeEffect.ShowError(message), effectObserver.values[0])
     }
 
     @Test
@@ -246,8 +239,8 @@ class HomeViewModelTest {
 
         coVerify(exactly = 1) { mockSaveContact(TestData.testScannedContact) }
 
-        assertEquals(1, emittedEffects.size)
-        assertEquals(HomeEffect.ShowError(message), emittedEffects[0])
+        assertEquals(1, effectObserver.values.size)
+        assertEquals(HomeEffect.ShowError(message), effectObserver.values[0])
     }
 
     @Test
@@ -275,7 +268,7 @@ class HomeViewModelTest {
         homeViewModel.setEvent(HomeEvent.OnSearchTyped(query))
         advanceUntilIdle()
 
-        assertEquals(4, observedStates.size)
-        assertEquals(HomeState(cardsState = CardState.Idle, contactsState = ContactState.Success(filteredContactsUi)), observedStates[3])
+        assertEquals(4, stateObserver.values.size)
+        assertEquals(HomeState(cardsState = CardState.Idle, contactsState = ContactState.Success(filteredContactsUi)), stateObserver.values[3])
     }
 }

@@ -1,7 +1,7 @@
 package dev.arch3rtemp.contactexchange.domain.usecase
 
 import dev.arch3rtemp.contactexchange.domain.model.Contact
-import dev.arch3rtemp.contactexchange.domain.util.DispatcherProvider
+import dev.arch3rtemp.tests.coroutines.DispatcherProvider
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow

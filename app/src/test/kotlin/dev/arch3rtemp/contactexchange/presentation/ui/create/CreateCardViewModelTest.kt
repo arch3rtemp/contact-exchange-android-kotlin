@@ -2,10 +2,11 @@ package dev.arch3rtemp.contactexchange.presentation.ui.create
 
 import dev.arch3rtemp.contactexchange.R
 import dev.arch3rtemp.contactexchange.TestData
-import dev.arch3rtemp.contactexchange.coroutines.MainCoroutinesRule
 import dev.arch3rtemp.contactexchange.domain.model.Contact
 import dev.arch3rtemp.contactexchange.domain.usecase.SaveContactUseCase
 import dev.arch3rtemp.contactexchange.domain.usecase.ValidateContactUseCase
+import dev.arch3rtemp.tests.coroutines.FlowTestObserver
+import dev.arch3rtemp.tests.coroutines.MainCoroutinesRule
 import dev.arch3rtemp.ui.util.ErrorMsgResolver
 import dev.arch3rtemp.ui.util.StringResourceManager
 import io.mockk.MockKAnnotations
@@ -16,8 +17,6 @@ import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
 import io.mockk.verify
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import org.junit.Rule
@@ -47,27 +46,20 @@ class CreateCardViewModelTest {
     @InjectMockKs
     private lateinit var createCardViewModel: CreateCardViewModel
 
-    private val effectJob = Job()
-
-    private val emittedEffects = mutableListOf<CreateCardEffect>()
+    private lateinit var effectObserver: FlowTestObserver<CreateCardEffect>
 
     @BeforeTest
     fun setUp() {
         MockKAnnotations.init(this)
 
         runTest {
-            launch(effectJob) {
-                createCardViewModel.effect.collect { effect ->
-                    emittedEffects.add(effect)
-                }
-            }
+            effectObserver = FlowTestObserver<CreateCardEffect>(this, createCardViewModel.effect)
         }
     }
 
     @AfterTest
     fun tearDown() {
-        effectJob.cancel()
-        emittedEffects.clear()
+        effectObserver.cancel()
     }
 
     @Test
@@ -82,8 +74,8 @@ class CreateCardViewModelTest {
         coVerify(exactly = 1) { mockSaveContact(TestData.testMyContact) }
         verify(exactly = 1) { mockValidateContact(TestData.testMyContact) }
 
-        assertEquals(1, emittedEffects.size)
-        assertEquals(CreateCardEffect.NavigateUp, emittedEffects[0])
+        assertEquals(1, effectObserver.values.size)
+        assertEquals(CreateCardEffect.NavigateUp, effectObserver.values[0])
     }
 
     @Test
@@ -101,8 +93,8 @@ class CreateCardViewModelTest {
         coVerify(exactly = 1) { mockSaveContact(TestData.testMyContact) }
         verify(exactly = 1) { mockValidateContact(TestData.testMyContact) }
 
-        assertEquals(1, emittedEffects.size)
-        assertEquals(CreateCardEffect.ShowError(message), emittedEffects[0])
+        assertEquals(1, effectObserver.values.size)
+        assertEquals(CreateCardEffect.ShowError(message), effectObserver.values[0])
     }
 
     @Test
@@ -121,7 +113,7 @@ class CreateCardViewModelTest {
         verify(exactly = 1) { mockValidateContact(Contact()) }
         verify(exactly = 1) { mockResourceManager.string(R.string.msg_all_fields_required) }
 
-        assertEquals(1, emittedEffects.size)
-        assertEquals(CreateCardEffect.ShowError(message), emittedEffects[0])
+        assertEquals(1, effectObserver.values.size)
+        assertEquals(CreateCardEffect.ShowError(message), effectObserver.values[0])
     }
 }

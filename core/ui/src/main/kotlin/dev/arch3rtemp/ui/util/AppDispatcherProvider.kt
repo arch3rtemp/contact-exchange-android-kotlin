@@ -1,5 +1,6 @@
-package dev.arch3rtemp.contactexchange.domain.util
+package dev.arch3rtemp.ui.util
 
+import dev.arch3rtemp.tests.coroutines.DispatcherProvider
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 

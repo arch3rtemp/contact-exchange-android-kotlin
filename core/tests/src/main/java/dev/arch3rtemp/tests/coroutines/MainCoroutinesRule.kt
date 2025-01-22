@@ -1,4 +1,4 @@
-package dev.arch3rtemp.contactexchange.coroutines
+package dev.arch3rtemp.tests.coroutines
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi

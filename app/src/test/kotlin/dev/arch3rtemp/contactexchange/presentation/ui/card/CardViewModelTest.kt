@@ -2,10 +2,11 @@ package dev.arch3rtemp.contactexchange.presentation.ui.card
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import dev.arch3rtemp.contactexchange.TestData
-import dev.arch3rtemp.contactexchange.coroutines.MainCoroutinesRule
 import dev.arch3rtemp.contactexchange.domain.usecase.DeleteContactUseCase
 import dev.arch3rtemp.contactexchange.domain.usecase.GetContactByIdUseCase
 import dev.arch3rtemp.contactexchange.presentation.mapper.ContactUiMapper
+import dev.arch3rtemp.tests.coroutines.FlowTestObserver
+import dev.arch3rtemp.tests.coroutines.MainCoroutinesRule
 import dev.arch3rtemp.ui.util.ErrorMsgResolver
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
@@ -15,8 +16,6 @@ import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
 import io.mockk.verify
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import org.junit.Rule
@@ -53,9 +52,7 @@ class CardViewModelTest {
 
     private val stateObserver: (CardState) -> Unit = { state: CardState -> observedStates.add(state) }
 
-    private val emittedEffects = mutableListOf<CardEffect>()
-
-    private val effectJob = Job()
+    private lateinit var effectObserver: FlowTestObserver<CardEffect>
 
     @BeforeTest
     fun setUp() {
@@ -63,20 +60,15 @@ class CardViewModelTest {
 
         cardViewModel.state.observeForever(stateObserver)
         runTest {
-            launch(effectJob) {
-                cardViewModel.effect.collect { effect ->
-                    emittedEffects.add(effect)
-                }
-            }
+            effectObserver = FlowTestObserver<CardEffect>(this, cardViewModel.effect)
         }
     }
 
     @AfterTest
     fun tearDown() {
         cardViewModel.state.removeObserver(stateObserver)
-        effectJob.cancel()
+        effectObserver.cancel()
         observedStates.clear()
-        emittedEffects.clear()
     }
 
     @Test
@@ -114,8 +106,8 @@ class CardViewModelTest {
         assertEquals(CardState(ViewState.Loading), observedStates[1])
         assertEquals(CardState(ViewState.Error), observedStates[2])
 
-        assertEquals(1, emittedEffects.size)
-        assertEquals(CardEffect.ShowError("Database error"), emittedEffects[0])
+        assertEquals(1, effectObserver.values.size)
+        assertEquals(CardEffect.ShowError("Database error"), effectObserver.values[0])
     }
 
     @Test
@@ -128,8 +120,8 @@ class CardViewModelTest {
 
         coVerify(exactly = 1) { mockDeleteContact(TestData.testScannedContact.id) }
 
-        assertEquals(1, emittedEffects.size)
-        assertEquals(CardEffect.AnimateDeletion, emittedEffects[0])
+        assertEquals(1, effectObserver.values.size)
+        assertEquals(CardEffect.AnimateDeletion, effectObserver.values[0])
     }
 
     @Test
@@ -142,7 +134,7 @@ class CardViewModelTest {
 
         coVerify(exactly = 1) { mockDeleteContact(TestData.testScannedContact.id) }
 
-        assertEquals(1, emittedEffects.size)
-        assertEquals(CardEffect.ShowError("Database error"), emittedEffects[0])
+        assertEquals(1, effectObserver.values.size)
+        assertEquals(CardEffect.ShowError("Database error"), effectObserver.values[0])
     }
 }

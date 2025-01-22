@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "dev.arch3rtemp.ui"
+    namespace = "dev.arch3rtemp.tests"
     compileSdk = 34
 
     defaultConfig {
@@ -14,9 +14,6 @@ android {
         consumerProguardFiles("consumer-rules.pro")
     }
 
-    buildFeatures {
-        viewBinding = true
-    }
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -29,7 +26,6 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_21
         targetCompatibility = JavaVersion.VERSION_21
-        isCoreLibraryDesugaringEnabled = true
     }
     kotlinOptions {
         jvmTarget = "21"
@@ -37,20 +33,14 @@ android {
 }
 
 dependencies {
-    api(project(":core:tests:"))
-
-    coreLibraryDesugaring(libs.desugar)
-
-    implementation(libs.kotlinx.datetime)
 
     implementation(libs.core.ktx)
     implementation(libs.appcompat)
-    implementation(libs.fragment.ktx)
-    implementation(libs.recyclerview)
+    implementation(libs.material)
 
-    // Testing
-    testImplementation(libs.core.testing)
-    testImplementation(libs.robolectric)
-    testImplementation(libs.kotlinx.coroutines.test)
-    testImplementation(kotlin("test"))
+    implementation(libs.junit)
+    implementation(kotlin("test"))
+    implementation(libs.kotlinx.coroutines.test)
+    implementation(libs.ext.junit)
+    implementation(libs.espresso.core)
 }

@@ -1,8 +1,9 @@
 package dev.arch3rtemp.contactexchange.presentation.ui
 
 import dev.arch3rtemp.contactexchange.TestData
-import dev.arch3rtemp.contactexchange.coroutines.MainCoroutinesRule
 import dev.arch3rtemp.contactexchange.domain.usecase.SaveContactUseCase
+import dev.arch3rtemp.tests.coroutines.FlowTestObserver
+import dev.arch3rtemp.tests.coroutines.MainCoroutinesRule
 import dev.arch3rtemp.ui.R
 import dev.arch3rtemp.ui.util.ErrorMsgResolver
 import dev.arch3rtemp.ui.util.StringResourceManager
@@ -13,8 +14,6 @@ import io.mockk.every
 import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import org.junit.Rule
@@ -41,27 +40,20 @@ class MainViewModelTest {
     @InjectMockKs
     private lateinit var mainViewModel: MainViewModel
 
-    private val emittedEffects = mutableListOf<MainEffect>()
-
-    private val effectJob = Job()
+    private lateinit var effectObserver: FlowTestObserver<MainEffect>
 
     @BeforeTest
     fun setUp() {
         MockKAnnotations.init(this)
 
         runTest {
-            launch(effectJob) {
-                mainViewModel.effect.collect { effect ->
-                    emittedEffects.add(effect)
-                }
-            }
+            effectObserver = FlowTestObserver<MainEffect>(this, mainViewModel.effect)
         }
     }
 
     @AfterTest
     fun tearDown() {
-        effectJob.cancel()
-        emittedEffects.clear()
+        effectObserver.cancel()
     }
 
     @Test
@@ -75,8 +67,8 @@ class MainViewModelTest {
 
         coVerify(exactly = 1) { mockSaveContact(TestData.testScannedContact) }
 
-        assertEquals(1, emittedEffects.size)
-        assertEquals(MainEffect.ShowMessage("Contact Added"), emittedEffects.first())
+        assertEquals(1, effectObserver.values.size)
+        assertEquals(MainEffect.ShowMessage("Contact Added"), effectObserver.values.first())
     }
 
     @Test
@@ -90,8 +82,8 @@ class MainViewModelTest {
 
         coVerify(exactly = 1) { mockSaveContact(TestData.testScannedContact) }
 
-        assertEquals(1, emittedEffects.size)
-        assertEquals(MainEffect.ShowMessage("Database error"), emittedEffects.first())
+        assertEquals(1, effectObserver.values.size)
+        assertEquals(MainEffect.ShowMessage("Database error"), effectObserver.values.first())
     }
 
     @Test
@@ -105,8 +97,8 @@ class MainViewModelTest {
 
         coVerify(exactly = 1) { mockErrorMsgResolver.resolve(message) }
 
-        assertEquals(1, emittedEffects.size)
-        assertEquals(MainEffect.ShowMessage(message), emittedEffects.first())
+        assertEquals(1, effectObserver.values.size)
+        assertEquals(MainEffect.ShowMessage(message), effectObserver.values.first())
     }
 
     @Test
@@ -120,7 +112,7 @@ class MainViewModelTest {
 
         coVerify(exactly = 1) { mockErrorMsgResolver.resolve(message) }
 
-        assertEquals(1, emittedEffects.size)
-        assertEquals(MainEffect.ShowMessage(message), emittedEffects.first())
+        assertEquals(1, effectObserver.values.size)
+        assertEquals(MainEffect.ShowMessage(message), effectObserver.values.first())
     }
 }
