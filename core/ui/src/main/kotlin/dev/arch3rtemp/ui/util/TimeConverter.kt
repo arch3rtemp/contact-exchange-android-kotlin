@@ -39,31 +39,4 @@ class TimeConverter {
         // Format the java.time.LocalDateTime to a string
         return formatter.format(javaLocalDateTime)
     }
-
-    /**
-     * Converts a formatted date string to epoch milliseconds.
-     *
-     * @param dateString The date string to parse.
-     * @param pattern The date-time pattern, e.g., "yyyy-MM-dd HH:mm:ss".
-     * @param locale The locale for parsing.
-     * @param timeZone The time zone identifier as a string, e.g., "America/New_York".
-     * @return The epoch time in milliseconds, or null if parsing fails.
-     */
-    fun convertDateStringToLong(dateString: String, pattern: String, locale: Locale, timeZone: String): Long? {
-
-        // Create a DateTimeFormatter with the specified pattern and locale
-        val formatter = DateTimeFormatter.ofPattern(pattern, locale)
-
-        // Parse the date string to java.time.LocalDateTime
-        val javaLocalDateTime = JavaLocalDateTime.parse(dateString, formatter)
-
-        // Define the desired time zone
-        val zoneId = java.time.ZoneId.of(timeZone)
-
-        // Convert java.time.LocalDateTime to java.time.ZonedDateTime in the specified time zone
-        val zonedDateTime = javaLocalDateTime.atZone(zoneId)
-
-        // Convert ZonedDateTime to epoch milliseconds
-        return zonedDateTime.toInstant().toEpochMilli()
-    }
 }
