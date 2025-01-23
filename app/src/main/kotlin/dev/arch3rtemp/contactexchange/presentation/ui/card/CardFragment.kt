@@ -22,7 +22,9 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import dev.arch3rtemp.contactexchange.databinding.DeletePopupBinding
 import dev.arch3rtemp.contactexchange.databinding.FragmentCardBinding
+import dev.arch3rtemp.contactexchange.domain.model.Contact
 import dev.arch3rtemp.contactexchange.presentation.mapper.ContactToJsonMapper
+import dev.arch3rtemp.contactexchange.presentation.mapper.ContactUiMapper
 import dev.arch3rtemp.contactexchange.presentation.model.ContactUi
 import dev.arch3rtemp.contactexchange.presentation.ui.edit.EditCardFragment
 import dev.arch3rtemp.ui.base.BaseFragment
@@ -38,7 +40,8 @@ class CardFragment : BaseFragment<CardEvent, CardEffect, CardState, FragmentCard
 
     override val viewModel by viewModel<CardViewModel>()
     private val args by navArgs<CardFragmentArgs>()
-    val mapper by inject<ContactToJsonMapper>()
+    val contactUiMapper by inject<ContactUiMapper>()
+    val contactToJsonMapper by inject<ContactToJsonMapper>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,7 +66,7 @@ class CardFragment : BaseFragment<CardEvent, CardEffect, CardState, FragmentCard
                 contact.let {
                     showCardSuccess(it.isMy)
                     setCardData(it)
-                    generateQr(it)
+                    generateQr(contactUiMapper.fromUiModel(it))
                 }
             }
         }
@@ -116,12 +119,12 @@ class CardFragment : BaseFragment<CardEvent, CardEffect, CardState, FragmentCard
         clCard.background.colorFilter = contact.getSrcInColorFilter()
     }
 
-    private fun generateQr(contact: ContactUi) {
+    private fun generateQr(contact: Contact) {
         val (width, height) = requireActivity().windowManager.currentDeviceRealSize()
         var smallerDimension = min(width, height)
         smallerDimension = smallerDimension * 3 / 4
 
-        val qrgEncoder = QRGEncoder(mapper.toJson(contact), null, QRGContents.Type.TEXT, smallerDimension)
+        val qrgEncoder = QRGEncoder(contactToJsonMapper.toJson(contact), null, QRGContents.Type.TEXT, smallerDimension)
         // Getting QR-Code as Bitmap
         val bitmap = qrgEncoder.getBitmap(0)
         // Setting Bitmap to ImageView

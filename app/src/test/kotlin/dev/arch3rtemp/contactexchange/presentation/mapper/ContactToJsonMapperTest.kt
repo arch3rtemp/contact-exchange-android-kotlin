@@ -10,7 +10,7 @@ class ContactToJsonMapperTest {
 
     @Test
     fun invokeToJson_returnsValidString() {
-        val jsonContact = mapper.toJson(TestData.testMyContactUi)
+        val jsonContact = mapper.toJson(TestData.testMyContact)
 
         assertEquals(TestData.testContactUiJsonCompact, jsonContact)
     }

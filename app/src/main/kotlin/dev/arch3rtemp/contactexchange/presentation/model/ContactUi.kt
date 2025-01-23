@@ -6,7 +6,6 @@ import kotlinx.serialization.Serializable
 import dev.arch3rtemp.ui.util.ColorUtils
 import dev.arch3rtemp.ui.view.listadapter.RvItem
 
-@Serializable
 data class ContactUi(
     override val id: Int,
     val name: String,
