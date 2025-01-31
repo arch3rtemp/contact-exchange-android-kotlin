@@ -32,6 +32,7 @@ import dev.arch3rtemp.ui.util.currentDeviceRealSize
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import kotlin.math.min
+import androidx.core.graphics.drawable.toDrawable
 
 class CardFragment : BaseFragment<CardEvent, CardEffect, CardState, FragmentCardBinding, CardViewModel>() {
 
@@ -98,7 +99,7 @@ class CardFragment : BaseFragment<CardEvent, CardEffect, CardState, FragmentCard
         val dialog = AlertDialog.Builder(requireContext())
             .setView(dialogBinding.root)
             .create()
-        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.window?.setBackgroundDrawable(Color.TRANSPARENT.toDrawable())
         dialog.show()
 
         dialogBinding.btnDelete.setOnClickListener {
