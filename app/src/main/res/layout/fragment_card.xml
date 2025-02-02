@@ -82,95 +82,93 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/cl_buttons"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+    <LinearLayout
+        android:id="@+id/ll_edit"
+        android:layout_width="82dp"
+        android:layout_height="82dp"
+        android:background="@drawable/shape_button_action_bg"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:paddingTop="18dp"
+        android:paddingBottom="13dp"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/ll_delete"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_pencil"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/edit"
+            android:tint="@color/icon_primary"
+            app:srcCompat="@drawable/ic_pencil" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <TextView
+            android:id="@+id/tv_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins_medium"
+            android:text="@string/edit"
+            android:textColor="@color/text_primary"
+            android:textSize="11sp"
+            tools:ignore="SmallSp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_delete"
+        android:layout_width="82dp"
+        android:layout_height="82dp"
+        android:background="@drawable/shape_button_action_bg"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:paddingTop="18dp"
+        android:paddingBottom="13dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/ll_edit"
         app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/cl_edit"
-            android:layout_width="82dp"
-            android:layout_height="82dp"
-            android:background="@drawable/shape_button_action_bg"
-            android:paddingTop="18dp"
-            android:paddingBottom="13dp"
-            android:visibility="gone"
-            app:layout_constraintEnd_toStartOf="@id/cl_delete"
+        <ImageView
+            android:id="@+id/iv_bin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/delete"
+            android:src="@drawable/ic_android_delete"
+            app:layout_constraintBottom_toTopOf="@+id/tv_delete"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:visibility="visible">
+            app:layout_constraintVertical_chainStyle="spread_inside" />
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/iv_pencil"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:contentDescription="@string/edit"
-                android:tint="@color/icon_primary"
-                app:layout_constraintBottom_toTopOf="@+id/tv_edit"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_chainStyle="spread_inside"
-                app:srcCompat="@drawable/ic_pencil" />
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
 
-            <TextView
-                android:id="@+id/tv_edit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/poppins_medium"
-                android:text="@string/edit"
-                android:textColor="@color/text_primary"
-                android:textSize="11sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/iv_pencil"
-                tools:ignore="SmallSp" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/cl_delete"
-            android:layout_width="82dp"
-            android:layout_height="82dp"
-            android:background="@drawable/shape_button_action_bg"
-            android:paddingTop="18dp"
-            android:paddingBottom="13dp"
+        <TextView
+            android:id="@+id/tv_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins_medium"
+            android:text="@string/delete"
+            android:textColor="@color/text_primary"
+            android:textSize="11sp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/cl_edit"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/iv_bin"
+            tools:ignore="SmallSp" />
 
-            <ImageView
-                android:id="@+id/iv_bin"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:contentDescription="@string/delete"
-                android:src="@drawable/ic_android_delete"
-                app:layout_constraintBottom_toTopOf="@+id/tv_delete"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_chainStyle="spread_inside" />
-
-            <TextView
-                android:id="@+id/tv_delete"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/poppins_medium"
-                android:text="@string/delete"
-                android:textColor="@color/text_primary"
-                android:textSize="11sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/iv_bin"
-                tools:ignore="SmallSp" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 
     <TextView
         android:id="@+id/tv_scan"

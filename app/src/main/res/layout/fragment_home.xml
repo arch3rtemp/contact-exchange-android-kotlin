@@ -80,7 +80,6 @@
         android:background="@drawable/shape_contact_list_bg"
         android:gravity="center_horizontal"
         android:orientation="vertical"
-        android:paddingHorizontal="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/rv_cards">
 
@@ -88,6 +87,8 @@
             android:id="@+id/toolbar_contact"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="6dp"
             app:menu="@menu/menu_search">
 
             <TextView
@@ -103,7 +104,8 @@
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="20dp">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_contacts"

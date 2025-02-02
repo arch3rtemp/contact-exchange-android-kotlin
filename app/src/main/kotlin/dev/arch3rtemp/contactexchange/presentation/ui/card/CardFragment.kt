@@ -6,7 +6,6 @@ import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.app.AlertDialog
 import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -17,6 +16,7 @@ import android.view.animation.DecelerateInterpolator
 import android.widget.Toast
 import androidmads.library.qrgenearator.QRGContents
 import androidmads.library.qrgenearator.QRGEncoder
+import androidx.core.graphics.drawable.toDrawable
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -32,7 +32,6 @@ import dev.arch3rtemp.ui.util.currentDeviceRealSize
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import kotlin.math.min
-import androidx.core.graphics.drawable.toDrawable
 
 class CardFragment : BaseFragment<CardEvent, CardEffect, CardState, FragmentCardBinding, CardViewModel>() {
 
@@ -85,8 +84,8 @@ class CardFragment : BaseFragment<CardEvent, CardEffect, CardState, FragmentCard
     }
 
     private fun setListeners() = with(binding) {
-        clEdit.setOnClickListener { goToEditFragment() }
-        clDelete.setOnClickListener { createDeleteDialog() }
+        llEdit.setOnClickListener { goToEditFragment() }
+        llDelete.setOnClickListener { createDeleteDialog() }
     }
 
     private fun goToEditFragment() {
@@ -192,7 +191,8 @@ class CardFragment : BaseFragment<CardEvent, CardEffect, CardState, FragmentCard
     }
 
     private fun showCardDeleteSuccess() = with(binding) {
-        clButtons.isVisible = false
+        llEdit.isVisible = false
+        llDelete.isVisible = false
         progressCircularCard.isVisible = false
         ivCardError.isVisible = false
         llDeleted.isVisible = true
@@ -200,22 +200,24 @@ class CardFragment : BaseFragment<CardEvent, CardEffect, CardState, FragmentCard
 
     private fun showCardLoading() = with(binding) {
         progressCircularCard.isVisible = true
-        clButtons.isVisible = false
+        llEdit.isVisible = false
+        llDelete.isVisible = false
         ivCardError.isVisible = false
     }
 
     private fun showCardSuccess(isMy: Boolean) = with(binding) {
-        clButtons.isVisible = true
         progressCircularCard.isVisible = false
         ivCardError.isVisible = false
+        llDelete.isVisible = true
         if (isMy) {
-            binding.clEdit.isVisible = true
+            binding.llEdit.isVisible = true
         }
     }
 
     private fun showCardError() = with(binding) {
         ivCardError.isVisible = true
-        clButtons.isVisible = false
+        llEdit.isVisible = false
+        llDelete.isVisible = false
         progressCircularCard.isVisible = false
     }
 }
