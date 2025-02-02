@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace = "dev.arch3rtemp.tests"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         minSdk = 21
