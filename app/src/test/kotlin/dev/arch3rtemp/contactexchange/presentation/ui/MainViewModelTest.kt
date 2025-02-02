@@ -1,5 +1,6 @@
 package dev.arch3rtemp.contactexchange.presentation.ui
 
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import dev.arch3rtemp.contactexchange.TestData
 import dev.arch3rtemp.contactexchange.domain.usecase.SaveContactUseCase
 import dev.arch3rtemp.tests.coroutines.FlowTestObserver
@@ -27,6 +28,9 @@ class MainViewModelTest {
 
     @get:Rule
     val coroutineRule = MainCoroutinesRule()
+
+    @get:Rule
+    val instantTaskExecutorRule = InstantTaskExecutorRule()
 
     @MockK
     private lateinit var mockSaveContact: SaveContactUseCase
