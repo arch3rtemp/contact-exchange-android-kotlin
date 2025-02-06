@@ -13,7 +13,8 @@ dependencyResolutionManagement {
         maven { url 'https://jitpack.io' }
     }
 }
-rootProject.name = "ContactsExchange"
+rootProject.name = "ContactExchange"
+
 include ':app'
 include ':core:ui'
 include ':core:tests'
