@@ -19,7 +19,7 @@ splash = "1.0.1"
 material = "1.12.0"
 play-services-code-scanner = "16.1.0"
 #Koin
-koin-bom = "4.0.0"
+koin-bom = "4.0.2"
 #Misc
 desugar = "2.1.4"
 qrgenerator = "1.0.1"
