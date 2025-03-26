@@ -1,6 +1,6 @@
 [versions]
 #Gradle
-gradle-plugin = "8.8.1"
+gradle-plugin = "8.9.1"
 #Kotlin
 kotlin = "2.1.0"
 ksp = "2.1.0-1.0.29"
@@ -13,7 +13,7 @@ appcompat = "1.7.0"
 recyclerview = "1.4.0"
 room = "2.6.1"
 fragment = "1.8.6"
-navigation = "2.8.7"
+navigation = "2.8.9"
 splash = "1.0.1"
 #Google
 material = "1.12.0"
@@ -21,8 +21,8 @@ play-services-code-scanner = "16.1.0"
 #Koin
 koin-bom = "4.0.2"
 #Misc
-desugar = "2.1.4"
-qrgenerator = "1.0.1"
+desugar = "2.1.5"
+qrgenerator = "1.0.5"
 swipereveallayout = "1.4.0"
 timber = "5.0.1"
 #Testing
@@ -58,7 +58,7 @@ koin-android = { module = "io.insert-koin:koin-android" }
 #Misc
 desugar = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugar" }
 swipereveallayout = { module = "com.github.hydrated:swipereveallayout", version.ref = "swipereveallayout" }
-qrgenerator = { module = "com.github.androidmads:qrgenerator", version.ref = "qrgenerator" }
+qrgenerator = { module = "com.github.androidmads:QRGenerator", version.ref = "qrgenerator" }
 timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
 #Testing
 kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
