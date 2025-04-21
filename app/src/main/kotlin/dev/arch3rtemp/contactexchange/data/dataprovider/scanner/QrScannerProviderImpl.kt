@@ -9,6 +9,7 @@ import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resumeWithException
+import kotlin.coroutines.resume
 
 class QrScannerProviderImpl(
     private val scanner: GmsBarcodeScanner,
@@ -20,14 +21,20 @@ class QrScannerProviderImpl(
     override suspend fun scan(): Contact = suspendCancellableCoroutine { continuation ->
         scanner.startScan()
             .addOnSuccessListener { barcode ->
-                val contact = mapper.fromJson(requireNotNull(barcode.rawValue))
-                continuation.resume(contact) { cause, _, _ -> (cause) }
+                if (continuation.isActive) {
+                    val contact = mapper.fromJson(requireNotNull(barcode.rawValue))
+                    continuation.resume(contact)
+                }
             }
             .addOnCanceledListener {
-                continuation.resumeWithException(CancellationException(resourceManager.string(R.string.msg_scan_cancelled)))
+                if (continuation.isActive) {
+                    continuation.resumeWithException(CancellationException(resourceManager.string(R.string.msg_scan_cancelled)))
+                }
             }
             .addOnFailureListener { exception ->
-                continuation.resumeWithException(exception)
+                if (continuation.isActive) {
+                    continuation.resumeWithException(exception)
+                }
             }
     }
 }
