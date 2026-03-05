@@ -1,8 +1,8 @@
 package dev.arch3rtemp.contactexchange.domain.usecase
 
 import dev.arch3rtemp.contactexchange.domain.repository.ContactRepository
-import dev.arch3rtemp.ui.R
-import dev.arch3rtemp.ui.util.StringResourceManager
+import dev.arch3rtemp.contactexchange.ui.R
+import dev.arch3rtemp.contactexchange.ui.util.StringResourceManager
 
 class DeleteContactUseCase(
     private val repo: ContactRepository,

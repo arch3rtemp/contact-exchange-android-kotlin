@@ -3,7 +3,7 @@ package dev.arch3rtemp.contactexchange.presentation.ui.home.adapter.viewholder
 import dev.arch3rtemp.contactexchange.databinding.CardListItemBinding
 import dev.arch3rtemp.contactexchange.presentation.model.CardUi
 import dev.arch3rtemp.contactexchange.presentation.ui.home.adapter.listener.CardClickListener
-import dev.arch3rtemp.ui.view.listadapter.DefaultViewHolder
+import dev.arch3rtemp.contactexchange.ui.view.listadapter.DefaultViewHolder
 
 internal class CardViewHolder(
     binding: CardListItemBinding,

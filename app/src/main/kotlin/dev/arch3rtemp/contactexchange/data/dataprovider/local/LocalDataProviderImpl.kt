@@ -19,8 +19,10 @@ class LocalDataProviderImpl(
         return contactDao.selectScannedContacts().map(mapper::fromEntityList)
     }
 
-    override suspend fun selectContactById(id: Int): Contact {
-        return mapper.fromEntity(contactDao.selectContactById(id))
+    override suspend fun selectContactById(id: Int): Contact? {
+        return contactDao.selectContactById(id)?.let {
+            mapper.fromEntity(it)
+        }
     }
 
     override suspend fun addContact(contact: Contact) {

@@ -1,7 +1,7 @@
 package dev.arch3rtemp.contactexchange.presentation.mapper
 
 import dev.arch3rtemp.contactexchange.TestData
-import dev.arch3rtemp.ui.util.TimeConverter
+import dev.arch3rtemp.contactexchange.ui.util.TimeConverter
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

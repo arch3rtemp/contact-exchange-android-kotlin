@@ -4,8 +4,8 @@ import androidx.lifecycle.viewModelScope
 import dev.arch3rtemp.contactexchange.domain.usecase.DeleteContactUseCase
 import dev.arch3rtemp.contactexchange.domain.usecase.GetContactByIdUseCase
 import dev.arch3rtemp.contactexchange.presentation.mapper.ContactUiMapper
-import dev.arch3rtemp.ui.base.BaseViewModel
-import dev.arch3rtemp.ui.util.ErrorMsgResolver
+import dev.arch3rtemp.contactexchange.ui.base.BaseViewModel
+import dev.arch3rtemp.contactexchange.ui.util.ErrorMsgResolver
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 
@@ -35,7 +35,7 @@ class CardViewModel(
     }
 
     private fun getCard(id: Int) {
-        viewModelScope.launch(createErrorHandler { setState { copy(ViewState.Error) } }) {
+        viewModelScope.launch(createErrorHandler { setState { copy(viewState = ViewState.Error) } }) {
             setState { copy(viewState = ViewState.Loading) }
             val card = getContactById.invoke(id)
             setState { copy(viewState = ViewState.Success(mapper.toUiModel(card))) }

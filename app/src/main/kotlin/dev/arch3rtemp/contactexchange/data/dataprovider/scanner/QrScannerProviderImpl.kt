@@ -1,10 +1,10 @@
 package dev.arch3rtemp.contactexchange.data.dataprovider.scanner
 
 import com.google.mlkit.vision.codescanner.GmsBarcodeScanner
-import dev.arch3rtemp.contactexchange.R
 import dev.arch3rtemp.contactexchange.data.mapper.JsonToContactMapper
 import dev.arch3rtemp.contactexchange.domain.model.Contact
-import dev.arch3rtemp.ui.util.StringResourceManager
+import dev.arch3rtemp.contactexchange.ui.R
+import dev.arch3rtemp.contactexchange.ui.util.StringResourceManager
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.suspendCancellableCoroutine

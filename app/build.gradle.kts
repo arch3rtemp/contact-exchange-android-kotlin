@@ -1,6 +1,5 @@
 plugins {
     alias(libs.plugins.androidApplication)
-    alias(libs.plugins.jetbrainsKotlinAndroid)
     alias(libs.plugins.googleDevtoolsKsp)
     alias(libs.plugins.kotlinParcelize)
     alias(libs.plugins.kotlinSerialization)
@@ -10,12 +9,12 @@ plugins {
 android {
     namespace = "dev.arch3rtemp.contactexchange"
 
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "dev.arch3rtemp.contactexchangekotlin"
-        minSdk = 21
-        targetSdk = 35
+        minSdk = 23
+        targetSdk = 36
         versionCode = 1
         versionName = "1.0"
 
@@ -35,9 +34,10 @@ android {
         targetCompatibility = JavaVersion.VERSION_21
         isCoreLibraryDesugaringEnabled = true
     }
-    kotlinOptions {
-        jvmTarget = "21"
-    }
+}
+
+kotlin {
+    jvmToolchain(21)
 }
 
 dependencies {
@@ -79,12 +79,10 @@ dependencies {
 
     // Testing
     testImplementation(libs.kotlinx.coroutines.test)
-    testImplementation(kotlin("test"))
-//    testImplementation(libs.junit)
+    testImplementation(libs.kotlin.test)
     testImplementation(libs.robolectric)
     testImplementation(libs.mockk)
     testImplementation(libs.core.testing)
     androidTestImplementation(libs.mockk)
-    androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
 }

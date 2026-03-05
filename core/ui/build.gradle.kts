@@ -1,14 +1,13 @@
 plugins {
     alias(libs.plugins.androidLibrary)
-    alias(libs.plugins.jetbrainsKotlinAndroid)
 }
 
 android {
-    namespace = "dev.arch3rtemp.ui"
-    compileSdk = 35
+    namespace = "dev.arch3rtemp.contactexchange.ui"
+    compileSdk = 36
 
     defaultConfig {
-        minSdk = 21
+        minSdk = 23
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
@@ -31,13 +30,14 @@ android {
         targetCompatibility = JavaVersion.VERSION_21
         isCoreLibraryDesugaringEnabled = true
     }
-    kotlinOptions {
-        jvmTarget = "21"
-    }
+}
+
+kotlin {
+    jvmToolchain(21)
 }
 
 dependencies {
-    api(project(":core:tests:"))
+    api(project(":core:tests"))
 
     coreLibraryDesugaring(libs.desugar)
 
@@ -52,5 +52,5 @@ dependencies {
     testImplementation(libs.core.testing)
     testImplementation(libs.robolectric)
     testImplementation(libs.kotlinx.coroutines.test)
-    testImplementation(kotlin("test"))
+    testImplementation(libs.kotlin.test)
 }

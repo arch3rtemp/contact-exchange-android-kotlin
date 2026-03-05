@@ -2,8 +2,8 @@ package dev.arch3rtemp.contactexchange.domain.usecase
 
 import dev.arch3rtemp.contactexchange.domain.model.Contact
 import dev.arch3rtemp.contactexchange.domain.repository.ContactRepository
-import dev.arch3rtemp.ui.R
-import dev.arch3rtemp.ui.util.StringResourceManager
+import dev.arch3rtemp.contactexchange.ui.R
+import dev.arch3rtemp.contactexchange.ui.util.StringResourceManager
 
 class GetContactByIdUseCase(
     private val repo: ContactRepository,
@@ -14,6 +14,6 @@ class GetContactByIdUseCase(
         if (id <= 0) {
             throw IllegalArgumentException(stringManager.string(R.string.msg_id_must_be_positive))
         }
-        return repo.getContactById(id)
+        return repo.getContactById(id) ?: throw IllegalStateException("Contact not found")
     }
 }

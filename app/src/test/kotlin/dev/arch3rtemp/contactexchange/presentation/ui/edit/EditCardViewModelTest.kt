@@ -1,17 +1,17 @@
 package dev.arch3rtemp.contactexchange.presentation.ui.edit
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import dev.arch3rtemp.contactexchange.R
+import dev.arch3rtemp.contactexchange.ui.R
 import dev.arch3rtemp.contactexchange.TestData
 import dev.arch3rtemp.contactexchange.domain.model.Contact
 import dev.arch3rtemp.contactexchange.domain.usecase.GetContactByIdUseCase
 import dev.arch3rtemp.contactexchange.domain.usecase.UpdateContactUseCase
 import dev.arch3rtemp.contactexchange.domain.usecase.ValidateContactUseCase
 import dev.arch3rtemp.contactexchange.presentation.mapper.ContactUiMapper
-import dev.arch3rtemp.tests.coroutines.FlowTestObserver
-import dev.arch3rtemp.tests.coroutines.MainCoroutinesRule
-import dev.arch3rtemp.ui.util.ErrorMsgResolver
-import dev.arch3rtemp.ui.util.StringResourceManager
+import dev.arch3rtemp.contactexchange.tests.coroutines.FlowTestObserver
+import dev.arch3rtemp.contactexchange.tests.coroutines.MainCoroutinesRule
+import dev.arch3rtemp.contactexchange.ui.util.ErrorMsgResolver
+import dev.arch3rtemp.contactexchange.ui.util.StringResourceManager
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify

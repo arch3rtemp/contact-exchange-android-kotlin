@@ -1,9 +1,9 @@
 package dev.arch3rtemp.contactexchange.presentation.ui.card
 
 import dev.arch3rtemp.contactexchange.presentation.model.ContactUi
-import dev.arch3rtemp.ui.base.marker.UiEffect
-import dev.arch3rtemp.ui.base.marker.UiEvent
-import dev.arch3rtemp.ui.base.marker.UiState
+import dev.arch3rtemp.contactexchange.ui.base.marker.UiEffect
+import dev.arch3rtemp.contactexchange.ui.base.marker.UiEvent
+import dev.arch3rtemp.contactexchange.ui.base.marker.UiState
 
 sealed interface ViewState {
     data object Idle : ViewState

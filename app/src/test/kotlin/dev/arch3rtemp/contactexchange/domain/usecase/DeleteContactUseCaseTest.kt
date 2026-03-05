@@ -3,8 +3,8 @@ package dev.arch3rtemp.contactexchange.domain.usecase
 import android.database.sqlite.SQLiteException
 import dev.arch3rtemp.contactexchange.TestData
 import dev.arch3rtemp.contactexchange.data.repository.ContactRepositoryImpl
-import dev.arch3rtemp.ui.R
-import dev.arch3rtemp.ui.util.StringResourceManager
+import dev.arch3rtemp.contactexchange.ui.R
+import dev.arch3rtemp.contactexchange.ui.util.StringResourceManager
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify

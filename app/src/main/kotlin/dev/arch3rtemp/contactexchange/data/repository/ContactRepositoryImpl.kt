@@ -15,7 +15,7 @@ class ContactRepositoryImpl(private val localDataProvider: LocalDataProvider) : 
         return localDataProvider.selectScannedContacts()
     }
 
-    override suspend fun getContactById(id: Int): Contact {
+    override suspend fun getContactById(id: Int): Contact? {
         return localDataProvider.selectContactById(id)
     }
 

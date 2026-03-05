@@ -2,8 +2,8 @@ package dev.arch3rtemp.contactexchange.presentation.model
 
 import android.graphics.PorterDuffColorFilter
 import androidx.annotation.ColorInt
-import dev.arch3rtemp.ui.util.ColorUtils
-import dev.arch3rtemp.ui.view.listadapter.RvItem
+import dev.arch3rtemp.contactexchange.ui.util.ColorUtils
+import dev.arch3rtemp.contactexchange.ui.view.listadapter.RvItem
 
 data class ContactUi(
     override val id: Int,

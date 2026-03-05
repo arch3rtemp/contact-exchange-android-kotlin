@@ -12,15 +12,16 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import dev.arch3rtemp.contactexchange.R
+import dev.arch3rtemp.contactexchange.ui.R as core_R
 import dev.arch3rtemp.contactexchange.databinding.FragmentHomeBinding
 import dev.arch3rtemp.contactexchange.presentation.model.ContactUi
 import dev.arch3rtemp.contactexchange.presentation.ui.home.adapter.delegate.CardDelegate
 import dev.arch3rtemp.contactexchange.presentation.ui.home.adapter.delegate.ContactDelegate
 import dev.arch3rtemp.contactexchange.presentation.ui.home.adapter.listener.CardClickListener
 import dev.arch3rtemp.contactexchange.presentation.ui.home.adapter.listener.ContactClickListener
-import dev.arch3rtemp.ui.base.BaseFragment
-import dev.arch3rtemp.ui.view.AppSearchView
-import dev.arch3rtemp.ui.view.listadapter.DefaultListAdapter
+import dev.arch3rtemp.contactexchange.ui.base.BaseFragment
+import dev.arch3rtemp.contactexchange.ui.view.AppSearchView
+import dev.arch3rtemp.contactexchange.ui.view.listadapter.DefaultListAdapter
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class HomeFragment : BaseFragment<HomeEvent, HomeEffect, HomeState, FragmentHomeBinding, HomeViewModel>(), CardClickListener, ContactClickListener {
@@ -38,7 +39,7 @@ class HomeFragment : BaseFragment<HomeEvent, HomeEffect, HomeState, FragmentHome
         setListeners()
     }
 
-    override fun renderState(state: HomeState) = with(binding) {
+    override fun renderState(state: HomeState) {
         renderCardsState(state.cardsState)
         renderContactsState(state.contactsState)
     }
@@ -49,8 +50,8 @@ class HomeFragment : BaseFragment<HomeEvent, HomeEffect, HomeState, FragmentHome
                 Toast.makeText(requireContext(), effect.message, Toast.LENGTH_SHORT).show()
             }
             is HomeEffect.ShowUndo -> {
-                Snackbar.make(requireView(), getString(R.string.msg_contact_deleted), Snackbar.LENGTH_SHORT)
-                    .setAction(getString(R.string.msg_undo)) { viewModel.setEvent(HomeEvent.OnContactSave(effect.contact)) }
+                Snackbar.make(requireView(), getString(core_R.string.msg_contact_deleted), Snackbar.LENGTH_SHORT)
+                    .setAction(getString(core_R.string.msg_undo)) { viewModel.setEvent(HomeEvent.OnContactSave(effect.contact)) }
                     .show()
             }
         }

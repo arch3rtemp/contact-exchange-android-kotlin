@@ -1,7 +1,6 @@
 package dev.arch3rtemp.contactexchange.presentation.ui.home
 
 import androidx.lifecycle.viewModelScope
-import dev.arch3rtemp.contactexchange.R
 import dev.arch3rtemp.contactexchange.domain.model.Contact
 import dev.arch3rtemp.contactexchange.domain.usecase.DeleteContactUseCase
 import dev.arch3rtemp.contactexchange.domain.usecase.FilterContactsUseCase
@@ -11,9 +10,10 @@ import dev.arch3rtemp.contactexchange.domain.usecase.SaveContactUseCase
 import dev.arch3rtemp.contactexchange.presentation.mapper.CardUiMapper
 import dev.arch3rtemp.contactexchange.presentation.mapper.ContactUiMapper
 import dev.arch3rtemp.contactexchange.presentation.model.ContactUi
-import dev.arch3rtemp.ui.base.BaseViewModel
-import dev.arch3rtemp.ui.util.ErrorMsgResolver
-import dev.arch3rtemp.ui.util.StringResourceManager
+import dev.arch3rtemp.contactexchange.ui.R
+import dev.arch3rtemp.contactexchange.ui.base.BaseViewModel
+import dev.arch3rtemp.contactexchange.ui.util.ErrorMsgResolver
+import dev.arch3rtemp.contactexchange.ui.util.StringResourceManager
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collectLatest

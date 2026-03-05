@@ -2,7 +2,7 @@ package dev.arch3rtemp.contactexchange.presentation.mapper
 
 import dev.arch3rtemp.contactexchange.domain.model.Contact
 import dev.arch3rtemp.contactexchange.presentation.model.ContactUi
-import dev.arch3rtemp.ui.util.TimeConverter
+import dev.arch3rtemp.contactexchange.ui.util.TimeConverter
 import java.time.ZoneId
 import java.util.Locale
 

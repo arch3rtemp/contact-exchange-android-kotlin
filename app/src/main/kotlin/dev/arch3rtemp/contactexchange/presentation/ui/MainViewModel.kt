@@ -1,12 +1,12 @@
 package dev.arch3rtemp.contactexchange.presentation.ui
 
 import androidx.lifecycle.viewModelScope
-import dev.arch3rtemp.contactexchange.R
 import dev.arch3rtemp.contactexchange.domain.model.Contact
 import dev.arch3rtemp.contactexchange.domain.usecase.SaveContactUseCase
-import dev.arch3rtemp.ui.base.BaseViewModel
-import dev.arch3rtemp.ui.util.ErrorMsgResolver
-import dev.arch3rtemp.ui.util.StringResourceManager
+import dev.arch3rtemp.contactexchange.ui.R
+import dev.arch3rtemp.contactexchange.ui.base.BaseViewModel
+import dev.arch3rtemp.contactexchange.ui.util.ErrorMsgResolver
+import dev.arch3rtemp.contactexchange.ui.util.StringResourceManager
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 

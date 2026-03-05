@@ -27,8 +27,8 @@ import dev.arch3rtemp.contactexchange.presentation.mapper.ContactToJsonMapper
 import dev.arch3rtemp.contactexchange.presentation.mapper.ContactUiMapper
 import dev.arch3rtemp.contactexchange.presentation.model.ContactUi
 import dev.arch3rtemp.contactexchange.presentation.ui.edit.EditCardFragment
-import dev.arch3rtemp.ui.base.BaseFragment
-import dev.arch3rtemp.ui.util.currentDeviceRealSize
+import dev.arch3rtemp.contactexchange.ui.base.BaseFragment
+import dev.arch3rtemp.contactexchange.ui.util.currentDeviceRealSize
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import kotlin.math.min

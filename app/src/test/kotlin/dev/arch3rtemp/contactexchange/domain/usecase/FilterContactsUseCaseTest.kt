@@ -2,7 +2,7 @@ package dev.arch3rtemp.contactexchange.domain.usecase
 
 import dev.arch3rtemp.contactexchange.TestData
 import dev.arch3rtemp.contactexchange.domain.model.Contact
-import dev.arch3rtemp.tests.coroutines.TestDispatcherProvider
+import dev.arch3rtemp.contactexchange.tests.coroutines.TestDispatcherProvider
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach

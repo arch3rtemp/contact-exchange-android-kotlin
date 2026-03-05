@@ -11,9 +11,10 @@ import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
 import dev.arch3rtemp.contactexchange.R
+import dev.arch3rtemp.contactexchange.ui.R as core_R
 import dev.arch3rtemp.contactexchange.databinding.FragmentCardCreateBinding
 import dev.arch3rtemp.contactexchange.domain.model.Contact
-import dev.arch3rtemp.ui.base.BaseFragment
+import dev.arch3rtemp.contactexchange.ui.base.BaseFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class CreateCardFragment : BaseFragment<CreateCardEvent, CreateCardEffect, CreateCardState, FragmentCardCreateBinding, CreateCardViewModel>() {
@@ -22,7 +23,7 @@ class CreateCardFragment : BaseFragment<CreateCardEvent, CreateCardEffect, Creat
     override val bindLayout: (LayoutInflater, ViewGroup?, Boolean) -> FragmentCardCreateBinding
         get() = FragmentCardCreateBinding::inflate
 
-    private var currentColor: Int = R.color.light_navy
+    private var currentColor: Int = core_R.color.light_navy
 
     override fun prepareView(savedInstanceState: Bundle?) {
         initCard()
@@ -49,37 +50,37 @@ class CreateCardFragment : BaseFragment<CreateCardEvent, CreateCardEffect, Creat
             tvColorLightNavy.setOnClickListener {
                 defaultColorsView()
                 tvColorLightNavy.setBackgroundResource(R.drawable.shape_selected_card_color_light_navy_bg)
-                setBackgroundColorWithAnimation(currentColor, R.color.light_navy)
+                setBackgroundColorWithAnimation(currentColor, core_R.color.light_navy)
             }
             tvColorAquaMarine.setOnClickListener {
                 defaultColorsView()
                 tvColorAquaMarine.setBackgroundResource(R.drawable.shape_selected_card_color_aqua_marine_bg)
-                setBackgroundColorWithAnimation(currentColor, R.color.aqua_marine)
+                setBackgroundColorWithAnimation(currentColor, core_R.color.aqua_marine)
             }
             tvColorUglyYellow.setOnClickListener {
                 defaultColorsView()
                 tvColorUglyYellow.setBackgroundResource(R.drawable.shape_selected_card_color_ugly_yellow_bg)
-                setBackgroundColorWithAnimation(currentColor, R.color.ugly_yellow)
+                setBackgroundColorWithAnimation(currentColor, core_R.color.ugly_yellow)
             }
             tvColorShamrockGreen.setOnClickListener {
                 defaultColorsView()
                 tvColorShamrockGreen.setBackgroundResource(R.drawable.shape_selected_card_color_shamrock_green_bg)
-                setBackgroundColorWithAnimation(currentColor, R.color.shamrock_green)
+                setBackgroundColorWithAnimation(currentColor, core_R.color.shamrock_green)
             }
             tvColorBlackThree.setOnClickListener {
                 defaultColorsView()
                 tvColorBlackThree.setBackgroundResource(R.drawable.shape_selected_card_color_black_bg)
-                setBackgroundColorWithAnimation(currentColor, R.color.black_three)
+                setBackgroundColorWithAnimation(currentColor, core_R.color.black_three)
             }
             tvColorPumpkin.setOnClickListener {
                 defaultColorsView()
                 tvColorPumpkin.setBackgroundResource(R.drawable.shape_selected_card_color_pumpkin_bg)
-                setBackgroundColorWithAnimation(currentColor, R.color.pumpkin)
+                setBackgroundColorWithAnimation(currentColor, core_R.color.pumpkin)
             }
             tvColorDarkishPurple.setOnClickListener {
                 defaultColorsView()
                 tvColorDarkishPurple.setBackgroundResource(R.drawable.shape_selected_card_color_darkish_purple_bg)
-                setBackgroundColorWithAnimation(currentColor, R.color.darkish_purple)
+                setBackgroundColorWithAnimation(currentColor, core_R.color.darkish_purple)
             }
             btnCreate.setOnClickListener {
                 val contact = getDataFromFields()

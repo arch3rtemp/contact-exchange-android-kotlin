@@ -6,10 +6,10 @@ import com.google.android.gms.tasks.OnSuccessListener
 import com.google.android.gms.tasks.Task
 import com.google.mlkit.vision.barcode.common.Barcode
 import com.google.mlkit.vision.codescanner.GmsBarcodeScanner
-import dev.arch3rtemp.contactexchange.R
 import dev.arch3rtemp.contactexchange.TestData
 import dev.arch3rtemp.contactexchange.data.mapper.JsonToContactMapper
-import dev.arch3rtemp.ui.util.StringResourceManager
+import dev.arch3rtemp.contactexchange.ui.R
+import dev.arch3rtemp.contactexchange.ui.util.StringResourceManager
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.InjectMockKs

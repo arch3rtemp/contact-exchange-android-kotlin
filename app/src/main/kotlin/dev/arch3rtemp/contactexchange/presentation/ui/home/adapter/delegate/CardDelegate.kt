@@ -7,9 +7,9 @@ import dev.arch3rtemp.contactexchange.databinding.CardListItemBinding
 import dev.arch3rtemp.contactexchange.presentation.model.CardUi
 import dev.arch3rtemp.contactexchange.presentation.ui.home.adapter.listener.CardClickListener
 import dev.arch3rtemp.contactexchange.presentation.ui.home.adapter.viewholder.CardViewHolder
-import dev.arch3rtemp.ui.view.listadapter.DefaultViewHolder
-import dev.arch3rtemp.ui.view.listadapter.RvDelegate
-import dev.arch3rtemp.ui.view.listadapter.RvItem
+import dev.arch3rtemp.contactexchange.ui.view.listadapter.DefaultViewHolder
+import dev.arch3rtemp.contactexchange.ui.view.listadapter.RvDelegate
+import dev.arch3rtemp.contactexchange.ui.view.listadapter.RvItem
 
 class CardDelegate(
     private val listener: CardClickListener

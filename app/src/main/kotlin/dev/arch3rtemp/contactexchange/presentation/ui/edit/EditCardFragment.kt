@@ -11,7 +11,7 @@ import androidx.navigation.fragment.navArgs
 import dev.arch3rtemp.contactexchange.databinding.FragmentCardEditBinding
 import dev.arch3rtemp.contactexchange.domain.model.Contact
 import dev.arch3rtemp.contactexchange.presentation.model.ContactUi
-import dev.arch3rtemp.ui.base.BaseFragment
+import dev.arch3rtemp.contactexchange.ui.base.BaseFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class EditCardFragment : BaseFragment<EditCardEvent, EditCardEffect, EditCardState, FragmentCardEditBinding, EditCardViewModel>() {

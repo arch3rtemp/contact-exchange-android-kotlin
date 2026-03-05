@@ -5,9 +5,9 @@ import dev.arch3rtemp.contactexchange.TestData
 import dev.arch3rtemp.contactexchange.domain.usecase.DeleteContactUseCase
 import dev.arch3rtemp.contactexchange.domain.usecase.GetContactByIdUseCase
 import dev.arch3rtemp.contactexchange.presentation.mapper.ContactUiMapper
-import dev.arch3rtemp.tests.coroutines.FlowTestObserver
-import dev.arch3rtemp.tests.coroutines.MainCoroutinesRule
-import dev.arch3rtemp.ui.util.ErrorMsgResolver
+import dev.arch3rtemp.contactexchange.tests.coroutines.FlowTestObserver
+import dev.arch3rtemp.contactexchange.tests.coroutines.MainCoroutinesRule
+import dev.arch3rtemp.contactexchange.ui.util.ErrorMsgResolver
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify

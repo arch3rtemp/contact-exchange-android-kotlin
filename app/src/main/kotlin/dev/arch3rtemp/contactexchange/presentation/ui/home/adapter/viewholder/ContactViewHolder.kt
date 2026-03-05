@@ -3,7 +3,7 @@ package dev.arch3rtemp.contactexchange.presentation.ui.home.adapter.viewholder
 import dev.arch3rtemp.contactexchange.databinding.ContactListItemBinding
 import dev.arch3rtemp.contactexchange.presentation.model.ContactUi
 import dev.arch3rtemp.contactexchange.presentation.ui.home.adapter.listener.ContactClickListener
-import dev.arch3rtemp.ui.view.listadapter.DefaultViewHolder
+import dev.arch3rtemp.contactexchange.ui.view.listadapter.DefaultViewHolder
 
 class ContactViewHolder(
     binding: ContactListItemBinding,
