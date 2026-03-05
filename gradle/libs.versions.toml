@@ -60,7 +60,7 @@ koin-android = { module = "io.insert-koin:koin-android" }
 #Misc
 desugar = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugar" }
 swipereveallayout = { module = "com.github.hydrated:swipereveallayout", version.ref = "swipereveallayout" }
-qrgenerator = { module = "com.github.androidmads:qrgenerator", version.ref = "qrgenerator" }
+qrgenerator = { module = "com.github.androidmads:QRGenerator", version.ref = "qrgenerator" }
 timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
 #Testing
 kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
